@@ -1,110 +1,34 @@
 package edu.educate.model;
 
+import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Date;
+import java.util.List;
 
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @jakarta.persistence.Table(name = "element", schema = "dbo", catalog = "educate")
-public class ElementEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @jakarta.persistence.Column(name = "element_id", nullable = false)
-    private int elementId;
+public class ElementEntity  extends TitleEntity {
 
-    public int getElementId() {
-        return elementId;
-    }
-
-    public void setElementId(int elementId) {
-        this.elementId = elementId;
-    }
-
-    @Basic
+    @ManyToOne
     @Column(name = "element_grp_id", nullable = true)
-    private Integer elementGrpId;
+    private ElementGrpEntity elementGrp;
 
-    public Integer getElementGrpId() {
-        return elementGrpId;
-    }
+    @OneToMany(mappedBy = "element")
+    private List<AttendanceEntity> attendances;
 
-    public void setElementGrpId(Integer elementGrpId) {
-        this.elementGrpId = elementGrpId;
-    }
+    @OneToMany(mappedBy = "elementType")
+    private List<PlansEntity> planTypes;
 
-    @Basic
-    @Column(name = "title", nullable = true, length = 50)
-    private String title;
+    @OneToMany(mappedBy = "elementStatus")
+    private List<PlansEntity> planStatus;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Basic
-    @Column(name = "deleted", nullable = true, length = 2)
-    private String deleted;
-
-    public String getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(String deleted) {
-        this.deleted = deleted;
-    }
-
-    @Basic
-    @Column(name = "deleted_at", nullable = true)
-    private Date deletedAt;
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    @Basic
-    @Column(name = "inserted_at", nullable = true)
-    private Date insertedAt;
-
-    public Date getInsertedAt() {
-        return insertedAt;
-    }
-
-    public void setInsertedAt(Date insertedAt) {
-        this.insertedAt = insertedAt;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ElementEntity that = (ElementEntity) o;
-
-        if (elementId != that.elementId) return false;
-        if (elementGrpId != null ? !elementGrpId.equals(that.elementGrpId) : that.elementGrpId != null) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
-        if (deleted != null ? !deleted.equals(that.deleted) : that.deleted != null) return false;
-        if (deletedAt != null ? !deletedAt.equals(that.deletedAt) : that.deletedAt != null) return false;
-        if (insertedAt != null ? !insertedAt.equals(that.insertedAt) : that.insertedAt != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = elementId;
-        result = 31 * result + (elementGrpId != null ? elementGrpId.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
-        result = 31 * result + (deletedAt != null ? deletedAt.hashCode() : 0);
-        result = 31 * result + (insertedAt != null ? insertedAt.hashCode() : 0);
-        return result;
-    }
 }

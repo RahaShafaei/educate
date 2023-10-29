@@ -15,9 +15,9 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@jakarta.persistence.Table(name = "element_grp", schema = "dbo", catalog = "educate")
-public class ElementGrpEntity extends TitleEntity {
+@Table(name = "roles", schema = "dbo", catalog = "educate")
+public class RolesEntity extends TitleEntity {
+    @OneToMany(mappedBy = "role")
+    private List<PersonRoleEntity> personRoles;
 
-    @OneToMany(mappedBy = "elementGrp")
-    private List<ElementEntity> elements;
 }
