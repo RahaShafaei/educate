@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package edu.educate.model.baseModel;
+package edu.educate.dto.baseDto;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,24 +26,13 @@ import java.sql.Date;
 @Getter
 @Setter
 @ToString
-@MappedSuperclass
-public class BaseEntity implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BaseDto implements Serializable {
 	private Integer id;
 
-	@Column(name = "deleted")
 	private String deleted;
 
-	@Column(name = "deleted_at")
 	private Date deletedAt;
 
-	@Column(name = "inserted_at")
 	private Date insertedAt;
-
-	public boolean isNew() {
-		return this.id == null;
-	}
 
 }
