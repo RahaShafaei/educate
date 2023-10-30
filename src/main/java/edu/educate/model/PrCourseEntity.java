@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "pr_course", schema = "dbo", catalog = "educate")
 public class PrCourseEntity extends BaseEntity {
     @ManyToOne
-    @Column(name = "pr_course_grp_id", nullable = true)
+    @JoinColumn(name = "pr_course_grp_id", nullable = true)
     private PrCourseGrpEntity prCourseGrp;
 
     @OneToMany(mappedBy = "prCourse")

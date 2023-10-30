@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class OrgUnitEntity extends TitleEntity {
     private List<OrgUnitEntity> orgUnit;
 
     @ManyToOne
-    @Column(name = "parent_org_unit_id", nullable = true)
+    @JoinColumn(name = "parent_org_unit_id", nullable = true)
     private OrgUnitEntity parentOrgUnit;
 
     @OneToMany(mappedBy = "orgUnit")

@@ -17,11 +17,11 @@ import java.sql.Date;
 @jakarta.persistence.Table(name = "person_role", schema = "dbo", catalog = "educate")
 public class PersonRoleEntity extends BaseEntity{
     @ManyToOne
-    @Column(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", nullable = false)
     private PersonEntity person;
 
     @ManyToOne
-    @Column(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false)
     private RolesEntity role;
 
 }

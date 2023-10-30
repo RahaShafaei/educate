@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,9 +18,8 @@ import java.util.List;
 @Entity
 @jakarta.persistence.Table(name = "element", schema = "dbo", catalog = "educate")
 public class ElementEntity  extends TitleEntity {
-
     @ManyToOne
-    @Column(name = "element_grp_id", nullable = true)
+    @JoinColumn(name = "element_grp_id", nullable = true)
     private ElementGrpEntity elementGrp;
 
     @OneToMany(mappedBy = "element")

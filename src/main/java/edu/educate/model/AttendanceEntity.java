@@ -17,15 +17,15 @@ import lombok.ToString;
 public class AttendanceEntity extends BaseEntity {
 
     @ManyToOne
-    @Column(name = "org_unit_post_person_id", nullable = true)
+    @JoinColumn(name = "org_unit_post_person_id", nullable = true)
     private OrgUnitPostPersonEntity orgUnitPostPerson;
 
     @ManyToOne
-    @Column(name = "plan_id", nullable = true)
+    @JoinColumn(name = "plan_id", nullable = true)
     private PlansEntity plan;
 
     @ManyToOne
-    @Column(name = "element_id", nullable = true)
+    @JoinColumn(name = "element_id", nullable = true)
     private ElementEntity element;
 
     @DoubleLength(minLength = 3)

@@ -16,7 +16,7 @@ import lombok.ToString;
 public class MeetingEntity extends TitleEntity {
 
     @ManyToOne
-    @Column(name = "plan_id", nullable = true)
+    @JoinColumn(name = "plan_id", nullable = true)
     private PlansEntity plan;
 
 }

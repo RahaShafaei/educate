@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,15 +27,15 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     private List<PlansEntity> plans;
 
     @ManyToOne
-    @Column(name = "org_unit_id", nullable = false)
+    @JoinColumn(name = "org_unit_id", nullable = false)
     private OrgUnitEntity orgUnit;
 
     @ManyToOne
-    @Column(name = "org_post_id", nullable = true)
+    @JoinColumn(name = "org_post_id", nullable = true)
     private OrgPostEntity orgPost;
 
     @ManyToOne
-    @Column(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", nullable = false)
     private PersonEntity person;
 
     @JsonDeserialize(using = CustomDateDeserializer.class)

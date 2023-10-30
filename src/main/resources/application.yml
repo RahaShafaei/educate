@@ -4,8 +4,16 @@ logging:
       org.springframework.web: INFO
 
 spring:
+  profiles:
+    active: development
   jpa:
     show_sql: true
     defer-datasource-initialization: true
   main:
     allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=educate;trustServerCertificate=true
+    username: sa
+    password: raha
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
