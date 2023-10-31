@@ -11,9 +11,7 @@ public interface PrCourseGrpService {
 
     public PrCourseGrpDto getPrCourseGrp(Integer id);
 
-    public List<PersonDto> getPrCourseGrpPersons(Integer id);
-
     public Boolean deletePrCourseGrp(Integer id);
 
-    public PrCourseGrpDto createPrCourseGrp(PrCourseGrpEntity PrCourseGrp);
+    public PrCourseGrpDto createPrCourseGrp(PrCourseGrpEntity prCourseGrp);
 }

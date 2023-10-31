@@ -11,9 +11,7 @@ public interface ElementService {
 
     public ElementDto getElement(Integer id);
 
-    public List<PersonDto> getElementPersons(Integer id);
-
     public Boolean deleteElement(Integer id);
 
-    public ElementDto createElement(ElementEntity Element);
+    public ElementDto createElement(ElementEntity element);
 }

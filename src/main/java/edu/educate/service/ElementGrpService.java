@@ -11,9 +11,7 @@ public interface ElementGrpService {
 
     public ElementGrpDto getElementGrp(Integer id);
 
-    public List<PersonDto> getElementGrpPersons(Integer id);
-
     public Boolean deleteElementGrp(Integer id);
 
-    public ElementGrpDto createElementGrp(ElementGrpEntity ElementGrp);
+    public ElementGrpDto createElementGrp(ElementGrpEntity elementGrp);
 }

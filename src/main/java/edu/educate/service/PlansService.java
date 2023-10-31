@@ -11,9 +11,7 @@ public interface PlansService {
 
     public PlansDto getPlan(Integer id);
 
-    public List<PersonDto> getPlanPersons(Integer id);
-
     public Boolean deletePlan(Integer id);
 
-    public PlansDto createPlan(PlansEntity Plan);
+    public PlansDto createPlan(PlansEntity plan);
 }

@@ -1,5 +1,6 @@
 package edu.educate.service;
 
+import edu.educate.dto.OrgUnitPostPersonDto;
 import edu.educate.dto.PersonDto;
 import edu.educate.dto.AttendanceDto;
 import edu.educate.model.AttendanceEntity;
@@ -11,7 +12,7 @@ public interface AttendanceService {
 
     public AttendanceDto getAttendance(Integer id);
 
-    public List<PersonDto> getAttendancePersons(Integer id);
+    public OrgUnitPostPersonDto getAttendanceOrgUnitPostPersons(Integer id);
 
     public Boolean deleteAttendance(Integer id);
 

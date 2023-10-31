@@ -11,8 +11,6 @@ public interface RolesService {
 
     public RolesDto getRole(Integer id);
 
-    public List<PersonDto> getRolePersons(Integer id);
-
     public Boolean deleteRole(Integer id);
 
     public RolesDto createRole(RolesEntity Role);

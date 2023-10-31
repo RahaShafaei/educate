@@ -1,36 +1,61 @@
 package edu.educate.service;
 
-import edu.educate.dto.PersonDto;
 import edu.educate.dto.RolesDto;
+import edu.educate.dto.RolesMapper;
+import edu.educate.exception.ItemNotFoundException;
+import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.RolesEntity;
+import edu.educate.repository.RolesRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@AllArgsConstructor
 @Service("rolesService")
 public class RolesServiceImp implements RolesService {
+
+    private static final String ROLES_ID = "Roles id: ";
+    private final RolesRepository rolesRepository;
+    private final RolesMapper rolesMapper;
     @Override
     public List<RolesDto> getRoles() {
-        return null;
+        return rolesRepository.findAll()
+                .stream()
+                .map(rolesMapper::toDto)
+                .toList();
     }
 
     @Override
     public RolesDto getRole(Integer id) {
-        return null;
-    }
+        Optional<RolesEntity> roles = rolesRepository.findById(id);
 
-    @Override
-    public List<PersonDto> getRolePersons(Integer id) {
-        return null;
+        if (roles.isEmpty())
+            throw new ItemNotFoundException(ROLES_ID + id);
+
+        return rolesMapper.toDto(roles.get());
     }
 
     @Override
     public Boolean deleteRole(Integer id) {
-        return null;
+        Optional<RolesEntity> roles = rolesRepository.findById(id);
+
+        if (!roles.isEmpty()) {
+            rolesRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public RolesDto createRole(RolesEntity Role) {
-        return null;
+    public RolesDto createRole(RolesEntity roles) {
+        if (roles.getTitle() == null || roles.getTitle().isEmpty())
+            throw new ParametersNotValidException("Title of Roles should not be empty.");
+
+        RolesEntity savedRoles = rolesRepository.save(roles);
+
+        return rolesMapper.toDto(savedRoles);
     }
 }

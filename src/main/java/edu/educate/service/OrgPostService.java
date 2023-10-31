@@ -11,9 +11,7 @@ public interface OrgPostService {
 
     public OrgPostDto getOrgPost(Integer id);
 
-    public List<PersonDto> getOrgPostPersons(Integer id);
-
     public Boolean deleteOrgPost(Integer id);
 
-    public OrgPostDto createOrgPost(OrgPostEntity OrgPost);
+    public OrgPostDto createOrgPost(OrgPostEntity orgPost);
 }

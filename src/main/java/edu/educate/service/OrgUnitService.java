@@ -11,9 +11,7 @@ public interface OrgUnitService {
 
     public OrgUnitDto getOrgUnit(Integer id);
 
-    public List<PersonDto> getOrgUnitPersons(Integer id);
-
     public Boolean deleteOrgUnit(Integer id);
 
-    public OrgUnitDto createOrgUnit(OrgUnitEntity OrgUnit);
+    public OrgUnitDto createOrgUnit(OrgUnitEntity orgUnit);
 }

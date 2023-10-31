@@ -10,9 +10,7 @@ public interface PersonService {
 
     public PersonDto getPerson(Integer id);
 
-    public List<PersonDto> getPersonPersons(Integer id);
-
     public Boolean deletePerson(Integer id);
 
-    public PersonDto createPerson(PersonEntity Person);
+    public PersonDto createPerson(PersonEntity person);
 }

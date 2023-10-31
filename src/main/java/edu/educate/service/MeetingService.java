@@ -11,9 +11,7 @@ public interface MeetingService {
 
     public MeetingDto getMeeting(Integer id);
 
-    public List<PersonDto> getMeetingPersons(Integer id);
-
     public Boolean deleteMeeting(Integer id);
 
-    public MeetingDto createMeeting(MeetingEntity Meeting);
+    public MeetingDto createMeeting(MeetingEntity meeting);
 }
