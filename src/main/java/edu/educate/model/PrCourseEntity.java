@@ -20,18 +20,18 @@ import java.util.List;
 @Table(name = "pr_course", schema = "dbo", catalog = "educate")
 public class PrCourseEntity extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "pr_course_grp_id", nullable = true)
+    @JoinColumn(name = "pr_course_grp_id", nullable = false)
     private PrCourseGrpEntity prCourseGrp;
 
     @OneToMany(mappedBy = "prCourse")
     private List<PlansEntity> plans;
 
     @Size(min = 2, message = "LatinTitle should have at least 2 character.")
-    @Column(name = "lt_title", nullable = true, length = 50)
+    @Column(name = "lt_title", nullable = false, length = 50 )
     private String ltTitle;
 
     @Size(min = 2, message = "PersianTitle should have at least 2 character.")
-    @Column(name = "pr_title", nullable = true, length = 50)
+    @Column(name = "pr_title", nullable = false, length = 50)
     private String prTitle;
 
     @Column(name = "descr", nullable = true, length = 255)
