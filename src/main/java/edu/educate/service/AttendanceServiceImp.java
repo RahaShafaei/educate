@@ -1,6 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.*;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.AttendanceEntity;
@@ -16,35 +15,20 @@ import java.util.Optional;
 public class AttendanceServiceImp implements AttendanceService{
     private static final String ATTENDANCE_ID = "Attendance id: ";
     private final AttendanceRepository attendanceRepository;
-    private final AttendanceMapper attendanceMapper;
-    private final OrgUnitPostPersonMapper OrgUnitPostPersonMapper;
 
     @Override
-    public List<AttendanceDto> getAttendances() {
-        return attendanceRepository.findAll()
-                .stream()
-                .map(attendanceMapper::toDto)
-                .toList();
+    public List<AttendanceEntity> getAttendances() {
+        return attendanceRepository.findAll();
     }
 
     @Override
-    public AttendanceDto getAttendance(Integer id) {
+    public AttendanceEntity getAttendance(Integer id) {
         Optional<AttendanceEntity> attendance = attendanceRepository.findById(id);
 
         if (attendance.isEmpty())
             throw new ItemNotFoundException(ATTENDANCE_ID + id);
 
-        return attendanceMapper.toDto(attendance.get());
-    }
-
-    @Override
-    public OrgUnitPostPersonDto getAttendanceOrgUnitPostPersons(Integer id) {
-        Optional<AttendanceEntity> attendance = attendanceRepository.findById(id);
-
-        if (attendance.isEmpty())
-            throw new ItemNotFoundException(ATTENDANCE_ID + id);
-
-        return OrgUnitPostPersonMapper.toDto(attendance.get().getOrgUnitPostPerson());
+        return attendance.get();
     }
 
     @Override
@@ -60,7 +44,7 @@ public class AttendanceServiceImp implements AttendanceService{
     }
 
     @Override
-    public AttendanceDto createAttendance(AttendanceEntity attendance) {
+    public AttendanceEntity createAttendance(AttendanceEntity attendance) {
         if (attendance.getOrgUnitPostPerson() == null)
             throw new ParametersNotValidException("OrgUnitPostPerson of Attendance should not be empty.");
 
@@ -69,6 +53,6 @@ public class AttendanceServiceImp implements AttendanceService{
 
         AttendanceEntity savedAttendance = attendanceRepository.save(attendance);
 
-        return attendanceMapper.toDto(savedAttendance);
+        return savedAttendance;
     }
 }

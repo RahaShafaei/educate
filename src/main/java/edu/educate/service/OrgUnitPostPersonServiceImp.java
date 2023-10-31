@@ -1,7 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.OrgUnitPostPersonDto;
-import edu.educate.dto.OrgUnitPostPersonMapper;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.OrgUnitPostPersonEntity;
@@ -18,23 +16,19 @@ public class OrgUnitPostPersonServiceImp implements OrgUnitPostPersonService{
 
     private static final String ORGUNITPOSTPERSON_ID = "OrgUnitPostPerson id: ";
     private final OrgUnitPostPersonRepository orgUnitPostPersonRepository;
-    private final OrgUnitPostPersonMapper orgUnitPostPersonMapper;
     @Override
-    public List<OrgUnitPostPersonDto> getOrgUnitPostPersons() {
-        return orgUnitPostPersonRepository.findAll()
-                .stream()
-                .map(orgUnitPostPersonMapper::toDto)
-                .toList();
+    public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {
+        return orgUnitPostPersonRepository.findAll();
     }
 
     @Override
-    public OrgUnitPostPersonDto getOrgUnitPostPerson(Integer id) {
+    public OrgUnitPostPersonEntity getOrgUnitPostPerson(Integer id) {
         Optional<OrgUnitPostPersonEntity> orgUnitPostPerson = orgUnitPostPersonRepository.findById(id);
 
         if (orgUnitPostPerson.isEmpty())
             throw new ItemNotFoundException(ORGUNITPOSTPERSON_ID + id);
 
-        return orgUnitPostPersonMapper.toDto(orgUnitPostPerson.get());
+        return orgUnitPostPerson.get();
     }
 
     @Override
@@ -50,7 +44,7 @@ public class OrgUnitPostPersonServiceImp implements OrgUnitPostPersonService{
     }
 
     @Override
-    public OrgUnitPostPersonDto createOrgUnitPostPerson(OrgUnitPostPersonEntity orgUnitPostPerson) {
+    public OrgUnitPostPersonEntity createOrgUnitPostPerson(OrgUnitPostPersonEntity orgUnitPostPerson) {
         if (orgUnitPostPerson.getOrgUnit() == null)
             throw new ParametersNotValidException("OrgUnit of OrgUnitPostPerson should not be empty.");
 
@@ -68,6 +62,6 @@ public class OrgUnitPostPersonServiceImp implements OrgUnitPostPersonService{
 
         OrgUnitPostPersonEntity savedOrgUnitPostPerson = orgUnitPostPersonRepository.save(orgUnitPostPerson);
 
-        return orgUnitPostPersonMapper.toDto(savedOrgUnitPostPerson);
+        return savedOrgUnitPostPerson;
     }
 }

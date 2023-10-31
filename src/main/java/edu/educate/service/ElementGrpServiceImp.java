@@ -1,12 +1,7 @@
 package edu.educate.service;
 
-import edu.educate.dto.ElementGrpMapper;
-import edu.educate.dto.ElementGrpDto;
-import edu.educate.dto.ElementGrpMapper;
-import edu.educate.dto.PersonDto;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
-import edu.educate.model.ElementGrpEntity;
 import edu.educate.model.ElementGrpEntity;
 import edu.educate.repository.ElementGrpRepository;
 import lombok.AllArgsConstructor;
@@ -21,24 +16,20 @@ public class ElementGrpServiceImp implements ElementGrpService{
 
     private static final String ELEMENTGRP_ID = "ElementGrp id: ";
     private final ElementGrpRepository elementGrpRepository;
-    private final ElementGrpMapper elementGrpMapper;
 
     @Override
-    public List<ElementGrpDto> getElementGrps() {
-        return elementGrpRepository.findAll()
-                .stream()
-                .map(elementGrpMapper::toDto)
-                .toList();
+    public List<ElementGrpEntity> getElementGrps() {
+        return elementGrpRepository.findAll();
     }
 
     @Override
-    public ElementGrpDto getElementGrp(Integer id) {
+    public ElementGrpEntity getElementGrp(Integer id) {
         Optional<ElementGrpEntity> elementGrp = elementGrpRepository.findById(id);
 
         if (elementGrp.isEmpty())
             throw new ItemNotFoundException(ELEMENTGRP_ID + id);
 
-        return elementGrpMapper.toDto(elementGrp.get());
+        return elementGrp.get();
     }
 
     @Override
@@ -54,12 +45,12 @@ public class ElementGrpServiceImp implements ElementGrpService{
     }
 
     @Override
-    public ElementGrpDto createElementGrp(ElementGrpEntity elementGrp) {
+    public ElementGrpEntity createElementGrp(ElementGrpEntity elementGrp) {
         if (elementGrp.getTitle() == null || elementGrp.getTitle().isEmpty())
             throw new ParametersNotValidException("Title of ElementGrp should not be empty.");
 
         ElementGrpEntity savedElementGrp = elementGrpRepository.save(elementGrp);
 
-        return elementGrpMapper.toDto(savedElementGrp);
+        return savedElementGrp;
     }
 }

@@ -1,7 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.MeetingMapper;
-import edu.educate.dto.MeetingDto;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.MeetingEntity;
@@ -19,23 +17,19 @@ public class MeetingServiceImp implements MeetingService{
 
     private static final String MEETING_ID = "Meeting id: ";
     private final MeetingRepository meetingRepository;
-    private final MeetingMapper meetingMapper;
     @Override
-    public List<MeetingDto> getMeetings() {
-        return meetingRepository.findAll()
-                .stream()
-                .map(meetingMapper::toDto)
-                .toList();
+    public List<MeetingEntity> getMeetings() {
+        return meetingRepository.findAll();
     }
 
     @Override
-    public MeetingDto getMeeting(Integer id) {
+    public MeetingEntity getMeeting(Integer id) {
         Optional<MeetingEntity> meeting = meetingRepository.findById(id);
 
         if (meeting.isEmpty())
             throw new ItemNotFoundException(MEETING_ID + id);
 
-        return meetingMapper.toDto(meeting.get());
+        return meeting.get();
     }
 
     @Override
@@ -51,7 +45,7 @@ public class MeetingServiceImp implements MeetingService{
     }
 
     @Override
-    public MeetingDto createMeeting(MeetingEntity meeting) {
+    public MeetingEntity createMeeting(MeetingEntity meeting) {
         if (meeting.getTitle() == null || meeting.getTitle().isEmpty())
             throw new ParametersNotValidException("Title of Meeting should not be empty.");
 
@@ -60,6 +54,6 @@ public class MeetingServiceImp implements MeetingService{
 
         MeetingEntity savedMeeting = meetingRepository.save(meeting);
 
-        return meetingMapper.toDto(savedMeeting);
+        return savedMeeting;
     }
 }

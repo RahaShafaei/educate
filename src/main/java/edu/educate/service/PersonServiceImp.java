@@ -1,7 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.PersonDto;
-import edu.educate.dto.PersonMapper;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.PersonEntity;
@@ -18,23 +16,19 @@ public class PersonServiceImp implements PersonService{
 
     private static final String PERSON_ID = "Person id: ";
     private final PersonRepository personRepository;
-    private final PersonMapper personMapper;
     @Override
-    public List<PersonDto> getPersons() {
-        return personRepository.findAll()
-                .stream()
-                .map(personMapper::toDto)
-                .toList();
+    public List<PersonEntity> getPersons() {
+        return personRepository.findAll();
     }
 
     @Override
-    public PersonDto getPerson(Integer id) {
+    public PersonEntity getPerson(Integer id) {
         Optional<PersonEntity> person = personRepository.findById(id);
 
         if (person.isEmpty())
             throw new ItemNotFoundException(PERSON_ID + id);
 
-        return personMapper.toDto(person.get());
+        return person.get();
     }
 
     @Override
@@ -50,7 +44,7 @@ public class PersonServiceImp implements PersonService{
     }
 
     @Override
-    public PersonDto createPerson(PersonEntity person) {
+    public PersonEntity createPerson(PersonEntity person) {
         if (person.getFname() == null || person.getFname().isEmpty())
             throw new ParametersNotValidException("Fname of Person should not be empty.");
 
@@ -62,6 +56,6 @@ public class PersonServiceImp implements PersonService{
 
         PersonEntity savedPerson = personRepository.save(person);
 
-        return personMapper.toDto(savedPerson);
+        return savedPerson;
     }
 }

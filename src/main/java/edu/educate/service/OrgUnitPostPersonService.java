@@ -1,16 +1,15 @@
 package edu.educate.service;
 
-import edu.educate.dto.OrgUnitPostPersonDto;
 import edu.educate.model.OrgUnitPostPersonEntity;
 
 import java.util.List;
 
 public interface OrgUnitPostPersonService {
-    public List<OrgUnitPostPersonDto> getOrgUnitPostPersons();
+    public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons();
 
-    public OrgUnitPostPersonDto getOrgUnitPostPerson(Integer id);
+    public OrgUnitPostPersonEntity getOrgUnitPostPerson(Integer id);
 
     public Boolean deleteOrgUnitPostPerson(Integer id);
 
-    public OrgUnitPostPersonDto createOrgUnitPostPerson(OrgUnitPostPersonEntity orgUnitPostPerson);
+    public OrgUnitPostPersonEntity createOrgUnitPostPerson(OrgUnitPostPersonEntity orgUnitPostPerson);
 }

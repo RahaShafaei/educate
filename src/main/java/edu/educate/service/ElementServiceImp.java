@@ -1,7 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.ElementMapper;
-import edu.educate.dto.ElementDto;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.ElementEntity;
@@ -20,23 +18,19 @@ public class ElementServiceImp implements ElementService{
 
     private static final String ELEMENT_ID = "Element id: ";
     private final ElementRepository elementRepository;
-    private final ElementMapper elementMapper;
     @Override
-    public List<ElementDto> getElements() {
-        return elementRepository.findAll()
-                .stream()
-                .map(elementMapper::toDto)
-                .toList();
+    public List<ElementEntity> getElements() {
+        return elementRepository.findAll();
     }
 
     @Override
-    public ElementDto getElement(Integer id) {
+    public ElementEntity getElement(Integer id) {
         Optional<ElementEntity> element = elementRepository.findById(id);
 
         if (element.isEmpty())
             throw new ItemNotFoundException(ELEMENT_ID + id);
 
-        return elementMapper.toDto(element.get());
+        return element.get();
     }
 
     @Override
@@ -52,12 +46,12 @@ public class ElementServiceImp implements ElementService{
     }
 
     @Override
-    public ElementDto createElement(ElementEntity element) {
+    public ElementEntity createElement(ElementEntity element) {
         if (element.getTitle() == null || element.getTitle().isEmpty())
             throw new ParametersNotValidException("Title of Element should not be empty.");
 
         ElementEntity savedElement = elementRepository.save(element);
 
-        return elementMapper.toDto(savedElement);
+        return savedElement;
     }
 }

@@ -1,7 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.OrgUnitDto;
-import edu.educate.dto.OrgUnitMapper;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.OrgUnitEntity;
@@ -18,23 +16,19 @@ public class OrgUnitServiceImp implements OrgUnitService{
 
     private static final String ORGUNIT_ID = "OrgUnit id: ";
     private final OrgUnitRepository orgUnitRepository;
-    private final OrgUnitMapper orgUnitMapper;
     @Override
-    public List<OrgUnitDto> getOrgUnits() {
-        return orgUnitRepository.findAll()
-                .stream()
-                .map(orgUnitMapper::toDto)
-                .toList();
+    public List<OrgUnitEntity> getOrgUnits() {
+        return orgUnitRepository.findAll();
     }
 
     @Override
-    public OrgUnitDto getOrgUnit(Integer id) {
+    public OrgUnitEntity getOrgUnit(Integer id) {
         Optional<OrgUnitEntity> orgUnit = orgUnitRepository.findById(id);
 
         if (orgUnit.isEmpty())
             throw new ItemNotFoundException(ORGUNIT_ID + id);
 
-        return orgUnitMapper.toDto(orgUnit.get());
+        return orgUnit.get();
     }
 
     @Override
@@ -50,12 +44,12 @@ public class OrgUnitServiceImp implements OrgUnitService{
     }
 
     @Override
-    public OrgUnitDto createOrgUnit(OrgUnitEntity orgUnit) {
+    public OrgUnitEntity createOrgUnit(OrgUnitEntity orgUnit) {
         if (orgUnit.getTitle() == null || orgUnit.getTitle().isEmpty())
             throw new ParametersNotValidException("Title of OrgUnit should not be empty.");
 
         OrgUnitEntity savedOrgUnit = orgUnitRepository.save(orgUnit);
 
-        return orgUnitMapper.toDto(savedOrgUnit);
+        return savedOrgUnit;
     }
 }

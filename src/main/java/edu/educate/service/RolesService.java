@@ -1,17 +1,15 @@
 package edu.educate.service;
 
-import edu.educate.dto.PersonDto;
-import edu.educate.dto.RolesDto;
 import edu.educate.model.RolesEntity;
 
 import java.util.List;
 
 public interface RolesService {
-    public List<RolesDto> getRoles();
+    public List<RolesEntity> getRoles();
 
-    public RolesDto getRole(Integer id);
+    public RolesEntity getRole(Integer id);
 
     public Boolean deleteRole(Integer id);
 
-    public RolesDto createRole(RolesEntity Role);
+    public RolesEntity createRole(RolesEntity Role);
 }

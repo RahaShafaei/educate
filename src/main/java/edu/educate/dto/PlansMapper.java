@@ -1,7 +1,6 @@
 package edu.educate.dto;
 
 import edu.educate.helper.ConvertListToMap;
-import edu.educate.model.AttendanceEntity;
 import edu.educate.model.MeetingEntity;
 import edu.educate.model.PlansEntity;
 import lombok.AllArgsConstructor;
@@ -19,8 +18,6 @@ public class PlansMapper {
     private final OrgUnitPostPersonMapper orgUnitPostPersonMapper;
 
     private final ElementMapper elementMapper;
-
-    private final AttendanceMapper attendanceMapper;
 
     private final MeetingMapper meetingMapper;
     public PlansDto toDto(PlansEntity plans) {
@@ -60,14 +57,6 @@ public class PlansMapper {
                         this.elementMapper.toDto(plans.getElementType()) :
                         null
         );
-        if (plans.getAttendances() != null) {
-            Map<Integer, AttendanceDto> attendanceDtl = ConvertListToMap.apply(
-                    plans.getAttendances(),
-                    AttendanceEntity::getId,
-                    attendanceMapper::toDto
-            );
-            plansDto.setAttendances(attendanceDtl);
-        }
         if (plans.getMeetings() != null) {
             Map<Integer, MeetingDto> meetingDtoDtl = ConvertListToMap.apply(
                     plans.getMeetings(),

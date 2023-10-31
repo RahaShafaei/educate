@@ -1,7 +1,5 @@
 package edu.educate.service;
 
-import edu.educate.dto.PlansDto;
-import edu.educate.dto.PlansMapper;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.PlansEntity;
@@ -18,23 +16,19 @@ public class PlansServiceImp implements PlansService {
 
     private static final String PLAN_ID = "Plans id: ";
     private final PlansRepository planRepository;
-    private final PlansMapper planMapper;
     @Override
-    public List<PlansDto> getPlans() {
-        return planRepository.findAll()
-                .stream()
-                .map(planMapper::toDto)
-                .toList();
+    public List<PlansEntity> getPlans() {
+        return planRepository.findAll();
     }
 
     @Override
-    public PlansDto getPlan(Integer id) {
+    public PlansEntity getPlan(Integer id) {
         Optional<PlansEntity> plan = planRepository.findById(id);
 
         if (plan.isEmpty())
             throw new ItemNotFoundException(PLAN_ID + id);
 
-        return planMapper.toDto(plan.get());
+        return plan.get();
     }
 
     @Override
@@ -50,7 +44,7 @@ public class PlansServiceImp implements PlansService {
     }
 
     @Override
-    public PlansDto createPlan(PlansEntity plan) {
+    public PlansEntity createPlan(PlansEntity plan) {
         if (plan.getTitle() == null || plan.getTitle().isEmpty())
             throw new ParametersNotValidException("Title of Plans should not be empty.");
 
@@ -78,6 +72,6 @@ public class PlansServiceImp implements PlansService {
 
         PlansEntity savedPlans = planRepository.save(plan);
 
-        return planMapper.toDto(savedPlans);
+        return savedPlans;
     }
 }

@@ -1,17 +1,15 @@
 package edu.educate.service;
 
-import edu.educate.dto.ElementDto;
-import edu.educate.dto.PersonDto;
 import edu.educate.model.ElementEntity;
 
 import java.util.List;
 
 public interface ElementService {
-    public List<ElementDto> getElements();
+    public List<ElementEntity> getElements();
 
-    public ElementDto getElement(Integer id);
+    public ElementEntity getElement(Integer id);
 
     public Boolean deleteElement(Integer id);
 
-    public ElementDto createElement(ElementEntity element);
+    public ElementEntity createElement(ElementEntity element);
 }
