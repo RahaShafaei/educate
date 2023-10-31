@@ -24,7 +24,7 @@ public class PrCourseEntity extends BaseEntity {
     private PrCourseGrpEntity prCourseGrp;
 
     @OneToMany(mappedBy = "prCourse")
-    private List<PlansEntity> prCourses;
+    private List<PlansEntity> plans;
 
     @Size(min = 2, message = "LatinTitle should have at least 2 character.")
     @Column(name = "lt_title", nullable = true, length = 50)

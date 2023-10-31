@@ -9,6 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PersonRoleDto extends BaseDto {
+
     private PersonDto person;
 
     private RolesDto role;

@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,7 +17,7 @@ import java.util.List;
 @jakarta.persistence.Table(name = "org_unit", schema = "dbo", catalog = "educate")
 public class OrgUnitEntity extends TitleEntity {
     @OneToMany(mappedBy = "parentOrgUnit")
-    private List<OrgUnitEntity> orgUnit;
+    private List<OrgUnitEntity> orgUnits;
 
     @ManyToOne
     @JoinColumn(name = "parent_org_unit_id", nullable = true)

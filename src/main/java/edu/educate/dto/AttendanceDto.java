@@ -13,11 +13,11 @@ import lombok.ToString;
 @ToString
 public class AttendanceDto extends BaseDto {
 
-    private OrgUnitPostPersonEntity orgUnitPostPerson;
+    private OrgUnitPostPersonDto orgUnitPostPerson;
 
-    private PlansEntity plan;
+    private PlansDto plan;
 
-    private ElementEntity element;
+    private ElementDto element;
 
     private Double grade;
 }

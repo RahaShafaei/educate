@@ -6,15 +6,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @ToString
 public class OrgUnitPostPersonDto  extends BaseDto {
-    private List<AttendanceDto> attendances;
+    private Map<Integer, AttendanceDto> attendances;
 
-    private List<PlansDto> plans;
+    private Map<Integer, PlansDto> plans;
 
     private OrgUnitDto orgUnit;
 

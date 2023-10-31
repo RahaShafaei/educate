@@ -5,17 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @ToString
 public class ElementDto extends TitleDto {
+
     private ElementGrpDto elementGrp;
 
-    private List<AttendanceDto> attendances;
+    private Map<Integer, AttendanceDto> attendances;
 
-    private List<PlansDto> planTypes;
+    private Map<Integer, PlansDto> planTypes;
 
-    private List<PlansDto> planStatus;
+    private Map<Integer, PlansDto> planStatus;
 }

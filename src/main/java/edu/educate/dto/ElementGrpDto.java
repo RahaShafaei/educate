@@ -6,11 +6,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @ToString
 public class ElementGrpDto  extends TitleDto {
 
-    private List<ElementDto> elements;
+    private Map<Integer, ElementDto> elements;
+
 }

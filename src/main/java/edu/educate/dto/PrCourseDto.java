@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ import java.util.List;
 public class PrCourseDto extends BaseDto {
     private PrCourseGrpDto prCourseGrp;
 
-    private List<PlansDto> prCourses;
+    private Map<Integer, PlansDto> plans;
 
     private String ltTitle;
 

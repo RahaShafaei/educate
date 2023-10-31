@@ -6,12 +6,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @ToString
-public class PlansDto  extends TitleDto {
+public class PlansDto extends TitleDto {
     private OrgUnitDto orgUnit;
 
     private PrCourseDto prCourse;
@@ -22,9 +22,9 @@ public class PlansDto  extends TitleDto {
 
     private ElementDto elementStatus;
 
-    private List<AttendanceDto> attendances;
+    private Map<Integer, AttendanceDto> attendances;
 
-    private List<MeetingDto> meetings;
+    private Map<Integer, MeetingDto> meetings;
 
     private Date fromDate;
 

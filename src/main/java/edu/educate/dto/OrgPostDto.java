@@ -6,12 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @ToString
 public class OrgPostDto extends TitleDto {
-    private List<OrgUnitPostPersonDto> orgUnitPostPersons;
+
+    private Map<Integer, OrgUnitPostPersonDto> orgUnitPostPersons;
 
     private String code;
 
