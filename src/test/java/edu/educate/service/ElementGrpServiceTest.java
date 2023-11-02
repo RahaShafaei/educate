@@ -19,7 +19,7 @@ public class ElementGrpServiceTest {
 
         ElementGrpEntity elementGrp = new ElementGrpEntity();
 
-        elementGrp.setTitle("Sample elementGrp : Title");
+//        elementGrp.setTitle("Sample elementGrp : Title");
 
         ElementGrpEntity savedElementGrp = elementGrpService.createElementGrp(elementGrp);
 

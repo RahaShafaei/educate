@@ -45,14 +45,6 @@ public class PersonServiceImp implements PersonService{
 
     @Override
     public PersonEntity createPerson(PersonEntity person) {
-        if (person.getFname() == null || person.getFname().isEmpty())
-            throw new ParametersNotValidException("Fname of Person should not be empty.");
-
-        if (person.getLname() == null || person.getLname().isEmpty())
-            throw new ParametersNotValidException("Lname of Person should not be empty.");
-
-        if (person.getPrCode() == null || person.getPrCode().isEmpty())
-            throw new ParametersNotValidException("PrCode of Person should not be empty.");
 
         PersonEntity savedPerson = personRepository.save(person);
 

@@ -1,7 +1,6 @@
 package edu.educate.service;
 
 import edu.educate.exception.ItemNotFoundException;
-import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.RolesEntity;
 import edu.educate.repository.RolesRepository;
 import lombok.AllArgsConstructor;
@@ -45,8 +44,6 @@ public class RolesServiceImp implements RolesService {
 
     @Override
     public RolesEntity createRole(RolesEntity roles) {
-        if (roles.getTitle() == null || roles.getTitle().isEmpty())
-            throw new ParametersNotValidException("Title of Roles should not be empty.");
 
         RolesEntity savedRoles = rolesRepository.save(roles);
 

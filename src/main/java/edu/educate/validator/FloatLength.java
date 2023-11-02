@@ -14,11 +14,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {DoubleLengthValidator.class})
-public @interface DoubleLength {
+@Constraint(validatedBy = {FloatLengthValidator.class})
+public @interface FloatLength {
     int minLength();
 
-    String message() default "{doubleLength.min} {minLength}.";
+    String message() default "{floatLength.min} {minLength}.";
 
     Class<?>[] groups() default {};
 

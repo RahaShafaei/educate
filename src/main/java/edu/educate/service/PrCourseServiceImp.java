@@ -45,14 +45,6 @@ public class PrCourseServiceImp implements PrCourseService{
 
     @Override
     public PrCourseEntity createPrCourse(PrCourseEntity prCourse) {
-        if (prCourse.getPrCourseGrp() == null)
-            throw new ParametersNotValidException("PrCourseGrp of PrCourse should not be empty.");
-
-        if (prCourse.getLtTitle() == null || prCourse.getLtTitle().isEmpty())
-            throw new ParametersNotValidException("LtTitle of PrCourse should not be empty.");
-
-        if (prCourse.getPrTitle() == null || prCourse.getPrTitle().isEmpty())
-            throw new ParametersNotValidException("PrTitle of PrCourse should not be empty.");
 
         PrCourseEntity savedPrCourse = prCourseRepository.save(prCourse);
 

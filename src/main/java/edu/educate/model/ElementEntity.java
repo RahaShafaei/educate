@@ -2,13 +2,12 @@ package edu.educate.model;
 
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,10 +15,16 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@jakarta.persistence.Table(name = "element", schema = "dbo", catalog = "educate")
+@Table(
+        name = "element",
+        schema = "dbo",
+        catalog = "educate",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "element_grp_id"})}
+)
 public class ElementEntity  extends TitleEntity {
     @ManyToOne
-    @JoinColumn(name = "element_grp_id", nullable = true)
+    @NotNull
+    @JoinColumn(name = "element_grp_id")
     private ElementGrpEntity elementGrp;
 
     @OneToMany(mappedBy = "element")

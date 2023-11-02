@@ -1,7 +1,6 @@
 package edu.educate.service;
 
 import edu.educate.exception.ItemNotFoundException;
-import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.AttendanceEntity;
 import edu.educate.repository.AttendanceRepository;
 import lombok.AllArgsConstructor;
@@ -45,11 +44,6 @@ public class AttendanceServiceImp implements AttendanceService{
 
     @Override
     public AttendanceEntity createAttendance(AttendanceEntity attendance) {
-        if (attendance.getOrgUnitPostPerson() == null)
-            throw new ParametersNotValidException("OrgUnitPostPerson of Attendance should not be empty.");
-
-        if (attendance.getPlan() == null)
-            throw new ParametersNotValidException("Plan of Attendance should not be empty.");
 
         AttendanceEntity savedAttendance = attendanceRepository.save(attendance);
 

@@ -15,15 +15,15 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@jakarta.persistence.Table(name = "org_post", schema = "dbo", catalog = "educate")
+@Table(name = "org_post", schema = "dbo", catalog = "educate")
 public class OrgPostEntity extends TitleEntity {
     @OneToMany(mappedBy = "orgPost")
     private List<OrgUnitPostPersonEntity> orgUnitPostPersons;
 
-    @Column(name = "code", nullable = true, length = 50)
+    @Column(name = "code", length = 50)
     private String code;
 
-    @Column(name = "descr", nullable = true, length = 255)
+    @Column(name = "descr", length = 255)
     private String descr;
 
 }

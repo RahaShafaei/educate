@@ -19,5 +19,5 @@ public class AttendanceDto extends BaseDto {
 
     private ElementDto element;
 
-    private Double grade;
+    private Float grade;
 }

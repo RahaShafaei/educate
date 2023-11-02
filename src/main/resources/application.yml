@@ -1,7 +1,11 @@
 logging:
   level:
     root:
-      org.springframework.web: INFO
+      org:
+        springframework:
+          web: INFO
+          env:
+            PropertySourcesPropertyResolver: DEBUG
 
 spring:
   profiles:

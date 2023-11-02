@@ -33,14 +33,14 @@ public class PlansServiceTest {
 
         PlansEntity plans = new PlansEntity();
 
-        plans.setOrgUnit(orgUnitService.getOrgUnit(1));
-        plans.setPrCourse(prCourseService.getPrCourse(1));
-        plans.setOrgUnitPostPerson(orgUnitPostPersonService.getOrgUnitPostPerson(1));
-        plans.setElementStatus(elementService.getElement(1));
-        plans.setElementType(elementService.getElement(1));
-        plans.setTitle("Sample Plan : Title");
+        plans.setOrgUnit(orgUnitService.getOrgUnit(172));
+        plans.setPrCourse(prCourseService.getPrCourse(4));
+        plans.setOrgUnitPostPerson(orgUnitPostPersonService.getOrgUnitPostPerson(35));
+        plans.setElementStatus(elementService.getElement(4));
+        plans.setElementType(elementService.getElement(9));
+        plans.setTitle("Sample Plan : Title Test");
         plans.setFromDate(Date.valueOf("2023-10-26"));
-        plans.setToDate(Date.valueOf("2023-10-26"));
+        plans.setToDate(Date.valueOf("2023-10-27"));
 
         PlansEntity savedPlan = plansService.createPlan(plans);
 

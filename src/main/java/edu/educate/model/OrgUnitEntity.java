@@ -14,13 +14,13 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@jakarta.persistence.Table(name = "org_unit", schema = "dbo", catalog = "educate")
+@Table(name = "org_unit", schema = "dbo", catalog = "educate")
 public class OrgUnitEntity extends TitleEntity {
     @OneToMany(mappedBy = "parentOrgUnit")
     private List<OrgUnitEntity> orgUnits;
 
     @ManyToOne
-    @JoinColumn(name = "parent_org_unit_id", nullable = true)
+    @JoinColumn(name = "parent_org_unit_id")
     private OrgUnitEntity parentOrgUnit;
 
     @OneToMany(mappedBy = "orgUnit")
@@ -29,10 +29,10 @@ public class OrgUnitEntity extends TitleEntity {
     @OneToMany(mappedBy = "orgUnit")
     private List<OrgUnitPostPersonEntity> orgUnitPostPersons;
 
-    @Column(name = "code", nullable = true, length = 50)
+    @Column(name = "code", length = 50)
     private String code;
 
-    @Column(name = "descr", nullable = true, length = 255)
+    @Column(name = "descr", length = 255)
     private String descr;
 
 }

@@ -36,7 +36,7 @@ public class OrgUnitPostPersonServiceTest {
         orgUnitPostPerson.setOrgPost(orgPostService.getOrgPost(1));
         orgUnitPostPerson.setPerson(PersonService.getPerson(1));
         orgUnitPostPerson.setFromDate(Date.valueOf("2023-10-26"));
-        orgUnitPostPerson.setToDate(Date.valueOf("2023-10-26"));
+        orgUnitPostPerson.setToDate(Date.valueOf("2023-10-27"));
 
         OrgUnitPostPersonEntity savedOrgUnitPostPerson = unitPostPersonService.createOrgUnitPostPerson(orgUnitPostPerson);
 

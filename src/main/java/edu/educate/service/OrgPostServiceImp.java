@@ -1,8 +1,6 @@
 package edu.educate.service;
 
 import edu.educate.exception.ItemNotFoundException;
-import edu.educate.exception.ParametersNotValidException;
-import edu.educate.model.OrgPostEntity;
 import edu.educate.model.OrgPostEntity;
 import edu.educate.repository.OrgPostRepository;
 import lombok.AllArgsConstructor;
@@ -46,8 +44,6 @@ public class OrgPostServiceImp implements OrgPostService{
 
     @Override
     public OrgPostEntity createOrgPost(OrgPostEntity orgPost) {
-        if (orgPost.getTitle() == null || orgPost.getTitle().isEmpty())
-            throw new ParametersNotValidException("Title of OrgPost should not be empty.");
 
         OrgPostEntity savedOrgPost = orgPostRepository.save(orgPost);
 

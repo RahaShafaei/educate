@@ -46,11 +46,6 @@ public class MeetingServiceImp implements MeetingService{
 
     @Override
     public MeetingEntity createMeeting(MeetingEntity meeting) {
-        if (meeting.getTitle() == null || meeting.getTitle().isEmpty())
-            throw new ParametersNotValidException("Title of Meeting should not be empty.");
-
-        if (meeting.getPlan() == null)
-            throw new ParametersNotValidException("Plan of Meeting should not be empty.");
 
         MeetingEntity savedMeeting = meetingRepository.save(meeting);
 

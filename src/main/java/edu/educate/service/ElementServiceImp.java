@@ -1,9 +1,6 @@
 package edu.educate.service;
 
 import edu.educate.exception.ItemNotFoundException;
-import edu.educate.exception.ParametersNotValidException;
-import edu.educate.model.ElementEntity;
-import edu.educate.model.ElementEntity;
 import edu.educate.model.ElementEntity;
 import edu.educate.repository.ElementRepository;
 import lombok.AllArgsConstructor;
@@ -47,8 +44,6 @@ public class ElementServiceImp implements ElementService{
 
     @Override
     public ElementEntity createElement(ElementEntity element) {
-        if (element.getTitle() == null || element.getTitle().isEmpty())
-            throw new ParametersNotValidException("Title of Element should not be empty.");
 
         ElementEntity savedElement = elementRepository.save(element);
 

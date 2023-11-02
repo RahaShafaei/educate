@@ -17,6 +17,7 @@ package edu.educate.model.baseModel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,9 +28,10 @@ import lombok.ToString;
 @ToString
 @MappedSuperclass
 public class TitleEntity extends BaseEntity {
-
-	@Size(min = 2, message = "Title should have at least 2 character.")
-	@Column(name = "title")
+//	@UniqueElements
+	@NotNull(message = "{titleEntity.title.min}")
+	@Size(min = 2, message = "titleEntity.title.min")
+	@Column(name = "title", unique=true)
 	private String title;
 
 }

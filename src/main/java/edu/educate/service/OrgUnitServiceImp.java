@@ -45,8 +45,6 @@ public class OrgUnitServiceImp implements OrgUnitService{
 
     @Override
     public OrgUnitEntity createOrgUnit(OrgUnitEntity orgUnit) {
-        if (orgUnit.getTitle() == null || orgUnit.getTitle().isEmpty())
-            throw new ParametersNotValidException("Title of OrgUnit should not be empty.");
 
         OrgUnitEntity savedOrgUnit = orgUnitRepository.save(orgUnit);
 

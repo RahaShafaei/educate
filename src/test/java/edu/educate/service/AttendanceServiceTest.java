@@ -20,13 +20,18 @@ public class AttendanceServiceTest {
     @Autowired
     private OrgUnitPostPersonService orgUnitPostPersonService;
 
+    @Autowired
+    private ElementService elementService;
+
     @Test
     public void testSaveDeleteAttendance() {
 
         AttendanceEntity attendance = new AttendanceEntity();
 
-        attendance.setPlan(plansService.getPlan(1));
+        attendance.setPlan(plansService.getPlan(2));
         attendance.setOrgUnitPostPerson(orgUnitPostPersonService.getOrgUnitPostPerson(1));
+        attendance.setElement(elementService.getElement(1));
+        attendance.setGrade(12.0F);
 
         AttendanceEntity savedAttendance = attendanceService.createAttendance(attendance);
 

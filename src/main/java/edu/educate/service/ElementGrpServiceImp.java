@@ -1,7 +1,6 @@
 package edu.educate.service;
 
 import edu.educate.exception.ItemNotFoundException;
-import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.ElementGrpEntity;
 import edu.educate.repository.ElementGrpRepository;
 import lombok.AllArgsConstructor;
@@ -46,8 +45,6 @@ public class ElementGrpServiceImp implements ElementGrpService{
 
     @Override
     public ElementGrpEntity createElementGrp(ElementGrpEntity elementGrp) {
-        if (elementGrp.getTitle() == null || elementGrp.getTitle().isEmpty())
-            throw new ParametersNotValidException("Title of ElementGrp should not be empty.");
 
         ElementGrpEntity savedElementGrp = elementGrpRepository.save(elementGrp);
 
