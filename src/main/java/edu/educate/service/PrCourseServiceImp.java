@@ -7,6 +7,7 @@ import edu.educate.repository.PrCourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,12 @@ public class PrCourseServiceImp implements PrCourseService{
     private final PrCourseRepository prCourseRepository;
     @Override
     public List<PrCourseEntity> getPrCourses() {
-        return prCourseRepository.findAll();
+        return prCourseRepository.findByDeletedFalse();
     }
 
     @Override
     public PrCourseEntity getPrCourse(Integer id) {
-        Optional<PrCourseEntity> prCourse = prCourseRepository.findById(id);
+        Optional<PrCourseEntity> prCourse = prCourseRepository.findByIdAndDeletedFalse(id);
 
         if (prCourse.isEmpty())
             throw new ItemNotFoundException(PRCOURSE_ID + id);
@@ -33,10 +34,12 @@ public class PrCourseServiceImp implements PrCourseService{
 
     @Override
     public Boolean deletePrCourse(Integer id) {
-        Optional<PrCourseEntity> prCourse = prCourseRepository.findById(id);
+        Optional<PrCourseEntity> prCourse = prCourseRepository.findByIdAndDeletedFalse(id);
 
         if (!prCourse.isEmpty()) {
-            prCourseRepository.deleteById(id);
+            prCourse.get().setDeleted(true);
+            prCourse.get().setDeletedAt(LocalDateTime.now());
+            prCourseRepository.save(prCourse.get());
             return true;
         } else {
             return false;

@@ -6,6 +6,7 @@ import edu.educate.repository.OrgPostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,12 @@ public class OrgPostServiceImp implements OrgPostService{
     private final OrgPostRepository orgPostRepository;
     @Override
     public List<OrgPostEntity> getOrgPosts() {
-        return orgPostRepository.findAll();
+        return orgPostRepository.findByDeletedFalse();
     }
 
     @Override
     public OrgPostEntity getOrgPost(Integer id) {
-        Optional<OrgPostEntity> orgPost = orgPostRepository.findById(id);
+        Optional<OrgPostEntity> orgPost = orgPostRepository.findByIdAndDeletedFalse(id);
 
         if (orgPost.isEmpty())
             throw new ItemNotFoundException(ORGPOST_ID + id);
@@ -32,10 +33,12 @@ public class OrgPostServiceImp implements OrgPostService{
 
     @Override
     public Boolean deleteOrgPost(Integer id) {
-        Optional<OrgPostEntity> orgPost = orgPostRepository.findById(id);
+        Optional<OrgPostEntity> orgPost = orgPostRepository.findByIdAndDeletedFalse(id);
 
         if (!orgPost.isEmpty()) {
-            orgPostRepository.deleteById(id);
+            orgPost.get().setDeleted(true);
+            orgPost.get().setDeletedAt(LocalDateTime.now());
+            orgPostRepository.save(orgPost.get());
             return true;
         } else {
             return false;

@@ -7,6 +7,7 @@ import edu.educate.repository.PrCourseGrpRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,12 @@ public class PrCourseGrpServiceImp implements PrCourseGrpService{
     private final PrCourseGrpRepository prCourseGrpRepository;
     @Override
     public List<PrCourseGrpEntity> getPrCourseGrps() {
-        return prCourseGrpRepository.findAll();
+        return prCourseGrpRepository.findByDeletedFalse();
     }
 
     @Override
     public PrCourseGrpEntity getPrCourseGrp(Integer id) {
-        Optional<PrCourseGrpEntity> prCourseGrp = prCourseGrpRepository.findById(id);
+        Optional<PrCourseGrpEntity> prCourseGrp = prCourseGrpRepository.findByIdAndDeletedFalse(id);
 
         if (prCourseGrp.isEmpty())
             throw new ItemNotFoundException(PRCOURSEGRP_ID + id);
@@ -33,10 +34,12 @@ public class PrCourseGrpServiceImp implements PrCourseGrpService{
 
     @Override
     public Boolean deletePrCourseGrp(Integer id) {
-        Optional<PrCourseGrpEntity> prCourseGrp = prCourseGrpRepository.findById(id);
+        Optional<PrCourseGrpEntity> prCourseGrp = prCourseGrpRepository.findByIdAndDeletedFalse(id);
 
         if (!prCourseGrp.isEmpty()) {
-            prCourseGrpRepository.deleteById(id);
+            prCourseGrp.get().setDeleted(true);
+            prCourseGrp.get().setDeletedAt(LocalDateTime.now());
+            prCourseGrpRepository.save(prCourseGrp.get());
             return true;
         } else {
             return false;

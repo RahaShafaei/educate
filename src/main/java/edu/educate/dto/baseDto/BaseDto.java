@@ -15,13 +15,12 @@
  */
 package edu.educate.dto.baseDto;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,10 +28,10 @@ import java.sql.Date;
 public class BaseDto implements Serializable {
 	private Integer id;
 
-	private String deleted;
+	private boolean deleted;
 
-	private Date deletedAt;
+	private LocalDateTime deletedAt;
 
-	private Date insertedAt;
+	private LocalDateTime insertedAt;
 
 }

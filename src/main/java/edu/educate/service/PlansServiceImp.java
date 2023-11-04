@@ -6,6 +6,7 @@ import edu.educate.repository.PlansRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,12 @@ public class PlansServiceImp implements PlansService {
     private final PlansRepository planRepository;
     @Override
     public List<PlansEntity> getPlans() {
-        return planRepository.findAll();
+        return planRepository.findByDeletedFalse();
     }
 
     @Override
     public PlansEntity getPlan(Integer id) {
-        Optional<PlansEntity> plan = planRepository.findById(id);
+        Optional<PlansEntity> plan = planRepository.findByIdAndDeletedFalse(id);
 
         if (plan.isEmpty())
             throw new ItemNotFoundException(PLAN_ID + id);
@@ -32,10 +33,12 @@ public class PlansServiceImp implements PlansService {
 
     @Override
     public Boolean deletePlan(Integer id) {
-        Optional<PlansEntity> plan = planRepository.findById(id);
+        Optional<PlansEntity> plan = planRepository.findByIdAndDeletedFalse(id);
 
         if (!plan.isEmpty()) {
-            planRepository.deleteById(id);
+            plan.get().setDeleted(true);
+            plan.get().setDeletedAt(LocalDateTime.now());
+            planRepository.save(plan.get());
             return true;
         } else {
             return false;

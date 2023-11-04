@@ -6,6 +6,7 @@ import edu.educate.repository.RolesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,12 @@ public class RolesServiceImp implements RolesService {
     private final RolesRepository rolesRepository;
     @Override
     public List<RolesEntity> getRoles() {
-        return rolesRepository.findAll();
+        return rolesRepository.findByDeletedFalse();
     }
 
     @Override
     public RolesEntity getRole(Integer id) {
-        Optional<RolesEntity> roles = rolesRepository.findById(id);
+        Optional<RolesEntity> roles = rolesRepository.findByIdAndDeletedFalse(id);
 
         if (roles.isEmpty())
             throw new ItemNotFoundException(ROLES_ID + id);
@@ -32,10 +33,12 @@ public class RolesServiceImp implements RolesService {
 
     @Override
     public Boolean deleteRole(Integer id) {
-        Optional<RolesEntity> roles = rolesRepository.findById(id);
+        Optional<RolesEntity> roles = rolesRepository.findByIdAndDeletedFalse(id);
 
         if (!roles.isEmpty()) {
-            rolesRepository.deleteById(id);
+            roles.get().setDeleted(true);
+            roles.get().setDeletedAt(LocalDateTime.now());
+            rolesRepository.save(roles.get());
             return true;
         } else {
             return false;

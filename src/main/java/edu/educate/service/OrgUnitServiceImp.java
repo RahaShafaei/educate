@@ -7,6 +7,7 @@ import edu.educate.repository.OrgUnitRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,12 @@ public class OrgUnitServiceImp implements OrgUnitService{
     private final OrgUnitRepository orgUnitRepository;
     @Override
     public List<OrgUnitEntity> getOrgUnits() {
-        return orgUnitRepository.findAll();
+        return orgUnitRepository.findByDeletedFalse();
     }
 
     @Override
     public OrgUnitEntity getOrgUnit(Integer id) {
-        Optional<OrgUnitEntity> orgUnit = orgUnitRepository.findById(id);
+        Optional<OrgUnitEntity> orgUnit = orgUnitRepository.findByIdAndDeletedFalse(id);
 
         if (orgUnit.isEmpty())
             throw new ItemNotFoundException(ORGUNIT_ID + id);
@@ -33,10 +34,12 @@ public class OrgUnitServiceImp implements OrgUnitService{
 
     @Override
     public Boolean deleteOrgUnit(Integer id) {
-        Optional<OrgUnitEntity> orgUnit = orgUnitRepository.findById(id);
+        Optional<OrgUnitEntity> orgUnit = orgUnitRepository.findByIdAndDeletedFalse(id);
 
         if (!orgUnit.isEmpty()) {
-            orgUnitRepository.deleteById(id);
+            orgUnit.get().setDeleted(true);
+            orgUnit.get().setDeletedAt(LocalDateTime.now());
+            orgUnitRepository.save(orgUnit.get());
             return true;
         } else {
             return false;

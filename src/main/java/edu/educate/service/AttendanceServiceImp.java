@@ -6,6 +6,7 @@ import edu.educate.repository.AttendanceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,12 @@ public class AttendanceServiceImp implements AttendanceService{
 
     @Override
     public List<AttendanceEntity> getAttendances() {
-        return attendanceRepository.findAll();
+        return attendanceRepository.findByDeletedFalse();
     }
 
     @Override
     public AttendanceEntity getAttendance(Integer id) {
-        Optional<AttendanceEntity> attendance = attendanceRepository.findById(id);
+        Optional<AttendanceEntity> attendance = attendanceRepository.findByIdAndDeletedFalse(id);
 
         if (attendance.isEmpty())
             throw new ItemNotFoundException(ATTENDANCE_ID + id);
@@ -32,10 +33,12 @@ public class AttendanceServiceImp implements AttendanceService{
 
     @Override
     public Boolean deleteAttendance(Integer id) {
-        Optional<AttendanceEntity> attendance = attendanceRepository.findById(id);
+        Optional<AttendanceEntity> attendance = attendanceRepository.findByIdAndDeletedFalse(id);
 
         if (!attendance.isEmpty()) {
-            attendanceRepository.deleteById(id);
+            attendance.get().setDeleted(true);
+            attendance.get().setDeletedAt(LocalDateTime.now());
+            attendanceRepository.save(attendance.get());
             return true;
         } else {
             return false;

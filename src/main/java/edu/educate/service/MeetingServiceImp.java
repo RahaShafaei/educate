@@ -8,6 +8,7 @@ import edu.educate.repository.MeetingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +20,12 @@ public class MeetingServiceImp implements MeetingService{
     private final MeetingRepository meetingRepository;
     @Override
     public List<MeetingEntity> getMeetings() {
-        return meetingRepository.findAll();
+        return meetingRepository.findByDeletedFalse();
     }
 
     @Override
     public MeetingEntity getMeeting(Integer id) {
-        Optional<MeetingEntity> meeting = meetingRepository.findById(id);
+        Optional<MeetingEntity> meeting = meetingRepository.findByIdAndDeletedFalse(id);
 
         if (meeting.isEmpty())
             throw new ItemNotFoundException(MEETING_ID + id);
@@ -34,10 +35,12 @@ public class MeetingServiceImp implements MeetingService{
 
     @Override
     public Boolean deleteMeeting(Integer id) {
-        Optional<MeetingEntity> meeting = meetingRepository.findById(id);
+        Optional<MeetingEntity> meeting = meetingRepository.findByIdAndDeletedFalse(id);
 
         if (!meeting.isEmpty()) {
-            meetingRepository.deleteById(id);
+            meeting.get().setDeleted(true);
+            meeting.get().setDeletedAt(LocalDateTime.now());
+            meetingRepository.save(meeting.get());
             return true;
         } else {
             return false;

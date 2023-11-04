@@ -25,7 +25,7 @@ public class PlansMapper {
         PlansDto plansDto = new PlansDto();
 
         plansDto.setId(plans.getId());
-        plansDto.setDeleted(plans.getDeleted());
+        plansDto.setDeleted(plans.isDeleted());
         plansDto.setDeletedAt(plans.getDeletedAt());
         plansDto.setInsertedAt(plans.getInsertedAt());
 

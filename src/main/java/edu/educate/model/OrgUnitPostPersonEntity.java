@@ -6,9 +6,12 @@ import edu.educate.validator.CustomDateDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -53,13 +56,13 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     @JoinColumn(name = "person_id")
     private PersonEntity person;
 
-    @JsonDeserialize(using = CustomDateDeserializer.class)
+//    @JsonDeserialize(using = CustomDateDeserializer.class)
     @Column(name = "from_date")
-    private Date fromDate;
+    private LocalDateTime fromDate;
 
-    @JsonDeserialize(using = CustomDateDeserializer.class)
+//    @JsonDeserialize(using = CustomDateDeserializer.class)
     @Column(name = "to_date")
-    private Date toDate;
+    private LocalDateTime toDate;
 
     @AssertTrue(message = "{general.dates.range}")
     private boolean isValidDateRange() {
@@ -67,7 +70,7 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
             return true;
         }
 
-        return fromDate.before(toDate);
+        return fromDate.isBefore(toDate);
     }
 
 }

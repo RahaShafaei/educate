@@ -13,7 +13,7 @@ public class RolesMapper {
 
         rolesDto.setId(role.getId());
         rolesDto.setTitle(role.getTitle());
-        rolesDto.setDeleted(role.getDeleted());
+        rolesDto.setDeleted(role.isDeleted());
         rolesDto.setDeletedAt(role.getDeletedAt());
         rolesDto.setInsertedAt(role.getInsertedAt());
 

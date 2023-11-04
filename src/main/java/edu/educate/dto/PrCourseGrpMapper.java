@@ -19,7 +19,7 @@ public class PrCourseGrpMapper {
         PrCourseGrpDto prCourseGrpDto = new PrCourseGrpDto();
 
         prCourseGrpDto.setId(prCourseGrp.getId());
-        prCourseGrpDto.setDeleted(prCourseGrp.getDeleted());
+        prCourseGrpDto.setDeleted(prCourseGrp.isDeleted());
         prCourseGrpDto.setDeletedAt(prCourseGrp.getDeletedAt());
         prCourseGrpDto.setInsertedAt(prCourseGrp.getInsertedAt());
 

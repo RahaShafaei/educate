@@ -1,16 +1,17 @@
 package edu.educate.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.model.baseModel.TitleEntity;
 import edu.educate.validator.CustomDateDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -67,19 +68,19 @@ public class PlansEntity extends TitleEntity {
     @OneToMany(mappedBy = "plan")
     private List<MeetingEntity> meetings;
 
-    @JsonDeserialize(using = CustomDateDeserializer.class)
+//    @JsonDeserialize(using = CustomDateDeserializer.class)
     @NotNull
     @Column(name = "from_date")
-    private Date fromDate;
+    private LocalDateTime fromDate;
 
-    @JsonDeserialize(using = CustomDateDeserializer.class)
+//    @JsonDeserialize(using = CustomDateDeserializer.class)
     @NotNull
     @Column(name = "to_date")
-    private Date toDate;
+    private LocalDateTime toDate;
 
     @AssertTrue(message = "general.dates.range")
     private boolean isValidDateRange() {
-        return fromDate.before(toDate);
+        return fromDate.isBefore(toDate);
     }
 
     @AssertTrue(message = "{plansEntity.element.status}")

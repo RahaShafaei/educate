@@ -15,7 +15,7 @@ public class OrgUnitMapper {
         OrgUnitDto orgUnitDto = new OrgUnitDto();
 
         orgUnitDto.setId(orgUnit.getId());
-        orgUnitDto.setDeleted(orgUnit.getDeleted());
+        orgUnitDto.setDeleted(orgUnit.isDeleted());
         orgUnitDto.setDeletedAt(orgUnit.getDeletedAt());
         orgUnitDto.setInsertedAt(orgUnit.getInsertedAt());
 

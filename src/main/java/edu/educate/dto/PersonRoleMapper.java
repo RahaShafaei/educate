@@ -17,7 +17,7 @@ public class PersonRoleMapper {
         PersonRoleDto personRoleDto = new PersonRoleDto();
 
         personRoleDto.setId(personRole.getId());
-        personRoleDto.setDeleted(personRole.getDeleted());
+        personRoleDto.setDeleted(personRole.isDeleted());
         personRoleDto.setDeletedAt(personRole.getDeletedAt());
         personRoleDto.setInsertedAt(personRole.getInsertedAt());
 

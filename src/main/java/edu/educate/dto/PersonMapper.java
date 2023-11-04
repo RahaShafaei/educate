@@ -12,7 +12,7 @@ public class PersonMapper {
         PersonDto personDto = new PersonDto();
 
         personDto.setId(person.getId());
-        personDto.setDeleted(person.getDeleted());
+        personDto.setDeleted(person.isDeleted());
         personDto.setDeletedAt(person.getDeletedAt());
         personDto.setInsertedAt(person.getInsertedAt());
 

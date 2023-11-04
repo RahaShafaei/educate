@@ -12,7 +12,7 @@ public class ElementMapper {
         ElementDto elementDto = new ElementDto();
 
         elementDto.setId(element.getId());
-        elementDto.setDeleted(element.getDeleted());
+        elementDto.setDeleted(element.isDeleted());
         elementDto.setDeletedAt(element.getDeletedAt());
         elementDto.setInsertedAt(element.getInsertedAt());
 

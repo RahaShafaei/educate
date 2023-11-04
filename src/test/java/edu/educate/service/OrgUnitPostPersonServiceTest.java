@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,8 +37,16 @@ public class OrgUnitPostPersonServiceTest {
         orgUnitPostPerson.setOrgUnit(orgUnitService.getOrgUnit(1));
         orgUnitPostPerson.setOrgPost(orgPostService.getOrgPost(1));
         orgUnitPostPerson.setPerson(PersonService.getPerson(1));
-        orgUnitPostPerson.setFromDate(Date.valueOf("2023-10-26"));
-        orgUnitPostPerson.setToDate(Date.valueOf("2023-10-27"));
+        orgUnitPostPerson.setFromDate(
+                LocalDateTime.parse("2023-10-26 15:01:10",
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                )
+        );
+        orgUnitPostPerson.setToDate(
+                LocalDateTime.parse("2023-10-27 15:01:10",
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                )
+        );
 
         OrgUnitPostPersonEntity savedOrgUnitPostPerson = unitPostPersonService.createOrgUnitPostPerson(orgUnitPostPerson);
 

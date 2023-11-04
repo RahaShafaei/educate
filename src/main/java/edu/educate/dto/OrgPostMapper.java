@@ -13,7 +13,7 @@ public class OrgPostMapper {
         OrgPostDto orgPostDto = new OrgPostDto();
 
         orgPostDto.setId(orgPost.getId());
-        orgPostDto.setDeleted(orgPost.getDeleted());
+        orgPostDto.setDeleted(orgPost.isDeleted());
         orgPostDto.setDeletedAt(orgPost.getDeletedAt());
         orgPostDto.setInsertedAt(orgPost.getInsertedAt());
 

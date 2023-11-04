@@ -17,7 +17,7 @@ public class AttendanceMapper {
         AttendanceDto attendanceDto = new AttendanceDto();
 
         attendanceDto.setId(attendance.getId());
-        attendanceDto.setDeleted(attendance.getDeleted());
+        attendanceDto.setDeleted(attendance.isDeleted());
         attendanceDto.setDeletedAt(attendance.getDeletedAt());
         attendanceDto.setInsertedAt(attendance.getInsertedAt());
         attendanceDto.setGrade(attendance.getGrade());

@@ -6,6 +6,7 @@ import edu.educate.repository.ElementGrpRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,12 @@ public class ElementGrpServiceImp implements ElementGrpService{
 
     @Override
     public List<ElementGrpEntity> getElementGrps() {
-        return elementGrpRepository.findAll();
+        return elementGrpRepository.findByDeletedFalse();
     }
 
     @Override
     public ElementGrpEntity getElementGrp(Integer id) {
-        Optional<ElementGrpEntity> elementGrp = elementGrpRepository.findById(id);
+        Optional<ElementGrpEntity> elementGrp = elementGrpRepository.findByIdAndDeletedFalse(id);
 
         if (elementGrp.isEmpty())
             throw new ItemNotFoundException(ELEMENTGRP_ID + id);
@@ -33,10 +34,12 @@ public class ElementGrpServiceImp implements ElementGrpService{
 
     @Override
     public Boolean deleteElementGrp(Integer id) {
-        Optional<ElementGrpEntity> elementGrp = elementGrpRepository.findById(id);
+        Optional<ElementGrpEntity> elementGrp = elementGrpRepository.findByIdAndDeletedFalse(id);
 
         if (!elementGrp.isEmpty()) {
-            elementGrpRepository.deleteById(id);
+            elementGrp.get().setDeleted(true);
+            elementGrp.get().setDeletedAt(LocalDateTime.now());
+            elementGrpRepository.save(elementGrp.get());
             return true;
         } else {
             return false;

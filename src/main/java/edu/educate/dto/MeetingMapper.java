@@ -12,7 +12,7 @@ public class MeetingMapper {
 
         meetingDto.setId(meeting.getId());
         meetingDto.setTitle(meeting.getTitle());
-        meetingDto.setDeleted(meeting.getDeleted());
+        meetingDto.setDeleted(meeting.isDeleted());
         meetingDto.setDeletedAt(meeting.getDeletedAt());
         meetingDto.setInsertedAt(meeting.getInsertedAt());
 

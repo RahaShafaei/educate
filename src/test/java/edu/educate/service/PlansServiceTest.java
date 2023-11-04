@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -39,8 +41,16 @@ public class PlansServiceTest {
         plans.setElementStatus(elementService.getElement(4));
         plans.setElementType(elementService.getElement(9));
         plans.setTitle("Sample Plan : Title Test");
-        plans.setFromDate(Date.valueOf("2023-10-26"));
-        plans.setToDate(Date.valueOf("2023-10-27"));
+        plans.setFromDate(
+                LocalDateTime.parse("2023-10-26 15:01:10",
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                )
+        );
+        plans.setToDate(
+                LocalDateTime.parse("2023-10-27 15:01:10",
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                )
+        );
 
         PlansEntity savedPlan = plansService.createPlan(plans);
 

@@ -18,7 +18,7 @@ public class OrgUnitPostPersonMapper {
         OrgUnitPostPersonDto orgUnitPostPersonDto = new OrgUnitPostPersonDto();
 
         orgUnitPostPersonDto.setId(orgUnitPostPerson.getId());
-        orgUnitPostPersonDto.setDeleted(orgUnitPostPerson.getDeleted());
+        orgUnitPostPersonDto.setDeleted(orgUnitPostPerson.isDeleted());
         orgUnitPostPersonDto.setDeletedAt(orgUnitPostPerson.getDeletedAt());
         orgUnitPostPersonDto.setInsertedAt(orgUnitPostPerson.getInsertedAt());
 

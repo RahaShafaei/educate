@@ -6,6 +6,7 @@ import edu.educate.repository.ElementRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,12 @@ public class ElementServiceImp implements ElementService{
     private final ElementRepository elementRepository;
     @Override
     public List<ElementEntity> getElements() {
-        return elementRepository.findAll();
+        return elementRepository.findByDeletedFalse();
     }
 
     @Override
     public ElementEntity getElement(Integer id) {
-        Optional<ElementEntity> element = elementRepository.findById(id);
+        Optional<ElementEntity> element = elementRepository.findByIdAndDeletedFalse(id);
 
         if (element.isEmpty())
             throw new ItemNotFoundException(ELEMENT_ID + id);
@@ -32,10 +33,12 @@ public class ElementServiceImp implements ElementService{
 
     @Override
     public Boolean deleteElement(Integer id) {
-        Optional<ElementEntity> element = elementRepository.findById(id);
+        Optional<ElementEntity> element = elementRepository.findByIdAndDeletedFalse(id);
 
         if (!element.isEmpty()) {
-            elementRepository.deleteById(id);
+            element.get().setDeleted(true);
+            element.get().setDeletedAt(LocalDateTime.now());
+            elementRepository.save(element.get());
             return true;
         } else {
             return false;

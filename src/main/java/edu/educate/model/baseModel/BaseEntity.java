@@ -16,34 +16,43 @@
 package edu.educate.model.baseModel;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 @MappedSuperclass
 public class BaseEntity implements Serializable {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(name = "deleted")
-	private String deleted;
+	private boolean deleted;
 
 	@Column(name = "deleted_at")
-	private Date deletedAt;
+	private LocalDateTime deletedAt;
 
 	@Column(name = "inserted_at")
-	private Date insertedAt;
+	private LocalDateTime insertedAt;
 
 	public boolean isNew() {
 		return this.id == null;
+	}
+
+	@AssertTrue(message = "{general.deletedAt}")
+	private boolean isValidDeletedAt() {
+		if (!deleted) {
+			return true;
+		}
+
+		return deletedAt != null;
 	}
 
 }

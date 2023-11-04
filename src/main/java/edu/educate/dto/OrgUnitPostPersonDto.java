@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
@@ -22,7 +22,7 @@ public class OrgUnitPostPersonDto  extends BaseDto {
 
     private PersonDto person;
 
-    private Date fromDate;
+    private LocalDateTime fromDate;
 
-    private Date toDate;
+    private LocalDateTime toDate;
 }

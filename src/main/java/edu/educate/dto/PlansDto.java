@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
@@ -26,7 +27,7 @@ public class PlansDto extends TitleDto {
 
     private Map<Integer, MeetingDto> meetings;
 
-    private Date fromDate;
+    private LocalDateTime fromDate;
 
-    private Date toDate;
+    private LocalDateTime toDate;
 }

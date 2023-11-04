@@ -18,7 +18,7 @@ public class ElementGrpMapper {
         ElementGrpDto elementGrpDto = new ElementGrpDto();
 
         elementGrpDto.setId(elementGrp.getId());
-        elementGrpDto.setDeleted(elementGrp.getDeleted());
+        elementGrpDto.setDeleted(elementGrp.isDeleted());
         elementGrpDto.setDeletedAt(elementGrp.getDeletedAt());
         elementGrpDto.setInsertedAt(elementGrp.getInsertedAt());
 

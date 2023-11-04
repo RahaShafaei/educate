@@ -12,7 +12,7 @@ public class PrCourseMapper {
         PrCourseDto prCourseDto = new PrCourseDto();
 
         prCourseDto.setId(prCourse.getId());
-        prCourseDto.setDeleted(prCourse.getDeleted());
+        prCourseDto.setDeleted(prCourse.isDeleted());
         prCourseDto.setDeletedAt(prCourse.getDeletedAt());
         prCourseDto.setInsertedAt(prCourse.getInsertedAt());
 

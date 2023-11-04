@@ -6,6 +6,7 @@ import edu.educate.repository.OrgUnitPostPersonRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,12 @@ public class OrgUnitPostPersonServiceImp implements OrgUnitPostPersonService{
     private final OrgUnitPostPersonRepository orgUnitPostPersonRepository;
     @Override
     public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {
-        return orgUnitPostPersonRepository.findAll();
+        return orgUnitPostPersonRepository.findByDeletedFalse();
     }
 
     @Override
     public OrgUnitPostPersonEntity getOrgUnitPostPerson(Integer id) {
-        Optional<OrgUnitPostPersonEntity> orgUnitPostPerson = orgUnitPostPersonRepository.findById(id);
+        Optional<OrgUnitPostPersonEntity> orgUnitPostPerson = orgUnitPostPersonRepository.findByIdAndDeletedFalse(id);
 
         if (orgUnitPostPerson.isEmpty())
             throw new ItemNotFoundException(ORGUNITPOSTPERSON_ID + id);
@@ -32,10 +33,12 @@ public class OrgUnitPostPersonServiceImp implements OrgUnitPostPersonService{
 
     @Override
     public Boolean deleteOrgUnitPostPerson(Integer id) {
-        Optional<OrgUnitPostPersonEntity> orgUnitPostPerson = orgUnitPostPersonRepository.findById(id);
+        Optional<OrgUnitPostPersonEntity> orgUnitPostPerson = orgUnitPostPersonRepository.findByIdAndDeletedFalse(id);
 
         if (!orgUnitPostPerson.isEmpty()) {
-            orgUnitPostPersonRepository.deleteById(id);
+            orgUnitPostPerson.get().setDeleted(true);
+            orgUnitPostPerson.get().setDeletedAt(LocalDateTime.now());
+            orgUnitPostPersonRepository.save(orgUnitPostPerson.get());
             return true;
         } else {
             return false;
