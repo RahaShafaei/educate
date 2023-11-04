@@ -1,5 +1,6 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.helper.ConvertListToMap;
 import edu.educate.model.AttendanceEntity;
 import edu.educate.model.PrCourseEntity;
@@ -12,16 +13,14 @@ import java.util.Map;
 @AllArgsConstructor
 @Component
 public class PrCourseGrpMapper {
+    private final DtoMapperUtils dtoMapperUtils;
     private final PrCourseMapper prCourseMapper;
 
     public PrCourseGrpDto toDto(PrCourseGrpEntity prCourseGrp) {
 
         PrCourseGrpDto prCourseGrpDto = new PrCourseGrpDto();
 
-        prCourseGrpDto.setId(prCourseGrp.getId());
-        prCourseGrpDto.setDeleted(prCourseGrp.isDeleted());
-        prCourseGrpDto.setDeletedAt(prCourseGrp.getDeletedAt());
-        prCourseGrpDto.setInsertedAt(prCourseGrp.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(prCourseGrp, prCourseGrpDto);
 
         prCourseGrpDto.setLtTitle(prCourseGrp.getLtTitle());
         prCourseGrpDto.setPrTitle(prCourseGrp.getPrTitle());

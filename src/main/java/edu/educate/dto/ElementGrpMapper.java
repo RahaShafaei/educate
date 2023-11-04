@@ -1,5 +1,6 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.helper.ConvertListToMap;
 import edu.educate.model.AttendanceEntity;
 import edu.educate.model.ElementEntity;
@@ -12,15 +13,13 @@ import java.util.Map;
 @AllArgsConstructor
 @Component
 public class ElementGrpMapper {
+    private final DtoMapperUtils dtoMapperUtils;
     private final ElementMapper elementMapper;
     public ElementGrpDto toDto(ElementGrpEntity elementGrp) {
 
         ElementGrpDto elementGrpDto = new ElementGrpDto();
 
-        elementGrpDto.setId(elementGrp.getId());
-        elementGrpDto.setDeleted(elementGrp.isDeleted());
-        elementGrpDto.setDeletedAt(elementGrp.getDeletedAt());
-        elementGrpDto.setInsertedAt(elementGrp.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(elementGrp, elementGrpDto);
 
         if (elementGrp.getElements() != null) {
             Map<Integer, ElementDto> attendanceDtl = ConvertListToMap.apply(

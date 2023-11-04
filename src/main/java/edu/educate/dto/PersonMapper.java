@@ -1,20 +1,18 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.model.PersonEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class PersonMapper {
-
+    private final DtoMapperUtils dtoMapperUtils;
     public PersonDto toDto(PersonEntity person) {
 
         PersonDto personDto = new PersonDto();
 
-        personDto.setId(person.getId());
-        personDto.setDeleted(person.isDeleted());
-        personDto.setDeletedAt(person.getDeletedAt());
-        personDto.setInsertedAt(person.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(person, personDto);
 
         personDto.setFname(person.getFname());
         personDto.setLname(person.getLname());

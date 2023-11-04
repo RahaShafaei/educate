@@ -1,11 +1,13 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.model.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class AttendanceMapper {
+    private final DtoMapperUtils dtoMapperUtils;
 
     private final OrgUnitPostPersonMapper orgUnitPostPersonMapper;
 
@@ -16,21 +18,14 @@ public class AttendanceMapper {
     public AttendanceDto toDto(AttendanceEntity attendance) {
         AttendanceDto attendanceDto = new AttendanceDto();
 
-        attendanceDto.setId(attendance.getId());
-        attendanceDto.setDeleted(attendance.isDeleted());
-        attendanceDto.setDeletedAt(attendance.getDeletedAt());
-        attendanceDto.setInsertedAt(attendance.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(attendance, attendanceDto);
         attendanceDto.setGrade(attendance.getGrade());
 
         attendanceDto.setOrgUnitPostPerson(
-                attendance.getOrgUnitPostPerson() != null ?
-                        this.orgUnitPostPersonMapper.toDto(attendance.getOrgUnitPostPerson()) :
-                        null
+                this.orgUnitPostPersonMapper.toDto(attendance.getOrgUnitPostPerson())
         );
         attendanceDto.setPlan(
-                attendance.getPlan() != null ?
-                        this.plansMapper.toDto(attendance.getPlan()) :
-                        null
+                this.plansMapper.toDto(attendance.getPlan())
         );
         attendanceDto.setElement(
                 attendance.getElement() != null ?

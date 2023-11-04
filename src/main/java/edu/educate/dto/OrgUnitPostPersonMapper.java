@@ -1,11 +1,13 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.model.OrgUnitPostPersonEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class OrgUnitPostPersonMapper {
+    private final DtoMapperUtils dtoMapperUtils;
 
     private final OrgPostMapper orgPostMapper;
 
@@ -17,10 +19,7 @@ public class OrgUnitPostPersonMapper {
 
         OrgUnitPostPersonDto orgUnitPostPersonDto = new OrgUnitPostPersonDto();
 
-        orgUnitPostPersonDto.setId(orgUnitPostPerson.getId());
-        orgUnitPostPersonDto.setDeleted(orgUnitPostPerson.isDeleted());
-        orgUnitPostPersonDto.setDeletedAt(orgUnitPostPerson.getDeletedAt());
-        orgUnitPostPersonDto.setInsertedAt(orgUnitPostPerson.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(orgUnitPostPerson, orgUnitPostPersonDto);
 
         orgUnitPostPersonDto.setFromDate(orgUnitPostPerson.getFromDate());
         orgUnitPostPersonDto.setToDate(orgUnitPostPerson.getToDate());

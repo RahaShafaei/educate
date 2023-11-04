@@ -1,5 +1,6 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.model.PersonRoleEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class PersonRoleMapper {
+    private final DtoMapperUtils dtoMapperUtils;
 
     private final PersonMapper personMapper;
 
@@ -16,21 +18,10 @@ public class PersonRoleMapper {
 
         PersonRoleDto personRoleDto = new PersonRoleDto();
 
-        personRoleDto.setId(personRole.getId());
-        personRoleDto.setDeleted(personRole.isDeleted());
-        personRoleDto.setDeletedAt(personRole.getDeletedAt());
-        personRoleDto.setInsertedAt(personRole.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(personRole, personRoleDto);
 
-        personRoleDto.setPerson(
-                personRole.getPerson() != null ?
-                        this.personMapper.toDto(personRole.getPerson()) :
-                        null
-        );
-        personRoleDto.setRole(
-                personRole.getRole() != null ?
-                        this.rolesMapper.toDto(personRole.getRole()) :
-                        null
-        );
+        personRoleDto.setPerson(this.personMapper.toDto(personRole.getPerson()));
+        personRoleDto.setRole(this.rolesMapper.toDto(personRole.getRole()));
 
         return personRoleDto;
     }

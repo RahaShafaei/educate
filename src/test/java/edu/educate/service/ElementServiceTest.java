@@ -14,11 +14,15 @@ public class ElementServiceTest {
     @Autowired
     private ElementService elementService;
 
+    @Autowired
+    private ElementGrpService elementGrpService;
+
     @Test
     public void testSaveDeleteElement() {
 
         ElementEntity element = new ElementEntity();
 
+        element.setElementGrp(elementGrpService.getElementGrp(1));
         element.setTitle("Sample element : Title");
 
         ElementEntity savedElement = elementService.createElement(element);

@@ -1,5 +1,6 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.model.OrgPostEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -7,15 +8,12 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 public class OrgPostMapper {
-
+    private final DtoMapperUtils dtoMapperUtils;
     public OrgPostDto toDto(OrgPostEntity orgPost) {
 
         OrgPostDto orgPostDto = new OrgPostDto();
 
-        orgPostDto.setId(orgPost.getId());
-        orgPostDto.setDeleted(orgPost.isDeleted());
-        orgPostDto.setDeletedAt(orgPost.getDeletedAt());
-        orgPostDto.setInsertedAt(orgPost.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(orgPost, orgPostDto);
 
         orgPostDto.setCode(orgPost.getCode());
         orgPostDto.setDescr(orgPost.getDescr());

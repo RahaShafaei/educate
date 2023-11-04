@@ -1,5 +1,6 @@
 package edu.educate.dto;
 
+import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.helper.ConvertListToMap;
 import edu.educate.model.MeetingEntity;
 import edu.educate.model.PlansEntity;
@@ -10,6 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Component
 public class PlansMapper {
+    private final DtoMapperUtils dtoMapperUtils;
 
     private final OrgUnitMapper orgUnitMapper;
 
@@ -24,39 +26,16 @@ public class PlansMapper {
 
         PlansDto plansDto = new PlansDto();
 
-        plansDto.setId(plans.getId());
-        plansDto.setDeleted(plans.isDeleted());
-        plansDto.setDeletedAt(plans.getDeletedAt());
-        plansDto.setInsertedAt(plans.getInsertedAt());
+        dtoMapperUtils.populateCommonFields(plans, plansDto);
 
         plansDto.setFromDate(plans.getFromDate());
         plansDto.setToDate(plans.getToDate());
 
-        plansDto.setOrgUnit(
-                plans.getOrgUnit() != null ?
-                        this.orgUnitMapper.toDto(plans.getOrgUnit()) :
-                        null
-        );
-        plansDto.setPrCourse(
-                plans.getPrCourse() != null ?
-                        this.prCourseMapper.toDto(plans.getPrCourse()) :
-                        null
-        );
-        plansDto.setOrgUnitPostPerson(
-                plans.getOrgUnitPostPerson() != null ?
-                        this.orgUnitPostPersonMapper.toDto(plans.getOrgUnitPostPerson()) :
-                        null
-        );
-        plansDto.setElementStatus(
-                plans.getElementStatus() != null ?
-                        this.elementMapper.toDto(plans.getElementStatus()) :
-                        null
-        );
-        plansDto.setElementType(
-                plans.getElementType() != null ?
-                        this.elementMapper.toDto(plans.getElementType()) :
-                        null
-        );
+        plansDto.setOrgUnit(this.orgUnitMapper.toDto(plans.getOrgUnit()));
+        plansDto.setPrCourse(this.prCourseMapper.toDto(plans.getPrCourse()));
+        plansDto.setOrgUnitPostPerson(this.orgUnitPostPersonMapper.toDto(plans.getOrgUnitPostPerson()));
+        plansDto.setElementStatus(this.elementMapper.toDto(plans.getElementStatus()));
+        plansDto.setElementType(this.elementMapper.toDto(plans.getElementType()));
         if (plans.getMeetings() != null) {
             Map<Integer, MeetingDto> meetingDtoDtl = ConvertListToMap.apply(
                     plans.getMeetings(),
