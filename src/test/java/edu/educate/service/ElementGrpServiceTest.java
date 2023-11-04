@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,13 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class ElementGrpServiceTest {
     @Autowired
     private ElementGrpService elementGrpService;
+//    @Value(value = "${titleEntity.title.min}")
+//    private String welcomeMessage;
 
     @Test
     public void testSaveDeleteElementGrp() {
 
         ElementGrpEntity elementGrp = new ElementGrpEntity();
-
-//        elementGrp.setTitle("Sample elementGrp : Title");
+//        System.out.println(":::::::::::::: welcomeMessage : " + welcomeMessage);
+        elementGrp.setTitle("Sample elementGrp : Title");
 
         ElementGrpEntity savedElementGrp = elementGrpService.createElementGrp(elementGrp);
 

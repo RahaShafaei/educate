@@ -14,9 +14,9 @@ public class EducateApplication {
         SpringApplication.run(EducateApplication.class, args);
         System.out.println("Hello World!");
 
-        Resource resource = new ClassPathResource("eduMessages/eduMessage.properties");
+        Resource resource = new ClassPathResource("ValidationMessages.properties");
         if (resource.exists()) {
-            System.out.println(":::::::::::::::::     : " );
+            System.out.println(":::::::::::::::::  resource.exists()   : " + resource.exists());
         }
     }
 

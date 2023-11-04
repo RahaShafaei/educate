@@ -35,12 +35,7 @@ import java.util.List;
                         })
         }
 )
-public class PlansEntity extends BaseEntity {
-    @NotNull
-    @Size(min = 2, message = "Title should have at least 2 character.")
-    @Column(name = "title")
-    private String title;
-
+public class PlansEntity extends TitleEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "org_unit_id")
@@ -82,17 +77,17 @@ public class PlansEntity extends BaseEntity {
     @Column(name = "to_date")
     private Date toDate;
 
-    @AssertTrue(message = "The 'from_date' must be less than 'to_date'")
+    @AssertTrue(message = "general.dates.range")
     private boolean isValidDateRange() {
         return fromDate.before(toDate);
     }
 
-    @AssertTrue(message = "For 'elementStatus' the ElementGrp must be 'plan_status'.")
+    @AssertTrue(message = "{plansEntity.element.status}")
     private boolean isValidElementStatus() {
         return elementStatus.getElementGrp().getTitle().equals("plan_status");
     }
 
-    @AssertTrue(message = "For 'elementType' the ElementGrp must be 'plan_type'.")
+    @AssertTrue(message = "{plansEntity.element.type}")
     private boolean isValidElementType() {
         return elementType.getElementGrp().getTitle().equals("plan_type");
     }

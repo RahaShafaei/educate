@@ -28,9 +28,9 @@ import lombok.ToString;
 @ToString
 @MappedSuperclass
 public class TitleEntity extends BaseEntity {
-//	@UniqueElements
+
 	@NotNull(message = "{titleEntity.title.min}")
-	@Size(min = 2, message = "titleEntity.title.min")
+	@Size(min = 2, message = "{titleEntity.title.min}")
 	@Column(name = "title", unique=true)
 	private String title;
 

@@ -61,7 +61,7 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     @Column(name = "to_date")
     private Date toDate;
 
-    @AssertTrue(message = "The 'from_date' must be less than 'to_date'")
+    @AssertTrue(message = "{general.dates.range}")
     private boolean isValidDateRange() {
         if (fromDate == null || toDate == null) {
             return true;

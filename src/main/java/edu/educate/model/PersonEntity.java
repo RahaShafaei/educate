@@ -23,28 +23,28 @@ public class PersonEntity extends BaseEntity {
     private List<PersonRoleEntity> personRoles;
 
     @NotNull
-    @Size(min = 2, message = "FirstName should have at least 2 character.")
+    @Size(min = 2, message = "{personEntity.fname}")
     @Column(name = "fname", length = 50)
     private String fname;
 
     @NotNull
-    @Size(min = 2, message = "LastName should have at least 2 character.")
+    @Size(min = 2, message = "{personEntity.lname}")
     @Column(name = "lname", length = 50)
     private String lname;
 
-    @Size(min = 2, message = "FatherName should have at least 2 character.")
+    @Size(min = 2, message = "{personEntity.fatherName}")
     @Column(name = "father_name", length = 50)
     private String fatherName;
 
-    @Size(min = 10,max = 10, message = "NationalCode should have 10 character.")
+    @Size(min = 10,max = 10, message = "{personEntity.nlCode}")
     @Column(name = "nl_code", length = 50)
     private String nlCode;
 
-    @Size(min = 5, message = "PersonalCode should have at least 5 character.")
+    @Size(min = 5, message = "{personEntity.prCode}")
     @Column(name = "pr_code", length = 50)
     private String prCode;
 
-    @Size(min = 10,max = 10, message = "PhoneNumber should have 11 character.")
+    @Size(min = 10,max = 10, message = "{personEntity.tel}")
     @Column(name = "tel", length = 50)
     private String tel;
 

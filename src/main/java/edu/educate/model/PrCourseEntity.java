@@ -38,12 +38,12 @@ public class PrCourseEntity extends BaseEntity {
     private List<PlansEntity> plans;
 
     @NotNull
-    @Size(min = 2, message = "LatinTitle should have at least 2 character.")
+    @Size(min = 2, message = "{general.ltTitle}")
     @Column(name = "lt_title", length = 50 )
     private String ltTitle;
 
     @NotNull
-    @Size(min = 2, message = "PersianTitle should have at least 2 character.")
+    @Size(min = 2, message = "{general.prTitle}")
     @Column(name = "pr_title", length = 50)
     private String prTitle;
 

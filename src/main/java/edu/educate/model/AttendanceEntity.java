@@ -38,7 +38,7 @@ public class AttendanceEntity extends BaseEntity {
     @Column(name = "grade")
     private Float grade;
 
-    @AssertTrue(message = "For 'Attendance' the ElementGrp must be 'attendance_status'.")
+    @AssertTrue(message = "{attendanceEntity.element}")
     private boolean isValidElement() {
         if (element == null) {
             return true;
@@ -47,7 +47,7 @@ public class AttendanceEntity extends BaseEntity {
         return element.getElementGrp().getTitle().equals("attendance_status");
     }
 
-    @AssertTrue(message = "Just `Present` `Attendance` can have `Grade`.")
+    @AssertTrue(message = "{attendanceEntity.element.present}")
     private boolean isGradeForPresentAttendance() {
         if (grade == null) {
             return true;
@@ -56,7 +56,7 @@ public class AttendanceEntity extends BaseEntity {
         return element.getTitle().equals("Present");
     }
 
-    @AssertTrue(message = "For plans by `Planning` status, element can't have value.")
+    @AssertTrue(message = "{attendanceEntity.plan}")
     private boolean isValidPlan() {
         if (element == null) {
             return true;
