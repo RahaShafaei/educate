@@ -1,13 +1,9 @@
 package edu.educate.repository;
 
-import edu.educate.model.OrgPostEntity;
 import edu.educate.model.OrgUnitPostPersonEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import edu.educate.repository.baseRepository.GenericRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface OrgUnitPostPersonRepository  extends JpaRepository<OrgUnitPostPersonEntity, Integer> {
-    List<OrgUnitPostPersonEntity> findByDeletedFalse();
-    Optional<OrgUnitPostPersonEntity> findByIdAndDeletedFalse(Integer id);
+@Repository
+public interface OrgUnitPostPersonRepository  extends GenericRepository<OrgUnitPostPersonEntity> {
 }

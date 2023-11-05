@@ -21,16 +21,16 @@ public class OrgUnitServiceTest {
 
         orgUnit.setTitle("Sample orgUnit : Title");
 
-        OrgUnitEntity savedOrgUnit = orgUnitService.createOrgUnit(orgUnit);
+        OrgUnitEntity savedOrgUnit = orgUnitService.createEntity(orgUnit);
 
         assertNotNull(savedOrgUnit.getId());
 
-        OrgUnitEntity retrievedOrgUnit = orgUnitService.getOrgUnit(savedOrgUnit.getId());
+        OrgUnitEntity retrievedOrgUnit = orgUnitService.getEntity(savedOrgUnit.getId());
 
         assertNotNull(retrievedOrgUnit);
         assertEquals(savedOrgUnit.getTitle(), retrievedOrgUnit.getTitle());
 
-        Boolean orgUnitIsDeleted = orgUnitService.deleteOrgUnit(savedOrgUnit.getId());
+        Boolean orgUnitIsDeleted = orgUnitService.deleteEntity(savedOrgUnit.getId());
 
         assertEquals(true, orgUnitIsDeleted);
     }

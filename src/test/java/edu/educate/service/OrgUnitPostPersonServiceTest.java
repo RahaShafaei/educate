@@ -34,9 +34,9 @@ public class OrgUnitPostPersonServiceTest {
 
         OrgUnitPostPersonEntity orgUnitPostPerson = new OrgUnitPostPersonEntity();
 
-        orgUnitPostPerson.setOrgUnit(orgUnitService.getOrgUnit(1));
-        orgUnitPostPerson.setOrgPost(orgPostService.getOrgPost(1));
-        orgUnitPostPerson.setPerson(PersonService.getPerson(1));
+        orgUnitPostPerson.setOrgUnit(orgUnitService.getEntity(1));
+        orgUnitPostPerson.setOrgPost(orgPostService.getEntity(1));
+        orgUnitPostPerson.setPerson(PersonService.getEntity(1));
         orgUnitPostPerson.setFromDate(
                 LocalDateTime.parse("2023-10-26 15:01:10",
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -48,18 +48,18 @@ public class OrgUnitPostPersonServiceTest {
                 )
         );
 
-        OrgUnitPostPersonEntity savedOrgUnitPostPerson = unitPostPersonService.createOrgUnitPostPerson(orgUnitPostPerson);
+        OrgUnitPostPersonEntity savedOrgUnitPostPerson = unitPostPersonService.createEntity(orgUnitPostPerson);
 
         assertNotNull(savedOrgUnitPostPerson.getId());
 
-        OrgUnitPostPersonEntity retrievedOrgUnitPostPerson = unitPostPersonService.getOrgUnitPostPerson(savedOrgUnitPostPerson.getId());
+        OrgUnitPostPersonEntity retrievedOrgUnitPostPerson = unitPostPersonService.getEntity(savedOrgUnitPostPerson.getId());
 
         assertNotNull(retrievedOrgUnitPostPerson);
         assertEquals(savedOrgUnitPostPerson.getOrgUnit(), retrievedOrgUnitPostPerson.getOrgUnit());
         assertEquals(savedOrgUnitPostPerson.getOrgPost(), retrievedOrgUnitPostPerson.getOrgPost());
         assertEquals(savedOrgUnitPostPerson.getPerson(), retrievedOrgUnitPostPerson.getPerson());
 
-        Boolean orgUnitPostPersonIsDeleted = unitPostPersonService.deleteOrgUnitPostPerson(savedOrgUnitPostPerson.getId());
+        Boolean orgUnitPostPersonIsDeleted = unitPostPersonService.deleteEntity(savedOrgUnitPostPerson.getId());
 
         assertEquals(true, orgUnitPostPersonIsDeleted);
     }

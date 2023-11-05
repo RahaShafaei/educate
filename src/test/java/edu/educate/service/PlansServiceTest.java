@@ -35,11 +35,11 @@ public class PlansServiceTest {
 
         PlansEntity plans = new PlansEntity();
 
-        plans.setOrgUnit(orgUnitService.getOrgUnit(172));
-        plans.setPrCourse(prCourseService.getPrCourse(4));
-        plans.setOrgUnitPostPerson(orgUnitPostPersonService.getOrgUnitPostPerson(35));
-        plans.setElementStatus(elementService.getElement(4));
-        plans.setElementType(elementService.getElement(9));
+        plans.setOrgUnit(orgUnitService.getEntity(172));
+        plans.setPrCourse(prCourseService.getEntity(4));
+        plans.setOrgUnitPostPerson(orgUnitPostPersonService.getEntity(35));
+        plans.setElementStatus(elementService.getEntity(4));
+        plans.setElementType(elementService.getEntity(9));
         plans.setTitle("Sample Plan : Title Test");
         plans.setFromDate(
                 LocalDateTime.parse("2023-10-26 15:01:10",
@@ -52,16 +52,16 @@ public class PlansServiceTest {
                 )
         );
 
-        PlansEntity savedPlan = plansService.createPlan(plans);
+        PlansEntity savedPlan = plansService.createEntity(plans);
 
         assertNotNull(savedPlan.getId());
 
-        PlansEntity retrievedPlan = plansService.getPlan(savedPlan.getId());
+        PlansEntity retrievedPlan = plansService.getEntity(savedPlan.getId());
 
         assertNotNull(retrievedPlan);
         assertEquals(savedPlan.getTitle(), retrievedPlan.getTitle());
 
-        Boolean planIsDeleted = plansService.deletePlan(savedPlan.getId());
+        Boolean planIsDeleted = plansService.deleteEntity(savedPlan.getId());
 
         assertEquals(true, planIsDeleted);
     }

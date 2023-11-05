@@ -20,16 +20,16 @@ public class OrgPostServiceTest {
 
         orgPost.setTitle("Sample orgPost : Title");
 
-        OrgPostEntity savedOrgPost = orgPostService.createOrgPost(orgPost);
+        OrgPostEntity savedOrgPost = orgPostService.createEntity(orgPost);
 
         assertNotNull(savedOrgPost.getId());
 
-        OrgPostEntity retrievedOrgPost = orgPostService.getOrgPost(savedOrgPost.getId());
+        OrgPostEntity retrievedOrgPost = orgPostService.getEntity(savedOrgPost.getId());
 
         assertNotNull(retrievedOrgPost);
         assertEquals(savedOrgPost.getTitle(), retrievedOrgPost.getTitle());
 
-        Boolean orgPostIsDeleted = orgPostService.deleteOrgPost(savedOrgPost.getId());
+        Boolean orgPostIsDeleted = orgPostService.deleteEntity(savedOrgPost.getId());
 
         assertEquals(true, orgPostIsDeleted);
     }

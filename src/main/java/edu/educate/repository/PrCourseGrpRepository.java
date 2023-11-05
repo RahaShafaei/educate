@@ -1,12 +1,9 @@
 package edu.educate.repository;
 
 import edu.educate.model.PrCourseGrpEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import edu.educate.repository.baseRepository.GenericRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface PrCourseGrpRepository  extends JpaRepository<PrCourseGrpEntity, Integer> {
-    List<PrCourseGrpEntity> findByDeletedFalse();
-    Optional<PrCourseGrpEntity> findByIdAndDeletedFalse(Integer id);
+@Repository
+public interface PrCourseGrpRepository  extends GenericRepository<PrCourseGrpEntity> {
 }

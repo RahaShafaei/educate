@@ -1,55 +1,16 @@
 package edu.educate.service;
 
-import edu.educate.exception.ItemNotFoundException;
 import edu.educate.model.PlansEntity;
 import edu.educate.repository.PlansRepository;
-import lombok.AllArgsConstructor;
+import edu.educate.service.baseService.GenericServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-@AllArgsConstructor
 @Service("plansService")
-public class PlansServiceImp implements PlansService {
+public class PlansServiceImp extends GenericServiceImpl<PlansEntity> implements PlansService {
 
-    private static final String PLAN_ID = "Plans id: ";
-    private final PlansRepository planRepository;
-    @Override
-    public List<PlansEntity> getPlans() {
-        return planRepository.findByDeletedFalse();
-    }
-
-    @Override
-    public PlansEntity getPlan(Integer id) {
-        Optional<PlansEntity> plan = planRepository.findByIdAndDeletedFalse(id);
-
-        if (plan.isEmpty())
-            throw new ItemNotFoundException(PLAN_ID + id);
-
-        return plan.get();
-    }
-
-    @Override
-    public Boolean deletePlan(Integer id) {
-        Optional<PlansEntity> plan = planRepository.findByIdAndDeletedFalse(id);
-
-        if (!plan.isEmpty()) {
-            plan.get().setDeleted(true);
-            plan.get().setDeletedAt(LocalDateTime.now());
-            planRepository.save(plan.get());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public PlansEntity createPlan(PlansEntity plan) {
-
-        PlansEntity savedPlans = planRepository.save(plan);
-
-        return savedPlans;
+    @Autowired
+    public PlansServiceImp(PlansRepository repository) {
+        super(repository, "PlansEntity");
     }
 }

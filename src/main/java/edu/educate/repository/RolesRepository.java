@@ -1,12 +1,9 @@
 package edu.educate.repository;
 
 import edu.educate.model.RolesEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import edu.educate.repository.baseRepository.GenericRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface RolesRepository extends JpaRepository<RolesEntity, Integer> {
-    List<RolesEntity> findByDeletedFalse();
-    Optional<RolesEntity> findByIdAndDeletedFalse(Integer id);
+@Repository
+public interface RolesRepository extends GenericRepository<RolesEntity> {
 }

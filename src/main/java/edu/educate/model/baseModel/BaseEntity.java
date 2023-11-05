@@ -18,6 +18,7 @@ package edu.educate.model.baseModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 	@Id

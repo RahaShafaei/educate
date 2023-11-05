@@ -23,18 +23,18 @@ public class MeetingServiceTest {
         MeetingEntity meeting = new MeetingEntity();
 
         meeting.setTitle("Sample meeting : Title");
-        meeting.setPlan(plansService.getPlan(1));
+        meeting.setPlan(plansService.getEntity(1));
 
-        MeetingEntity savedMeeting = meetingService.createMeeting(meeting);
+        MeetingEntity savedMeeting = meetingService.createEntity(meeting);
 
         assertNotNull(savedMeeting.getId());
 
-        MeetingEntity retrievedMeeting = meetingService.getMeeting(savedMeeting.getId());
+        MeetingEntity retrievedMeeting = meetingService.getEntity(savedMeeting.getId());
 
         assertNotNull(retrievedMeeting);
         assertEquals(savedMeeting.getTitle(), retrievedMeeting.getTitle());
 
-        Boolean meetingIsDeleted = meetingService.deleteMeeting(savedMeeting.getId());
+        Boolean meetingIsDeleted = meetingService.deleteEntity(savedMeeting.getId());
 
         assertEquals(true, meetingIsDeleted);
     }

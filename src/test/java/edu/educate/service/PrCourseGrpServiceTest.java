@@ -25,18 +25,18 @@ public class PrCourseGrpServiceTest {
         prCourseGrp.setPrTitle("Sample prCourseGrp : PrTitle");
         prCourseGrp.setDescr("This is a test prCourse.");
 
-        PrCourseGrpEntity savedCourseGrp = prCourseGrpService.createPrCourseGrp(prCourseGrp);
+        PrCourseGrpEntity savedCourseGrp = prCourseGrpService.createEntity(prCourseGrp);
 
         assertNotNull(savedCourseGrp.getId());
 
-        PrCourseGrpEntity retrievedCourseGrp = prCourseGrpService.getPrCourseGrp(savedCourseGrp.getId());
+        PrCourseGrpEntity retrievedCourseGrp = prCourseGrpService.getEntity(savedCourseGrp.getId());
 
         assertNotNull(retrievedCourseGrp);
         assertEquals(savedCourseGrp.getLtTitle(), retrievedCourseGrp.getLtTitle());
         assertEquals(savedCourseGrp.getPrTitle(), retrievedCourseGrp.getPrTitle());
         assertEquals(savedCourseGrp.getDescr(), retrievedCourseGrp.getDescr());
 
-        Boolean courseGrpIsDeleted = prCourseGrpService.deletePrCourseGrp(savedCourseGrp.getId());
+        Boolean courseGrpIsDeleted = prCourseGrpService.deleteEntity(savedCourseGrp.getId());
 
         assertEquals(true, courseGrpIsDeleted);
     }

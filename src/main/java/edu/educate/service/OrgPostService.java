@@ -1,15 +1,7 @@
 package edu.educate.service;
 
 import edu.educate.model.OrgPostEntity;
+import edu.educate.service.baseService.GenericService;
 
-import java.util.List;
-
-public interface OrgPostService {
-    public List<OrgPostEntity> getOrgPosts();
-
-    public OrgPostEntity getOrgPost(Integer id);
-
-    public Boolean deleteOrgPost(Integer id);
-
-    public OrgPostEntity createOrgPost(OrgPostEntity orgPost);
+public interface OrgPostService extends GenericService<OrgPostEntity> {
 }

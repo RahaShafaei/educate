@@ -1,12 +1,9 @@
 package edu.educate.repository;
 
 import edu.educate.model.PlansEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import edu.educate.repository.baseRepository.GenericRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface PlansRepository extends JpaRepository<PlansEntity, Integer> {
-    List<PlansEntity> findByDeletedFalse();
-    Optional<PlansEntity> findByIdAndDeletedFalse(Integer id);
+@Repository
+public interface PlansRepository extends GenericRepository<PlansEntity> {
 }

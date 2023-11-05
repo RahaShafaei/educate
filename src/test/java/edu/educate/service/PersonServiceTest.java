@@ -23,18 +23,18 @@ public class PersonServiceTest {
         person.setLname("Sample Lname : lname");
         person.setPrCode("Sample PrCode : prCode");
 
-        PersonEntity savedPerson = personService.createPerson(person);
+        PersonEntity savedPerson = personService.createEntity(person);
 
         assertNotNull(savedPerson.getId());
 
-        PersonEntity retrievedPerson = personService.getPerson(savedPerson.getId());
+        PersonEntity retrievedPerson = personService.getEntity(savedPerson.getId());
 
         assertNotNull(retrievedPerson);
         assertEquals(savedPerson.getFname(), retrievedPerson.getFname());
         assertEquals(savedPerson.getLname(), retrievedPerson.getLname());
         assertEquals(savedPerson.getPrCode(), retrievedPerson.getPrCode());
 
-        Boolean personIsDeleted = personService.deletePerson(savedPerson.getId());
+        Boolean personIsDeleted = personService.deleteEntity(savedPerson.getId());
 
         assertEquals(true, personIsDeleted);
     }
