@@ -10,12 +10,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 @PropertySource("classpath:ValidationMessages.properties")
 public class EducateConfigs {
 
-
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-//        return new PropertySourcesPlaceholderConfigurer();
-//    }
-
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
