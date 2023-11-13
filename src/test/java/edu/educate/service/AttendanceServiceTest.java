@@ -30,7 +30,7 @@ public class AttendanceServiceTest {
 
         attendance.setPlan(plansService.getEntity(2));
         attendance.setOrgUnitPostPerson(orgUnitPostPersonService.getEntity(1));
-        attendance.setElement(elementService.getEntity(1));
+        attendance.setElement(elementService.getEntity(3));
         attendance.setGrade(12.0F);
 
         AttendanceEntity savedAttendance = attendanceService.createEntity(attendance);
