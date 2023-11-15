@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class OrgUnitController {
     @GetMapping("/orgUnit")
-    public String home() {
-        return "orgUnit";
+    public String orgUnit() {
+        return "orgUnitDir/orgUnit";
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AttendanceController {
     @GetMapping("/attendance")
-    public String home() {
-        return "attendance";
+    public String attendance() {
+        return "attendanceDir/attendance";
     }
 }

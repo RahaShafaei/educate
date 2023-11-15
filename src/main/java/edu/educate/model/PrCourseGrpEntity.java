@@ -2,6 +2,7 @@ package edu.educate.model;
 
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.model.baseModel.TitleEntity;
+import edu.educate.validator.LengthOrEmpty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,12 +28,12 @@ public class PrCourseGrpEntity extends BaseEntity {
     private List<PrCourseEntity> prCourses;
 
     @NotNull
-    @Size(min = 2, message = "{general.ltTitle}")
+    @LengthOrEmpty(min = 2, max = 50, message = "{general.ltTitle}")
     @Column(name = "lt_title", length = 255)
     private String ltTitle;
 
     @NotNull
-    @Size(min = 2, message = "{general.prTitle}")
+    @LengthOrEmpty(min = 2, max = 50, message = "{general.prTitle}")
     @Column(name = "pr_title", length = 255)
     private String prTitle;
 

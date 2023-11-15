@@ -1,6 +1,7 @@
 package edu.educate.model;
 
 import edu.educate.model.baseModel.BaseEntity;
+import edu.educate.validator.LengthOrEmpty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -32,19 +33,19 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "lname", length = 50)
     private String lname;
 
-    @Size(min = 2, message = "{personEntity.fatherName}")
+    @LengthOrEmpty(min = 2, max = 50, message = "{personEntity.fatherName}")
     @Column(name = "father_name", length = 50)
     private String fatherName;
 
-    @Size(min = 10,max = 10, message = "{personEntity.nlCode}")
+    @LengthOrEmpty(min = 10,max = 10, message = "{personEntity.nlCode}")
     @Column(name = "nl_code", length = 50)
     private String nlCode;
 
-    @Size(min = 5, message = "{personEntity.prCode}")
+//    @LengthOrEmpty(min = 2, max = 10, message = "{personEntity.prCode}")
     @Column(name = "pr_code", length = 50)
     private String prCode;
 
-    @Size(min = 10,max = 10, message = "{personEntity.tel}")
+    @LengthOrEmpty(min = 10,max = 11, message = "{personEntity.tel}")
     @Column(name = "tel", length = 50)
     private String tel;
 

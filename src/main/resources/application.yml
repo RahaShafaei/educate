@@ -1,11 +1,11 @@
 logging:
   level:
     root:
-      org:
-        springframework:
-          web: INFO
-          env:
-            PropertySourcesPropertyResolver: DEBUG
+    org.springframework:
+        web: INFO
+        env.PropertySourcesPropertyResolver: DEBUG
+server:
+  port: 8080
 
 spring:
   profiles:

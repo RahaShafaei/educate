@@ -4,6 +4,8 @@ import edu.educate.exception.ItemNotFoundException;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.repository.baseRepository.GenericRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +20,11 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     @Override
     public List<T> getAllEntities() {
         return repository.findByDeletedFalse();
+    }
+
+    @Override
+    public Page<T> getAllEntities(Pageable pageable) {
+        return repository.findByDeletedFalse(pageable);
     }
 
     @Override

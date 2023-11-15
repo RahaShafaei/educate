@@ -1,6 +1,5 @@
 package edu.educate.configurations;
 
-
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
