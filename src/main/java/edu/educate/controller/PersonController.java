@@ -32,7 +32,8 @@ public class PersonController {
         model.addAttribute("persons", personPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", personPage.getTotalPages());
-
+        model.addAttribute("searchPerson", new PersonEntity());
+        model.addAttribute("searchFlag", 0);
         return "personDir/personList";
     }
 
@@ -63,5 +64,22 @@ public class PersonController {
     public String deletePerson(@PathVariable Integer id) {
         personService.deleteEntity(id);
         return "redirect:/person";
+    }
+
+    @PostMapping("/search")
+    public String searchPersons(@ModelAttribute("searchPerson") PersonEntity searchPerson,
+                                @RequestParam(defaultValue = "0") int page,
+                                Model model) {
+        int pageSize = 30; // Number of items per page
+        Page<PersonEntity> personPage = personService.searchByAllFields(
+                searchPerson,
+                PageRequest.of(page, pageSize));
+
+        model.addAttribute("persons", personPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", personPage.getTotalPages());
+        model.addAttribute("searchPerson", searchPerson);
+        model.addAttribute("searchFlag", 1);
+        return "personDir/personList";
     }
 }

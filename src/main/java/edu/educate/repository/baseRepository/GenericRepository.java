@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 @NoRepositoryBean
 public interface GenericRepository<T extends BaseEntity> extends JpaRepository<T, Integer> {
-    List<T> findByDeletedFalse();
-    Page<T> findByDeletedFalse(Pageable pageable);
+    List<T> findByDeletedFalseOrderByIdDesc();
+    Page<T> findByDeletedFalseOrderByIdDesc(Pageable pageable);
     Optional<T> findByIdAndDeletedFalse(Integer id);
 }

@@ -11,7 +11,8 @@
 <main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <h5 th:text="#{person.page.title}"></h5>
     <div class="table-responsive small">
-
+        <form th:action="@{/person/search}" th:object="${searchPerson}" method="post">
+            <input type="hidden" th:field="*{id}">
         <table class="table table-bordered border-primary-subtle table-hover">
             <thead>
             <tr class="table-primary">
@@ -27,6 +28,33 @@
             </tr>
             </thead>
             <tbody>
+            <tr>
+
+                <td>
+                    <input type="text" class="form-control" id="fName" placeholder="" value="" th:field="*{fname}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="lName" placeholder="" value="" th:field="*{lname}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="father" placeholder="" value="" th:field="*{fatherName}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="nlCode" placeholder="" value="" th:field="*{nlCode}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="prCode" placeholder="" value="" th:field="*{prCode}">
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="tel" placeholder="" value="" th:field="*{tel}">
+                </td>
+                <td>
+                    <button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;" type="submit" th:text="#{main.btn.search}"></button>
+                    <a class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;" th:href="@{/person}" th:text="#{main.btn.clear}"></a>
+                </td>
+
+
+            </tr>
             <tr th:each="person : ${persons}">
                 <td th:text="${person.fname}"></td>
                 <td th:text="${person.lname}"></td>
@@ -47,17 +75,31 @@
             </tr>
             </tbody>
         </table>
+        </form>
+<!--        <nav aria-label="Page navigation">-->
+<!--            <ul class="pagination">-->
+<!--                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">-->
+<!--                    <a class="page-link" th:href="@{'/person?page=' + (${currentPage - 1})}" th:text="#{main.btn.previous}"></a>-->
+<!--                </li>-->
+<!--                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i ? 'active' : ''}">-->
+<!--                    <a class="page-link" th:href="@{'/person?page=' + ${i}}" th:text="${i + 1}"></a>-->
+<!--                </li>-->
+<!--                <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">-->
+<!--                    <a class="page-link" th:href="@{'/person?page=' + (${currentPage + 1})}" th:text="#{main.btn.next}"></a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
 
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{'/person?page=' + (${currentPage - 1})}" th:text="#{main.btn.previous}"></a>
+                    <a class="page-link" th:href="${searchFlag == 0 ? '/person?page=' + #strings.toString(currentPage - 1) : '/person/search?page=' + #strings.toString(currentPage - 1)}" th:text="#{main.btn.previous}"></a>
                 </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i ? 'active' : ''}">
-                    <a class="page-link" th:href="@{'/person?page=' + ${i}}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="${searchFlag == 0 ? '/person?page=' + #strings.toString(i) : '/person/search?page=' + #strings.toString(i)}" th:text="${i + 1}"></a>
                 </li>
                 <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
-                    <a class="page-link" th:href="@{'/person?page=' + (${currentPage + 1})}" th:text="#{main.btn.next}"></a>
+                    <a class="page-link" th:href="${searchFlag == 0 ? '/person?page=' + #strings.toString(currentPage + 1) : '/person/search?page=' + #strings.toString(currentPage + 1) }" th:text="#{main.btn.next}"></a>
                 </li>
             </ul>
         </nav>

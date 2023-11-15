@@ -14,17 +14,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public class GenericServiceImpl<T extends BaseEntity> implements GenericService<T> {
 
-    private final GenericRepository<T> repository;
-    private final String entityName;
+    protected final GenericRepository<T> repository;
+    protected final String entityName;
 
     @Override
     public List<T> getAllEntities() {
-        return repository.findByDeletedFalse();
+        return repository.findByDeletedFalseOrderByIdDesc();
     }
 
     @Override
     public Page<T> getAllEntities(Pageable pageable) {
-        return repository.findByDeletedFalse(pageable);
+        return repository.findByDeletedFalseOrderByIdDesc(pageable);
     }
 
     @Override

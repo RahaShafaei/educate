@@ -21,49 +21,50 @@
                     <label for="fName" class="form-label" th:text="#{person.field.fname}"></label>
                     <input type="text" class="form-control" id="fName" placeholder="" value="" required
                            th:field="*{fname}">
-                    <div th:if="${#fields.hasErrors('fname')}" th:text="#{person.validate.fname}"></div>
+                    <small class="text-body-secondary" th:if="${#fields.hasErrors('fname')}" th:text="#{person.validate.fname}"></small>
                 </div>
 
                 <div class="col-md-3">
                     <label for="lName" class="form-label" th:text="#{person.field.lname}"></label>
                     <input type="text" class="form-control" id="lName" placeholder="" value="" required
                            th:field="*{lname}">
-                    <div th:if="${#fields.hasErrors('lname')}" th:text="#{person.validate.lname}"></div>
+                    <small class="text-body-secondary" th:if="${#fields.hasErrors('lname')}" th:text="#{person.validate.lname}"></small>
                 </div>
 
                 <div class="col-md-3">
                     <label for="father" class="form-label" th:text="#{person.field.father}"></label>
-                    <input type="text" class="form-control" id="father" placeholder="" value="" required
+                    <input type="text" class="form-control" id="father" placeholder="" value=""
                            th:field="*{fatherName}">
-                    <div th:if="${#fields.hasErrors('fatherName')}" th:text="#{person.validate.fname}"></div>
+                    <small class="text-body-secondary" th:if="${#fields.hasErrors('fatherName')}" th:text="#{person.validate.fname}"></small>
                 </div>
 
                 <div class="col-md-3">
                     <label for="nlCode" class="form-label" th:text="#{person.field.nl.code}"></label>
                     <input type="text" class="form-control" id="nlCode" placeholder="" value=""
                            th:field="*{nlCode}">
-                    <div th:if="${#fields.hasErrors('nlCode')}" th:text="#{person.validate.nlCode}"></div>
+                    <small class="text-body-secondary" th:if="${#fields.hasErrors('nlCode')}" th:text="#{person.validate.nlCode}"></small>
                 </div>
 
                 <div class="col-md-3">
                     <label for="prCode" class="form-label" th:text="#{person.field.pr.code}"></label>
                     <input type="text" class="form-control" id="prCode" placeholder="" value=""
                            th:field="*{prCode}">
-                    <div th:if="${#fields.hasErrors('prCode')}" th:text="#{person.validate.prCode}"></div>
+                    <small class="text-body-secondary" th:if="${#fields.hasErrors('prCode')}" th:text="#{person.validate.prCode}"></small>
                 </div>
 
                 <div class="col-md-3">
                     <label for="tel" class="form-label" th:text="#{person.field.tel}"></label>
                     <input type="text" class="form-control" id="tel" placeholder="" value=""
                            th:field="*{tel}">
-                    <div  th:if="${#fields.hasErrors('tel')}" th:text="#{person.validate.tel}"></div>
+                    <small class="text-body-secondary" style="--bs-btn-font-size: .55rem;"  th:if="${#fields.hasErrors('tel')}" th:text="#{person.validate.tel}"></small>
                 </div>
 
             </div>
 
             <hr class="my-4">
 
-            <button class="w-50 btn btn-primary btn-lg" type="submit" th:text="#{main.btn.save}"></button>
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+<!--            <button class="w-50 btn btn-primary btn-lg" type="submit" th:text="#{main.btn.save}"></button>-->
             <a class="btn btn-secondary" th:href="@{/person}" th:text="#{main.btn.cancel}"></a>
             <hr class="my-4">
         </form>
