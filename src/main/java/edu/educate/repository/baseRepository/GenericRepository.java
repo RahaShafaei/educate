@@ -1,6 +1,7 @@
 package edu.educate.repository.baseRepository;
 
 import edu.educate.model.baseModel.BaseEntity;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface GenericRepository<T extends BaseEntity> extends JpaRepository<T, Integer> {
     List<T> findByDeletedFalseOrderByIdDesc();
+//    Page<T> findByDeletedFalseOrderByIdDesc(Example<T> example, Pageable pageable);
     Page<T> findByDeletedFalseOrderByIdDesc(Pageable pageable);
     Optional<T> findByIdAndDeletedFalse(Integer id);
 }

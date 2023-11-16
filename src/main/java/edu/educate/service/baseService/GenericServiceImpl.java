@@ -4,6 +4,7 @@ import edu.educate.exception.ItemNotFoundException;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.repository.baseRepository.GenericRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,6 +21,11 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     @Override
     public List<T> getAllEntities() {
         return repository.findByDeletedFalseOrderByIdDesc();
+    }
+
+    @Override
+    public Page<T> getAllEntities(Example<T> example, Pageable pageable) {
+        return repository.findAll(example, pageable);
     }
 
     @Override
