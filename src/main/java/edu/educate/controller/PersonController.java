@@ -95,8 +95,9 @@ public class PersonController {
 
     @PostMapping("/search")
     public String searchPersonsPost(@ModelAttribute PersonEntity searchPerson,
-                                @RequestParam(defaultValue = "0") int page,
-                                Model model) {
+                                    @RequestParam String action,
+                                    Model model) {
+        int page = Integer.valueOf(action);
         searchPerson.setDeleted(false);
         Example<PersonEntity> example = Example.of(searchPerson, SEARCH_CONDITIONS_MATCH_ALL);
 
