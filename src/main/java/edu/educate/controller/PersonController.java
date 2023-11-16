@@ -50,11 +50,6 @@ public class PersonController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-//    @GetMapping
-//    public String person(Model model) {
-//        model.addAttribute("persons", personService.getAllEntities());
-//        return "personDir/personList";
-//    }
 
     @GetMapping
     public String listPersons(@RequestParam(defaultValue = "0") int page, Model model) {
@@ -102,9 +97,6 @@ public class PersonController {
     public String searchPersonsPost(@ModelAttribute PersonEntity searchPerson,
                                 @RequestParam(defaultValue = "0") int page,
                                 Model model) {
-        System.out.println(":::::::::::::::::::::::::::::");
-        System.out.println("page : " + page);
-        System.out.println(":::::::::::::::::::::::::::::");
         searchPerson.setDeleted(false);
         Example<PersonEntity> example = Example.of(searchPerson, SEARCH_CONDITIONS_MATCH_ALL);
 
@@ -117,26 +109,4 @@ public class PersonController {
         model.addAttribute("searchFlag", 1);
         return "personDir/personList";
     }
-
-//    @GetMapping("/search")
-//    public String searchPersonsGet(@ModelAttribute("searchPerson") PersonEntity searchPerson,
-//                                    @RequestParam(defaultValue = "0") int page,
-//                                    Model model) {
-//
-//        searchPerson.setDeleted(false);
-//
-//        System.out.println("::::::::::::::::::::::::::::");
-//        System.out.println(searchPerson);
-//        System.out.println("::::::::::::::::::::::::::::");
-//        Example<PersonEntity> example = Example.of(searchPerson, SEARCH_CONDITIONS_MATCH_ALL);
-//
-//        Page<PersonEntity> personPage = personService.getAllEntities(example, PageRequest.of(page, PAGE_SIZE));
-//
-//        model.addAttribute("persons", personPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", personPage.getTotalPages());
-//        model.addAttribute("searchPerson", searchPerson);
-//        model.addAttribute("searchFlag", 1);
-//        return "personDir/personList";
-//    }
 }
