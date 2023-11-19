@@ -13,10 +13,8 @@ public class PrCourseMapper {
 
         PrCourseDto prCourseDto = new PrCourseDto();
 
-        dtoMapperUtils.populateCommonFields(prCourse, prCourseDto);
+        dtoMapperUtils.populateCommonFieldsLp(prCourse, prCourseDto);
 
-        prCourseDto.setLtTitle(prCourse.getLtTitle());
-        prCourseDto.setPrTitle(prCourse.getPrTitle());
         prCourseDto.setDescr(prCourse.getDescr());
 
         return prCourseDto;

@@ -5,9 +5,11 @@ import edu.educate.validator.LengthOrEmpty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.sql.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,8 +22,12 @@ public class PersonEntity extends BaseEntity {
     @OneToMany(mappedBy = "person")
     private List<OrgUnitPostPersonEntity> orgUnitPostPersons;
 
-    @OneToMany(mappedBy = "person")
-    private List<PersonRoleEntity> personRoles;
+    @ManyToMany
+    @JoinTable(
+            name = "person_role",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<RolesEntity> personRoles;
 
     @NotNull
     @Size(min = 2, message = "{personEntity.fname}")
@@ -48,5 +54,11 @@ public class PersonEntity extends BaseEntity {
     @LengthOrEmpty(min = 10,max = 11, message = "{personEntity.tel}")
     @Column(name = "tel", length = 50)
     private String tel;
+
+//    public List<RolesEntity> getRoles() {
+//        return personRoles != null ? personRoles.stream()
+//                .map(PersonRoleEntity::getRole)
+//                .toList() : null;
+//    }
 
 }

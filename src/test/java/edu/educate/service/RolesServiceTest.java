@@ -18,7 +18,7 @@ public class RolesServiceTest {
 
         RolesEntity roles = new RolesEntity();
 
-        roles.setTitle("Sample roles : Title");
+        roles.setLtTitle("Sample roles : Title");
 
         RolesEntity savedRole = rolesService.createEntity(roles);
 
@@ -27,7 +27,7 @@ public class RolesServiceTest {
         RolesEntity retrievedRole = rolesService.getEntity(savedRole.getId());
 
         assertNotNull(retrievedRole);
-        assertEquals(savedRole.getTitle(), retrievedRole.getTitle());
+        assertEquals(savedRole.getLtTitle(), retrievedRole.getLtTitle());
 
         Boolean roleIsDeleted = rolesService.deleteEntity(savedRole.getId());
 

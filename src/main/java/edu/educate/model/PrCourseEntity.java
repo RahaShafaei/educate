@@ -1,14 +1,10 @@
 package edu.educate.model;
 
-import edu.educate.model.baseModel.BaseEntity;
-import edu.educate.validator.LengthOrEmpty;
+import edu.educate.model.baseModel.TitleLPEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -29,7 +25,7 @@ import java.util.List;
                         })
         }
 )
-public class PrCourseEntity extends BaseEntity {
+public class PrCourseEntity extends TitleLPEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "pr_course_grp_id", nullable = false)
@@ -37,16 +33,6 @@ public class PrCourseEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "prCourse")
     private List<PlansEntity> plans;
-
-    @NotNull
-    @LengthOrEmpty(min = 2, max = 50, message = "{general.ltTitle}")
-    @Column(name = "lt_title", length = 50 )
-    private String ltTitle;
-
-    @NotNull
-    @LengthOrEmpty(min = 2, max = 50, message = "{general.prTitle}")
-    @Column(name = "pr_title", length = 50)
-    private String prTitle;
 
     @Column(name = "descr", length = 255)
     private String descr;

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -21,6 +22,16 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     @Override
     public List<T> getAllEntities() {
         return repository.findByDeletedFalseOrderByIdDesc();
+    }
+
+    @Override
+    public List<T> getAllEntitiesByIds(List<Integer> EntityIds){
+        return repository.findByIdIn(EntityIds);
+    }
+
+    @Override
+    public Optional<T> getEntityById(Integer EntityId){
+        return repository.findById(EntityId);
     }
 
     @Override
@@ -61,6 +72,11 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     @Override
     public T createEntity(T entity) {
         return repository.save(entity);
+    }
+
+    @Override
+    public T createEntityByRelatedIds(T entity, List<Integer> ids , Map<String,MainService> serviceMap) {
+        return null;
     }
 }
 

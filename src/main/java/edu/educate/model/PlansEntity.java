@@ -1,8 +1,6 @@
 package edu.educate.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.educate.model.baseModel.TitleEntity;
-import edu.educate.validator.CustomDateDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -68,12 +66,12 @@ public class PlansEntity extends TitleEntity {
     @OneToMany(mappedBy = "plan")
     private List<MeetingEntity> meetings;
 
-//    @JsonDeserialize(using = CustomDateDeserializer.class)
+    //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @NotNull
     @Column(name = "from_date")
     private LocalDateTime fromDate;
 
-//    @JsonDeserialize(using = CustomDateDeserializer.class)
+    //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @NotNull
     @Column(name = "to_date")
     private LocalDateTime toDate;
@@ -85,12 +83,12 @@ public class PlansEntity extends TitleEntity {
 
     @AssertTrue(message = "{plansEntity.element.status}")
     private boolean isValidElementStatus() {
-        return elementStatus.getElementGrp().getTitle().equals("plan_status");
+        return elementStatus.getElementGrp().getLtTitle().equals("plan_status");
     }
 
     @AssertTrue(message = "{plansEntity.element.type}")
     private boolean isValidElementType() {
-        return elementType.getElementGrp().getTitle().equals("plan_type");
+        return elementType.getElementGrp().getLtTitle().equals("plan_type");
     }
 
 }

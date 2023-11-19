@@ -12,8 +12,7 @@ public class RolesMapper {
     public RolesDto toDto(RolesEntity role) {
         RolesDto rolesDto = new RolesDto();
 
-        dtoMapperUtils.populateCommonFields(role, rolesDto);
-        rolesDto.setTitle(role.getTitle());
+        dtoMapperUtils.populateCommonFieldsLp(role, rolesDto);
 
         return rolesDto;
     }

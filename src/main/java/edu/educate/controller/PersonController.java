@@ -2,6 +2,9 @@ package edu.educate.controller;
 
 import edu.educate.model.PersonEntity;
 import edu.educate.service.PersonService;
+import edu.educate.service.RolesService;
+import edu.educate.service.baseService.GenericService;
+import edu.educate.service.baseService.MainService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -15,12 +18,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @AllArgsConstructor
 @Controller
 @RequestMapping("/person")
 public class PersonController {
 
     private final PersonService personService;
+    private final RolesService rolesService;
 
     private static final int PAGE_SIZE = 30;
 
@@ -67,23 +75,34 @@ public class PersonController {
     @GetMapping("/new")
     public String newPersonForm(Model model) {
         model.addAttribute("person", new PersonEntity());
+        model.addAttribute("roles", rolesService.getAllEntities());
         return "personDir/personForm";
     }
 
     @PostMapping("/save")
     public String savePerson(@Valid @ModelAttribute("person") PersonEntity person,
                              BindingResult result,
+                             @RequestParam(value = "roles", required = false) List<Integer> roleIds,
                              Model model) {
-        if (result.hasErrors()) {
+
+        if (result.hasErrors() || roleIds == null) {
+            model.addAttribute("roles", rolesService.getAllEntities());
+            model.addAttribute("rolesFlag", roleIds == null ? 1 : 0);
             return "personDir/personForm";
         }
-        personService.createEntity(person);
+
+        Map<String,MainService> serviceMap = new HashMap<>();
+        serviceMap.put("RolesService", rolesService);
+
+        personService.createEntityByRelatedIds(person, roleIds, serviceMap);
         return "redirect:/person";
     }
 
     @GetMapping("/edit/{id}")
     public String editPersonForm(@PathVariable Integer id, Model model) {
-        model.addAttribute("person", personService.getEntity(id));
+        PersonEntity person = personService.getEntity(id);
+        model.addAttribute("person", person);
+        model.addAttribute("roles", rolesService.getAllEntities());
         return "personDir/personForm";
     }
 
@@ -97,7 +116,7 @@ public class PersonController {
     public String searchPersonsPost(@ModelAttribute PersonEntity searchPerson,
                                     @RequestParam String action,
                                     Model model) {
-        int page = Integer.valueOf(action);
+        int page = Integer.parseInt(action);
         searchPerson.setDeleted(false);
         Example<PersonEntity> example = Example.of(searchPerson, SEARCH_CONDITIONS_MATCH_ALL);
 

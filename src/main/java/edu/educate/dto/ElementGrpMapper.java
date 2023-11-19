@@ -19,7 +19,7 @@ public class ElementGrpMapper {
 
         ElementGrpDto elementGrpDto = new ElementGrpDto();
 
-        dtoMapperUtils.populateCommonFields(elementGrp, elementGrpDto);
+        dtoMapperUtils.populateCommonFieldsLp(elementGrp, elementGrpDto);
 
         if (elementGrp.getElements() != null) {
             Map<Integer, ElementDto> attendanceDtl = ConvertListToMap.apply(

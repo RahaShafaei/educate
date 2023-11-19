@@ -1,6 +1,6 @@
 package edu.educate.model;
 
-import edu.educate.model.baseModel.TitleEntity;
+import edu.educate.model.baseModel.TitleLPEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -19,9 +19,9 @@ import java.util.List;
         name = "element",
         schema = "dbo",
         catalog = "educate",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "element_grp_id"})}
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"lt_title", "element_grp_id"})}
 )
-public class ElementEntity  extends TitleEntity {
+public class ElementEntity  extends TitleLPEntity {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "element_grp_id")

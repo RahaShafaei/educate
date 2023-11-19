@@ -23,7 +23,7 @@ public class ElementServiceTest {
         ElementEntity element = new ElementEntity();
 
         element.setElementGrp(elementGrpService.getEntity(1));
-        element.setTitle("Sample element : Title");
+        element.setLtTitle("Sample element : Title");
 
         ElementEntity savedElement = elementService.createEntity(element);
 
@@ -32,7 +32,7 @@ public class ElementServiceTest {
         ElementEntity retrievedElement = elementService.getEntity(savedElement.getId());
 
         assertNotNull(retrievedElement);
-        assertEquals(savedElement.getTitle(), retrievedElement.getTitle());
+        assertEquals(savedElement.getLtTitle(), retrievedElement.getLtTitle());
 
         Boolean elementIsDeleted = elementService.deleteEntity(savedElement.getId());
 

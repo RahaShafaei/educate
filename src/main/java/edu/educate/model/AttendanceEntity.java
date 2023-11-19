@@ -44,7 +44,7 @@ public class AttendanceEntity extends BaseEntity {
             return true;
         }
 
-        return element.getElementGrp().getTitle().equals("attendance_status");
+        return element.getElementGrp().getLtTitle().equals("attendance_status");
     }
 
     @AssertTrue(message = "{attendanceEntity.element.present}")
@@ -53,7 +53,7 @@ public class AttendanceEntity extends BaseEntity {
             return true;
         }
 
-        return element.getTitle().equals("Present");
+        return element.getLtTitle().equals("Present");
     }
 
     @AssertTrue(message = "{attendanceEntity.plan}")
@@ -62,7 +62,7 @@ public class AttendanceEntity extends BaseEntity {
             return true;
         }
 
-        return !plan.getElementStatus().getTitle().equals("Planning");
+        return !plan.getElementStatus().getLtTitle().equals("Planning");
     }
 
 }

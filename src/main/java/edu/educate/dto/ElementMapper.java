@@ -13,8 +13,7 @@ public class ElementMapper {
 
         ElementDto elementDto = new ElementDto();
 
-        dtoMapperUtils.populateCommonFields(element, elementDto);
-        elementDto.setTitle(element.getTitle());
+        dtoMapperUtils.populateCommonFieldsLp(element, elementDto);
 
         return elementDto;
     }

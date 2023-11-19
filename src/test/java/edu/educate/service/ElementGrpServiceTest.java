@@ -22,7 +22,7 @@ public class ElementGrpServiceTest {
 
         ElementGrpEntity elementGrp = new ElementGrpEntity();
 //        System.out.println(":::::::::::::: welcomeMessage : " + welcomeMessage);
-        elementGrp.setTitle("Sample elementGrp : Title");
+        elementGrp.setLtTitle("Sample elementGrp : Title");
 
         ElementGrpEntity savedElementGrp = elementGrpService.createEntity(elementGrp);
 
@@ -31,7 +31,7 @@ public class ElementGrpServiceTest {
         ElementGrpEntity retrievedElementGrp = elementGrpService.getEntity(savedElementGrp.getId());
 
         assertNotNull(retrievedElementGrp);
-        assertEquals(savedElementGrp.getTitle(), retrievedElementGrp.getTitle());
+        assertEquals(savedElementGrp.getLtTitle(), retrievedElementGrp.getLtTitle());
 
         Boolean elementGrpIsDeleted = elementGrpService.deleteEntity(savedElementGrp.getId());
 

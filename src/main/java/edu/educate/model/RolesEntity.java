@@ -1,13 +1,12 @@
 package edu.educate.model;
 
-import edu.educate.model.baseModel.TitleEntity;
+import edu.educate.model.baseModel.TitleLPEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,8 +15,9 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "roles", schema = "dbo", catalog = "educate")
-public class RolesEntity extends TitleEntity {
-    @OneToMany(mappedBy = "role")
-    private List<PersonRoleEntity> personRoles;
+public class RolesEntity extends TitleLPEntity {
+
+    @ManyToMany(mappedBy = "personRoles")
+    private List<PersonEntity> personRoles;
 
 }

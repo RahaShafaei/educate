@@ -59,6 +59,18 @@
                     <small class="text-body-secondary" style="--bs-btn-font-size: .55rem;"  th:if="${#fields.hasErrors('tel')}" th:text="#{person.validate.tel}"></small>
                 </div>
 
+                <div class="col-md-3">
+                    <label th:text="#{role.field.title}"></label>
+                    <div th:each="role : ${roles}">
+                        <input type="checkbox" th:id="'role_' + ${role.id}" th:name="'roles'" th:value="${role.id}"
+                               th:checked="${person.getPersonRoles() != null ?  person.getPersonRoles().contains(role) : false}"/>
+                        <label th:for="'role_' + ${role.id}" th:text="${role.prTitle}"></label><br/>
+                    </div>
+
+                    <small class="text-body-secondary" th:if="${rolesFlag == 1}" th:text="#{role.validate}"></small>
+
+                </div>
+
             </div>
 
             <hr class="my-4">
