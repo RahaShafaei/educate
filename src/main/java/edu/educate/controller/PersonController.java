@@ -1,7 +1,6 @@
 package edu.educate.controller;
 
 import edu.educate.dto.PersonDto;
-import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.PersonEntity;
 import edu.educate.service.OrgPostService;
 import edu.educate.service.OrgUnitService;
@@ -82,6 +81,7 @@ public class PersonController {
         model.addAttribute("roles", rolesService.getAllEntities());
         model.addAttribute("posts", orgPostService.getAllEntities());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
+        model.addAttribute("orgUnitsPosts", null);
         return "personDir/personForm";
     }
 
@@ -98,6 +98,7 @@ public class PersonController {
             model.addAttribute("rolesId", rolesId);
             model.addAttribute("posts", orgPostService.getAllEntities());
             model.addAttribute("orgUnits", orgUnitService.getAllEntities());
+            model.addAttribute("orgUnitsPosts", person.getPersonWrapper().getOrgUnitPostPersons());
             model.addAttribute("rolesFlag", rolesId == null ? 1 : 0);
             model.addAttribute("fromDateFlag", !fromDateFlag ? 1 : 0);
             return "personDir/personForm";
@@ -111,6 +112,7 @@ public class PersonController {
             model.addAttribute("roles", rolesService.getAllEntities());
             model.addAttribute("posts", orgPostService.getAllEntities());
             model.addAttribute("orgUnits", orgUnitService.getAllEntities());
+            model.addAttribute("orgUnitsPosts", personDto.getPersonWrapper().getOrgUnitPostPersons());
             return "personDir/personForm";
         }
 
@@ -121,10 +123,13 @@ public class PersonController {
 
     @GetMapping("/edit/{id}")
     public String editPersonForm(@PathVariable Integer id, Model model) {
-        model.addAttribute("person", personService.getEntityByRelatedEntities(id));
+        PersonDto personDto = (PersonDto) personService.getEntityByRelatedEntities(id);
+
+        model.addAttribute("person", personDto);
         model.addAttribute("roles", rolesService.getAllEntities());
         model.addAttribute("posts", orgPostService.getAllEntities());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
+        model.addAttribute("orgUnitsPosts", personDto.getPersonWrapper().getOrgUnitPostPersons());
         return "personDir/personForm";
     }
 
