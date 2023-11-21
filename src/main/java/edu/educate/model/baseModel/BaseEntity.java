@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -38,10 +39,12 @@ public class BaseEntity implements Serializable {
 	@Column(name = "deleted")
 	private boolean deleted;
 
-	@Column(name = "deleted_at")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "deleted_at" , columnDefinition = "datetime")
 	private LocalDateTime deletedAt;
 
-	@Column(name = "inserted_at")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "inserted_at" , columnDefinition = "datetime")
 	private LocalDateTime insertedAt;
 
 	public boolean isNew() {

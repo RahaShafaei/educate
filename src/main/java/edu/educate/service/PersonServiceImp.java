@@ -2,11 +2,13 @@ package edu.educate.service;
 
 import edu.educate.dto.PersonDto;
 import edu.educate.dto.baseDto.BaseDto;
+import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.OrgUnitPostPersonEntity;
 import edu.educate.model.PersonEntity;
 import edu.educate.model.RolesEntity;
 import edu.educate.repository.PersonRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +30,17 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity> implement
     }
 
     @Override
+    public boolean entityValidation(BaseDto baseDto) {
+        PersonEntity personEntity = ((PersonDto) baseDto).getPersonWrapper();
+        OrgUnitPostPersonEntity orgUnitPostPersonEntity = ((PersonDto) baseDto).getOrgUnitPostPersonWrapper();
+
+        return checkDateRange(personEntity, orgUnitPostPersonEntity);
+    }
+
+    @Override
     public BaseDto getEntityByRelatedEntities(Integer id) {
         PersonEntity personEntity = getEntity(id);
-        OrgUnitPostPersonEntity orgUnitPostPerson = personEntity.getOrgUnitPostPersons().stream()
-                .filter(el -> el.getToDate() == null)
-                .findFirst()
-                .orElse(null);
+        OrgUnitPostPersonEntity orgUnitPostPerson = getLastPost(personEntity);
 
         PersonDto person = new PersonDto();
         person.setPersonWrapper(personEntity);
@@ -43,18 +50,42 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity> implement
     }
 
     @Override
-    public void createEntityByRelatedEntities(BaseDto baseDto) {
+    public BaseDto createEntityByRelatedEntities(BaseDto baseDto) {
         PersonEntity personEntity = ((PersonDto) baseDto).getPersonWrapper();
         OrgUnitPostPersonEntity orgUnitPostPersonEntity = ((PersonDto) baseDto).getOrgUnitPostPersonWrapper();
-        
-        updatePersonRoles(((PersonDto) baseDto).getRolesWrapper(),personEntity);
+
+        updatePersonRoles(((PersonDto) baseDto).getRolesWrapper(), personEntity);
         updateOrgUnitPersons(orgUnitPostPersonEntity, personEntity);
 
-        super.createEntity(personEntity);
+        PersonEntity savedPersonEntity = super.createEntity(personEntity);
         orgUnitPostPersonService.createEntity(orgUnitPostPersonEntity);
+
+        ((PersonDto) baseDto).setPersonWrapper(savedPersonEntity);
+        ((PersonDto) baseDto).setOrgUnitPostPersonWrapper(null);
+        ((PersonDto) baseDto).setRolesWrapper(null);
+
+        return baseDto;
     }
 
-    private void updatePersonRoles(List<Integer> rolesId,PersonEntity personEntity) {
+    private OrgUnitPostPersonEntity getLastPost(PersonEntity personEntity) {
+        return personEntity.getOrgUnitPostPersons().stream()
+                .filter(el -> el.getToDate() == null)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private boolean checkDateRange(PersonEntity personEntity, OrgUnitPostPersonEntity orgUnitPostPersonEntity) {
+        if (personEntity.getOrgUnitPostPersons() == null || getLastPost(personEntity) != null)
+            return true;
+
+        long cnt = personEntity.getOrgUnitPostPersons().stream()
+                .filter(e -> e.getToDate().isAfter(orgUnitPostPersonEntity.getFromDate()))
+                .count();
+
+        return cnt <= 0;
+    }
+
+    private void updatePersonRoles(List<Integer> rolesId, PersonEntity personEntity) {
         List<RolesEntity> newRoles = rolesService.getAllEntitiesByIds(rolesId);
 
         if (personEntity.getPersonRoles() == null)
@@ -69,10 +100,10 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity> implement
 
     public void updateOrgUnitPersons(OrgUnitPostPersonEntity orgUnitPostPersonEntity, PersonEntity personEntity) {
 
-      if (personEntity.getOrgUnitPostPersons() == null)
+        if (personEntity.getOrgUnitPostPersons() == null)
             personEntity.setOrgUnitPostPersons(new ArrayList<>());
 
-        if(orgUnitPostPersonEntity.getId() == null){
+        if (orgUnitPostPersonEntity.getId() == null) {
             orgUnitPostPersonEntity.setPerson(personEntity);
             personEntity.getOrgUnitPostPersons().add(orgUnitPostPersonEntity);
             return;

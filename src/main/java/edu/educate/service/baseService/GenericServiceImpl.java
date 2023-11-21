@@ -72,6 +72,9 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
 
     @Override
     public T createEntity(T entity) {
+        if (entity.isNew()){
+            entity.setInsertedAt(LocalDateTime.now());
+        }
         return repository.save(entity);
     }
 
@@ -81,7 +84,13 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     }
 
     @Override
-    public void createEntityByRelatedEntities(BaseDto baseDto) {
+    public BaseDto createEntityByRelatedEntities(BaseDto baseDto) {
+        return null;
+    }
+
+    @Override
+    public boolean entityValidation(BaseDto baseDto) {
+        return false;
     }
 }
 

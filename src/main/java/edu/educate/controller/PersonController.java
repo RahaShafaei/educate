@@ -1,6 +1,7 @@
 package edu.educate.controller;
 
 import edu.educate.dto.PersonDto;
+import edu.educate.exception.ParametersNotValidException;
 import edu.educate.model.PersonEntity;
 import edu.educate.service.OrgPostService;
 import edu.educate.service.OrgUnitService;
@@ -89,12 +90,27 @@ public class PersonController {
                              BindingResult result,
                              @RequestParam(value = "roles", required = false) List<Integer> rolesId,
                              Model model) {
-        if (result.hasErrors() || rolesId == null) {
+
+        boolean fromDateFlag = personService.entityValidation(person);
+
+        if (result.hasErrors() || rolesId == null || !fromDateFlag) {
             model.addAttribute("roles", rolesService.getAllEntities());
             model.addAttribute("rolesId", rolesId);
             model.addAttribute("posts", orgPostService.getAllEntities());
             model.addAttribute("orgUnits", orgUnitService.getAllEntities());
             model.addAttribute("rolesFlag", rolesId == null ? 1 : 0);
+            model.addAttribute("fromDateFlag", !fromDateFlag ? 1 : 0);
+            return "personDir/personForm";
+        }
+
+        if (person.getOrgUnitPostPersonWrapper().getToDate() != null) {
+            person.setRolesWrapper(rolesId);
+            PersonDto personDto = (PersonDto) personService.createEntityByRelatedEntities(person);
+
+            model.addAttribute("person", personDto);
+            model.addAttribute("roles", rolesService.getAllEntities());
+            model.addAttribute("posts", orgPostService.getAllEntities());
+            model.addAttribute("orgUnits", orgUnitService.getAllEntities());
             return "personDir/personForm";
         }
 

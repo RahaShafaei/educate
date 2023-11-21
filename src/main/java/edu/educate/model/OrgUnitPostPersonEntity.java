@@ -69,8 +69,8 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     private LocalDateTime toDate;
 
     @AssertTrue(message = "{general.dates.range}")
-    private boolean isValidDateRange() {
-        if (fromDate == null || toDate == null) {
+    public boolean isValidDateRange() {
+        if (toDate == null) {
             return true;
         }
 

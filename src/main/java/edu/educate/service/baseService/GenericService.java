@@ -27,5 +27,7 @@ public interface GenericService<T> extends MainService{
 
     public T createEntity(T entity);
 
-    public void createEntityByRelatedEntities(BaseDto baseDto);
+    public BaseDto createEntityByRelatedEntities(BaseDto baseDto);
+
+    public boolean entityValidation(BaseDto baseDto);
 }
