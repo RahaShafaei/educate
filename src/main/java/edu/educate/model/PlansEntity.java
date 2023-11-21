@@ -1,6 +1,8 @@
 package edu.educate.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.educate.model.baseModel.TitleEntity;
+import edu.educate.validator.CustomDateDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 @Table(
         name = "plans",
@@ -67,13 +70,15 @@ public class PlansEntity extends TitleEntity {
     private List<MeetingEntity> meetings;
 
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
-    @Column(name = "from_date")
+    @Column(name = "from_date" , columnDefinition = "datetime")
     private LocalDateTime fromDate;
 
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
-    @Column(name = "to_date")
+    @Column(name = "to_date" , columnDefinition = "datetime")
     private LocalDateTime toDate;
 
     @AssertTrue(message = "general.dates.range")

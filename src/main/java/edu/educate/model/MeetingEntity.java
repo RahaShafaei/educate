@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 @Table(name = "meeting", schema = "dbo", catalog = "educate")
 public class MeetingEntity extends TitleEntity {

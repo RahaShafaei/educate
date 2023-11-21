@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 @Table(name = "element_grp", schema = "dbo", catalog = "educate")
 public class ElementGrpEntity extends TitleLPEntity {

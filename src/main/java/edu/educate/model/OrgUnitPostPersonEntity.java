@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 @Table(
         name = "org_unit_post_person",
@@ -57,11 +58,14 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     private PersonEntity person;
 
 //    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @Column(name = "from_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @NotNull
+    @Column(name = "from_date" , columnDefinition = "datetime")
     private LocalDateTime fromDate;
 
 //    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @Column(name = "to_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "to_date" , columnDefinition = "datetime")
     private LocalDateTime toDate;
 
     @AssertTrue(message = "{general.dates.range}")

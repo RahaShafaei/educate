@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import edu.educate.dto.baseDto.BaseDto;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +21,11 @@ public interface GenericService<T> extends MainService{
 
     public T getEntity(Integer id);
 
+    public BaseDto getEntityByRelatedEntities(Integer id);
+
     public Boolean deleteEntity(Integer id);
 
     public T createEntity(T entity);
 
-    public T createEntityByRelatedIds(T entity, List<Integer> ids, Map<String,MainService> serviceMap);
+    public void createEntityByRelatedEntities(BaseDto baseDto);
 }

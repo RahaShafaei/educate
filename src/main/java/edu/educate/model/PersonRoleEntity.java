@@ -10,7 +10,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 @Table(
         name = "person_role",

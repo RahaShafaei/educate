@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+//@ToString
 @Entity
 @Table(name = "person", schema = "dbo", catalog = "educate")
 public class PersonEntity extends BaseEntity {

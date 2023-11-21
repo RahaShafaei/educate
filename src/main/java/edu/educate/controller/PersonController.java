@@ -1,10 +1,11 @@
 package edu.educate.controller;
 
+import edu.educate.dto.PersonDto;
 import edu.educate.model.PersonEntity;
+import edu.educate.service.OrgPostService;
+import edu.educate.service.OrgUnitService;
 import edu.educate.service.PersonService;
 import edu.educate.service.RolesService;
-import edu.educate.service.baseService.GenericService;
-import edu.educate.service.baseService.MainService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -18,9 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @Controller
@@ -29,6 +28,8 @@ public class PersonController {
 
     private final PersonService personService;
     private final RolesService rolesService;
+    private final OrgPostService orgPostService;
+    private final OrgUnitService orgUnitService;
 
     private static final int PAGE_SIZE = 30;
 
@@ -40,8 +41,9 @@ public class PersonController {
             .withMatcher("nlCode", ExampleMatcher.GenericPropertyMatchers.contains())
             .withMatcher("prCode", ExampleMatcher.GenericPropertyMatchers.contains())
             .withMatcher("tel", ExampleMatcher.GenericPropertyMatchers.contains())
+            .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withIgnoreNullValues()
-            .withIgnorePaths("id", "deleted", "deletedAt", "insertedAt");
+            .withIgnorePaths("id", "deletedAt", "insertedAt");
 
     private static final ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
             .matching()
@@ -51,8 +53,9 @@ public class PersonController {
             .withMatcher("nlCode", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("prCode", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("tel", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withIgnoreNullValues()
-            .withIgnorePaths("id", "deleted", "deletedAt", "insertedAt");
+            .withIgnorePaths("id", "deletedAt", "insertedAt");
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -74,35 +77,38 @@ public class PersonController {
 
     @GetMapping("/new")
     public String newPersonForm(Model model) {
-        model.addAttribute("person", new PersonEntity());
+        model.addAttribute("person", new PersonDto());
         model.addAttribute("roles", rolesService.getAllEntities());
+        model.addAttribute("posts", orgPostService.getAllEntities());
+        model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         return "personDir/personForm";
     }
 
     @PostMapping("/save")
-    public String savePerson(@Valid @ModelAttribute("person") PersonEntity person,
+    public String savePerson(@Valid @ModelAttribute("person") PersonDto person,
                              BindingResult result,
-                             @RequestParam(value = "roles", required = false) List<Integer> roleIds,
+                             @RequestParam(value = "roles", required = false) List<Integer> rolesId,
                              Model model) {
-
-        if (result.hasErrors() || roleIds == null) {
+        if (result.hasErrors() || rolesId == null) {
             model.addAttribute("roles", rolesService.getAllEntities());
-            model.addAttribute("rolesFlag", roleIds == null ? 1 : 0);
+            model.addAttribute("rolesId", rolesId);
+            model.addAttribute("posts", orgPostService.getAllEntities());
+            model.addAttribute("orgUnits", orgUnitService.getAllEntities());
+            model.addAttribute("rolesFlag", rolesId == null ? 1 : 0);
             return "personDir/personForm";
         }
 
-        Map<String,MainService> serviceMap = new HashMap<>();
-        serviceMap.put("RolesService", rolesService);
-
-        personService.createEntityByRelatedIds(person, roleIds, serviceMap);
+        person.setRolesWrapper(rolesId);
+        personService.createEntityByRelatedEntities(person);
         return "redirect:/person";
     }
 
     @GetMapping("/edit/{id}")
     public String editPersonForm(@PathVariable Integer id, Model model) {
-        PersonEntity person = personService.getEntity(id);
-        model.addAttribute("person", person);
+        model.addAttribute("person", personService.getEntityByRelatedEntities(id));
         model.addAttribute("roles", rolesService.getAllEntities());
+        model.addAttribute("posts", orgPostService.getAllEntities());
+        model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         return "personDir/personForm";
     }
 

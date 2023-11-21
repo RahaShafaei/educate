@@ -1,5 +1,6 @@
 package edu.educate.service.baseService;
 
+import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.repository.baseRepository.GenericRepository;
@@ -75,8 +76,12 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     }
 
     @Override
-    public T createEntityByRelatedIds(T entity, List<Integer> ids , Map<String,MainService> serviceMap) {
+    public BaseDto getEntityByRelatedEntities(Integer id) {
         return null;
+    }
+
+    @Override
+    public void createEntityByRelatedEntities(BaseDto baseDto) {
     }
 }
 
