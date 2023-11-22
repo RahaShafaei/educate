@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service("personService")
-public class PersonServiceImp extends GenericServiceImpl<PersonEntity> implements PersonService {
+public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto> implements PersonService {
     @Autowired
     private OrgUnitPostPersonService orgUnitPostPersonService;
 

@@ -5,11 +5,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import edu.educate.dto.baseDto.BaseDto;
+import edu.educate.model.baseModel.BaseEntity;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface GenericService<T> extends MainService{
+public interface GenericService<T , R> extends MainService{
     public List<T> getAllEntities();
 
     public List<T> getAllEntitiesByIds(List<Integer> EntityIds);
@@ -27,9 +28,12 @@ public interface GenericService<T> extends MainService{
 
     public T createEmptyEntity(Class<T> clazz);
 
+    public R createEmptyDto(Class<R> clazz);
+
     public T createEntity(T entity);
 
     public BaseDto createEntityByRelatedEntities(BaseDto baseDto);
+    public BaseEntity createEntityByRelatedEntities(BaseEntity baseEntity);
 
     public boolean entityValidation(BaseDto baseDto);
 }

@@ -1,7 +1,8 @@
 package edu.educate.service;
 
+import edu.educate.dto.AttendanceDto;
 import edu.educate.model.AttendanceEntity;
 import edu.educate.service.baseService.GenericService;
 
-public interface AttendanceService extends GenericService<AttendanceEntity> {
+public interface AttendanceService extends GenericService<AttendanceEntity, AttendanceDto> {
 }

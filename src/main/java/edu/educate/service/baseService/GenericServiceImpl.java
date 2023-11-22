@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class GenericServiceImpl<T extends BaseEntity> implements GenericService<T> {
+public class GenericServiceImpl<T extends BaseEntity, R extends BaseDto> implements GenericService<T,R> {
 
     protected final GenericRepository<T> repository;
     protected final String entityName;
@@ -80,6 +80,15 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     }
 
     @Override
+    public R createEmptyDto(Class<R> clazz) {
+        try {
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public T createEntity(T entity) {
         if (entity.isNew()){
             entity.setInsertedAt(LocalDateTime.now());
@@ -94,6 +103,11 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
 
     @Override
     public BaseDto createEntityByRelatedEntities(BaseDto baseDto) {
+        return null;
+    }
+
+    @Override
+    public BaseEntity createEntityByRelatedEntities(BaseEntity baseEntity) {
         return null;
     }
 

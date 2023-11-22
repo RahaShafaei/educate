@@ -1,5 +1,6 @@
 package edu.educate.controller.baseContrlller;
 
+import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.baseService.GenericService;
 import jakarta.validation.Valid;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
-public abstract class BaseController<T> {
+public abstract class BaseController<T, R> {
 
     protected final Class<T> entity;
 
-    protected final GenericService<T> service;
+    protected final Class<R> dto;
+
+    protected final GenericService<T, R> service;
 
     protected final String modelAttribute;
 
@@ -42,7 +45,13 @@ public abstract class BaseController<T> {
 
     @GetMapping("/new")
     public String newForm(Model model) {
-        model.addAttribute("entityObject", service.createEmptyEntity(entity));
+        this.modelSetting(model, (BaseEntity) service.createEmptyEntity(entity));
+        return viewPrefix + "Form";
+    }
+
+    @GetMapping("/newd")
+    public String newFormDto(Model model) {
+        this.modelSettingDto(model,(BaseDto) service.createEmptyDto(dto));
         return viewPrefix + "Form";
     }
 
@@ -51,6 +60,7 @@ public abstract class BaseController<T> {
                        BindingResult result,
                        Model model) {
         if (result.hasErrors()) {
+            this.modelSetting(model, (BaseEntity) entity);
             return viewPrefix + "Form";
         }
         service.createEntity(entity);
@@ -59,7 +69,13 @@ public abstract class BaseController<T> {
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Integer id, Model model) {
-        model.addAttribute("entityObject", service.getEntity(id));
+        this.modelSetting(model, (BaseEntity) service.getEntity(id));
+        return viewPrefix + "Form";
+    }
+
+    @GetMapping("/editd/{id}")
+    public String editPersonForm(@PathVariable Integer id, Model model) {
+        this.modelSettingDto(model, service.getEntityByRelatedEntities(id));
         return viewPrefix + "Form";
     }
 
@@ -90,6 +106,14 @@ public abstract class BaseController<T> {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
+    public void modelSetting(Model model, BaseEntity baseEntity) {
+        model.addAttribute("entityObject", baseEntity);
+    }
+
+    public void modelSettingDto(Model model, BaseDto baseDto) {
+        model.addAttribute("entityObject", baseDto);
     }
 }
 

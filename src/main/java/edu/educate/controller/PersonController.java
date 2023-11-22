@@ -2,6 +2,7 @@ package edu.educate.controller;
 
 import edu.educate.controller.baseContrlller.BaseController;
 import edu.educate.dto.PersonDto;
+import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.model.PersonEntity;
 import edu.educate.service.OrgPostService;
 import edu.educate.service.OrgUnitService;
@@ -12,14 +13,17 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 
 @Controller
 @RequestMapping("/person")
-public class PersonController extends BaseController<PersonEntity> {
+public class PersonController extends BaseController<PersonEntity,PersonDto> {
     private static final ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
             .matching()
             .withMatcher("fname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
@@ -41,6 +45,7 @@ public class PersonController extends BaseController<PersonEntity> {
                             OrgPostService orgPostService,
                             OrgUnitService orgUnitService) {
         super(PersonEntity.class,
+                PersonDto.class,
                 personService,
                 "person",
                 "personDir/person",
@@ -52,12 +57,6 @@ public class PersonController extends BaseController<PersonEntity> {
         this.orgPostService = orgPostService;
     }
 
-    @GetMapping("/newovr")
-    public String newPersonForm(Model model) {
-        modelSetting(model, new PersonDto());
-        return "personDir/personForm";
-    }
-
     @PostMapping("/saveovr")
     public String savePerson(@Valid @ModelAttribute("entityObject") PersonDto person,
                              BindingResult result,
@@ -67,7 +66,7 @@ public class PersonController extends BaseController<PersonEntity> {
         boolean fromDateFlag = super.service.entityValidation(person);
 
         if (result.hasErrors() || rolesId == null || !fromDateFlag) {
-            modelSetting(model, person);
+            modelSettingDto(model, person);
             model.addAttribute("rolesId", rolesId);
             model.addAttribute("rolesFlag", rolesId == null ? 1 : 0);
             model.addAttribute("fromDateFlag", !fromDateFlag ? 1 : 0);
@@ -77,7 +76,7 @@ public class PersonController extends BaseController<PersonEntity> {
 
         if (person.getOrgUnitPostPersonWrapper().getToDate() != null) {
             person.setRolesWrapper(rolesId);
-            modelSetting(model, (PersonDto) super.service.createEntityByRelatedEntities(person));
+            modelSettingDto(model, (PersonDto) super.service.createEntityByRelatedEntities(person));
             return "personDir/personForm";
         }
 
@@ -86,17 +85,12 @@ public class PersonController extends BaseController<PersonEntity> {
         return "redirect:/person";
     }
 
-    @GetMapping("/editovr/{id}")
-    public String editPersonForm(@PathVariable Integer id, Model model) {
-        modelSetting(model, (PersonDto) super.service.getEntityByRelatedEntities(id));
-        return "personDir/personForm";
-    }
-
-    private void modelSetting(Model model, PersonDto personDto) {
-        model.addAttribute("entityObject", personDto);
+    @Override
+    public void modelSettingDto(Model model, BaseDto baseDto) {
+        model.addAttribute("entityObject", (PersonDto)baseDto);
         model.addAttribute("roles", rolesService.getAllEntities());
         model.addAttribute("posts", orgPostService.getAllEntities());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
-        model.addAttribute("orgUnitsPosts",personDto.getPersonWrapper() != null ?  personDto.getPersonWrapper().getOrgUnitPostPersons() : null);
+        model.addAttribute("orgUnitsPosts",((PersonDto)baseDto).getPersonWrapper() != null ?  ((PersonDto)baseDto).getPersonWrapper().getOrgUnitPostPersons() : null);
     }
 }

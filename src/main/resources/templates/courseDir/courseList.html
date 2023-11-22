@@ -10,6 +10,107 @@
 
 <main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <h5 th:text="#{course.page.title}"></h5>
+    <div class="table-responsive small">
+        <form action="#" th:action="@{/course/search}" th:object="${searchcourse}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <table class="table table-bordered border-primary-subtle table-hover">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col" th:text="#{main.field.ltTitle}"></th>
+                    <th scope="col" th:text="#{main.field.prTitle}"></th>
+                    <th scope="col">
+                        <a class="btn btn-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
+                           th:href="@{/course/new}" th:text="#{main.btn.new}"></a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+
+                    <td>
+                        <input type="text" class="form-control" th:id="ltTitle" placeholder="" th:field="*{ltTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="prTitle" placeholder="" th:field="*{prTitle}">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                                type="submit"
+                                name="action"
+                                th:value="${0}"
+                                th:text="#{main.btn.search}"></button>
+                        <a class="btn btn-secondary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                           th:href="@{/course}" th:text="#{main.btn.clear}"></a>
+                    </td>
+
+
+                </tr>
+                <tr th:each="course : ${courses}">
+                    <td th:text="${course.ltTitle}"></td>
+                    <td th:text="${course.prTitle}"></td>
+                    <td>
+                        <a class="btn btn-outline-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                           th:href="@{/course/edit/{id}(id=${course.id})}" th:text="#{main.btn.edit}"></a>
+                        <a class="btn btn-outline-danger"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                           th:href="@{/course/delete/{id}(id=${course.id})}"
+                           th:text="#{main.btn.delete}"
+                           th:data-confirm-delete="|#{main.validation.delete}|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+                        ></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:switch="${searchFlag}">
+                <nav aria-label="Page navigation" th:case="0">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <a class="page-link"
+                               th:href="${'/course?page=' + #strings.toString(currentPage - 1)}"
+                               th:text="#{main.btn.previous}"></a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <a class="page-link"
+                               th:href="${'/course?page=' + #strings.toString(i)}"
+                               th:text="${i + 1}"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                            <a class="page-link"
+                               th:href="${'/course?page=' + #strings.toString(currentPage + 1)}"
+                               th:text="#{main.btn.next}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Page navigation" th:case="1">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <button class="page-link" type="submit" name="action"
+                                    th:value="${#strings.toString(currentPage - 1)}"
+                                    th:text="#{main.btn.previous}"></button>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <button class="page-link" type="submit" name="action" th:value="${#strings.toString(i)}"
+                                    th:text="${i + 1}"></button>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                            <button class="page-link" type="submit" name="action"
+                                    th:value="${#strings.toString(currentPage + 1)}"
+                                    th:text="#{main.btn.next}"></button>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </form>
+    </div>
 </main>
 
 </body>
