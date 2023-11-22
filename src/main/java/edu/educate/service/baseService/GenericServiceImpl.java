@@ -71,6 +71,15 @@ public class GenericServiceImpl<T extends BaseEntity> implements GenericService<
     }
 
     @Override
+    public T createEmptyEntity(Class<T> clazz) {
+        try {
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public T createEntity(T entity) {
         if (entity.isNew()){
             entity.setInsertedAt(LocalDateTime.now());

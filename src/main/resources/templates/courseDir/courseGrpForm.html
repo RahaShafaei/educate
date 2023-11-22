@@ -14,7 +14,7 @@
 
         <hr class="my-4">
 
-        <form th:action="@{/coursegrp/save}" th:object="${courseGrp}" method="post">
+        <form th:action="@{/coursegrp/save}" th:object="${entityObject}" method="post">
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{insertedAt}">
             <div class="row g-3">

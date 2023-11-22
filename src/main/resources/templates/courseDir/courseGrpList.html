@@ -11,7 +11,7 @@
 <main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <h5 th:text="#{course.grp.page.title}"></h5>
     <div class="table-responsive small">
-        <form action="#" th:action="@{/coursegrp/search}" th:object="${searchCourseGrp}" method="post">
+        <form action="#" th:action="@{/coursegrp/search}" th:object="${searchcoursegrp}" method="post">
             <input type="hidden" th:field="*{id}">
             <table class="table table-bordered border-primary-subtle table-hover">
                 <thead>
@@ -48,7 +48,7 @@
 
 
                 </tr>
-                <tr th:each="courseGrp : ${courseGrps}">
+                <tr th:each="courseGrp : ${coursegrps}">
                     <td th:text="${courseGrp.ltTitle}"></td>
                     <td th:text="${courseGrp.prTitle}"></td>
                     <td>

@@ -25,6 +25,8 @@ public interface GenericService<T> extends MainService{
 
     public Boolean deleteEntity(Integer id);
 
+    public T createEmptyEntity(Class<T> clazz);
+
     public T createEntity(T entity);
 
     public BaseDto createEntityByRelatedEntities(BaseDto baseDto);

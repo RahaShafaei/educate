@@ -11,7 +11,7 @@
 <main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <h5 th:text="#{person.page.title}"></h5>
     <div class="table-responsive small">
-        <form action="#" th:action="@{/person/search}" th:object="${searchPerson}" method="post">
+        <form action="#" th:action="@{/person/search}" th:object="${searchperson}" method="post">
             <input type="hidden" th:field="*{id}">
             <table class="table table-bordered border-primary-subtle table-hover">
                 <thead>
@@ -25,7 +25,7 @@
                     <th scope="col">
                         <a class="btn btn-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
-                           th:href="@{/person/new}" th:text="#{main.btn.new}"></a>
+                           th:href="@{/person/newovr}" th:text="#{main.btn.new}"></a>
                     </th>
                 </tr>
                 </thead>
@@ -74,7 +74,7 @@
                     <td>
                         <a class="btn btn-outline-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
-                           th:href="@{/person/edit/{id}(id=${person.id})}" th:text="#{main.btn.edit}"></a>
+                           th:href="@{/person/editovr/{id}(id=${person.id})}" th:text="#{main.btn.edit}"></a>
                         <a class="btn btn-outline-danger"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
                            th:href="@{/person/delete/{id}(id=${person.id})}"

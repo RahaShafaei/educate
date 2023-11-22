@@ -14,7 +14,7 @@
 
         <hr class="my-4">
 
-        <form th:action="@{/person/save}" th:object="${person}" method="post">
+        <form th:action="@{/person/saveovr}" th:object="${entityObject}" method="post">
             <input type="hidden" th:field="*{personWrapper.id}">
             <input type="hidden" th:field="*{personWrapper.insertedAt}">
             <input type="hidden" th:field="*{personWrapper.orgUnitPostPersons}">
@@ -74,7 +74,7 @@
                     <label th:text="#{role.field.title}"></label>
                     <div th:each="role : ${roles}">
                         <input type="checkbox" th:id="'role_' + ${role.id}" th:name="'roles'" th:value="${role.id}"
-                               th:checked="${(person.personWrapper.getPersonRoles() != null ?  person.personWrapper.getPersonRoles().contains(role) : false)
+                               th:checked="${(entityObject.personWrapper.getPersonRoles() != null ?  entityObject.personWrapper.getPersonRoles().contains(role) : false)
                                || (rolesId != null ?  rolesId.contains(role.id) : false)}"/>
                         <label th:for="'role_' + ${role.id}" th:text="${role.prTitle}"></label><br/>
                     </div>
@@ -86,7 +86,7 @@
                     <select class="form-select" id="post" th:field="*{orgUnitPostPersonWrapper.orgPost}">
                         <option value="" th:text="#{main.btn.select}">-- Select an option --</option>
                         <option th:each="post : ${posts}" th:value="${post.id}" th:text="${post.title}"
-                                th:selected="${person.orgUnitPostPersonWrapper.getOrgPost() != null && person.orgUnitPostPersonWrapper.getOrgPost() == post}"></option>
+                                th:selected="${entityObject.orgUnitPostPersonWrapper.getOrgPost() != null && entityObject.orgUnitPostPersonWrapper.getOrgPost() == post}"></option>
                     </select>
                     <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.orgPost')}"
                            th:text="#{orgUnitPostPerson.validate.orgPost}"></small>
@@ -97,7 +97,7 @@
                     <select class="form-select" id="orgUnit" th:field="*{orgUnitPostPersonWrapper.orgUnit}">
                         <option value="" th:text="#{main.btn.select}">-- Select an option --</option>
                         <option th:each="ou : ${orgUnits}" th:value="${ou.id}" th:text="${ou.title}"
-                                th:selected="${person.orgUnitPostPersonWrapper.getOrgUnit() != null && person.orgUnitPostPersonWrapper.getOrgUnit() == ou}"></option>
+                                th:selected="${entityObject.orgUnitPostPersonWrapper.getOrgUnit() != null && entityObject.orgUnitPostPersonWrapper.getOrgUnit() == ou}"></option>
                     </select>
                     <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.orgUnit')}"
                            th:text="#{orgUnitPostPerson.validate.orgUnit}"></small>
@@ -129,7 +129,6 @@
             <hr class="my-4">
 
             <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
-            <!--            <button class="w-50 btn btn-primary btn-lg" type="submit" th:text="#{main.btn.save}"></button>-->
             <a class="btn btn-secondary" th:href="@{/person}" th:text="#{main.btn.cancel}"></a>
             <hr class="my-4">
         </form>
