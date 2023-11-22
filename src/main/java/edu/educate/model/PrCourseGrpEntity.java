@@ -28,12 +28,12 @@ public class PrCourseGrpEntity extends BaseEntity {
     private List<PrCourseEntity> prCourses;
 
     @NotNull
-    @LengthOrEmpty(min = 2, max = 50, message = "{general.ltTitle}")
+    @LengthOrEmpty(min = 2, max = 255, message = "{general.ltTitle}")
     @Column(name = "lt_title", length = 255)
     private String ltTitle;
 
     @NotNull
-    @LengthOrEmpty(min = 2, max = 50, message = "{general.prTitle}")
+    @LengthOrEmpty(min = 2, max = 255, message = "{general.prTitle}")
     @Column(name = "pr_title", length = 255)
     private String prTitle;
 

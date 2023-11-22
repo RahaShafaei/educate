@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PrCourseController {
     @GetMapping("/course")
     public String course() {
-        return "courseDir/course";
+        return "courseList";
     }
 }
