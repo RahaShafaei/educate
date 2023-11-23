@@ -53,8 +53,13 @@ public class AttendanceController extends BaseController<AttendanceEntity, Atten
     @Override
     public void modelSetting(Model model, BaseEntity baseEntity) {
         model.addAttribute("entityObject", baseEntity);
-        model.addAttribute("plans", plansService.getAllEntities());
         model.addAttribute("persons", personService.getAllEntities());
+
+        PlansEntity plansEntity = new PlansEntity();
+        ElementEntity elementEntity = new ElementEntity();
+        elementEntity.setId(3);
+        plansEntity.setElementStatus(elementEntity);
+        model.addAttribute("plans", plansService.findEntitiesBySpecificFields(plansEntity));
 
         ElementEntity elementType = new ElementEntity();
         ElementGrpEntity elementGrpType = new ElementGrpEntity();
