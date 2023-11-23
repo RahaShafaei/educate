@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{attendance.page.title}"></title>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="col-md-7 col-lg-8">
+        <h5 th:text="#{attendance.page.title} + ' _ ' + #{main.form}"></h5>
+
+        <hr class="my-4">
+
+        <form th:action="@{/attendance/save}" th:object="${entityObject}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{insertedAt}">
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
+                    <select class="form-select" id="person" th:field="*{person}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${persons}" th:value="${pe.id}" th:text="${pe.fname} + ' _ ' + ${pe.lname}"
+                                th:selected="${entityObject.getPerson() != null && entityObject.getPerson() == pe}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('person')}"
+                           th:text="#{plan.validate.teacher}"></small>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="plan" th:text="#{plan.page.title}"></label>
+                    <select class="form-select" id="plan" th:field="*{plan}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pl : ${plans}" th:value="${pl.id}" th:text="${pl.title}"
+                                th:selected="${entityObject.getPlan() != null && entityObject.getPlan() == pl}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('plan')}"
+                           th:text="#{attendance.validate.plan}"></small>
+                    <small class="text-danger" th:if="${#fields.hasErrors('validPlan')}"
+                           th:text="#{attendance.validate.validPlan}"></small>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="element" th:text="#{attendance.field.status}"></label>
+                    <select class="form-select" id="element" th:field="*{element}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elements}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElement() != null && entityObject.getElement() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('element')}"
+                           th:text="#{attendance.validate.status}"></small>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="grade" class="form-label" th:text="#{attendance.field.grade}"></label>
+                    <input type="text" class="form-control" id="grade" placeholder="" value=""
+                           th:field="*{grade}">
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+            <a class="btn btn-secondary" th:href="@{/attendance}" th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

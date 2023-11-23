@@ -41,7 +41,7 @@ public class AttendanceEntity extends BaseEntity {
     private Float grade;
 
     @AssertTrue(message = "{attendanceEntity.element}")
-    private boolean isValidElement() {
+    public boolean isValidElement() {
         if (element == null) {
             return true;
         }
@@ -50,7 +50,7 @@ public class AttendanceEntity extends BaseEntity {
     }
 
     @AssertTrue(message = "{attendanceEntity.element.present}")
-    private boolean isGradeForPresentAttendance() {
+    public boolean isGradeForPresentAttendance() {
         if (grade == null) {
             return true;
         }
@@ -59,8 +59,8 @@ public class AttendanceEntity extends BaseEntity {
     }
 
     @AssertTrue(message = "{attendanceEntity.plan}")
-    private boolean isValidPlan() {
-        if (element == null) {
+    public boolean isValidPlan() {
+        if (plan == null) {
             return true;
         }
 

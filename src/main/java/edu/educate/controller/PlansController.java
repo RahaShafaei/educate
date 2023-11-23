@@ -67,6 +67,7 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
     @Override
     public void modelSetting(Model model, BaseEntity baseEntity) {
         model.addAttribute("entityObject", baseEntity);
+        model.addAttribute("attendances", ((PlansEntity)baseEntity).getAttendances());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         model.addAttribute("courses", prCourseService.getAllEntities());
 
