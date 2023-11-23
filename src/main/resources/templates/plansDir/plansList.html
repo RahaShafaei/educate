@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{plan.page.title}"></title>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <h5 th:text="#{plan.page.title}"></h5>
+    <div class="table-responsive small">
+        <form action="#" th:action="@{/plans/search}" th:object="${searchplans}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <table class="table table-bordered border-primary-subtle table-hover">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col" th:text="#{orgUnit.field.title}"></th>
+                    <th scope="col" th:text="#{course.grp.page.title}"></th>
+                    <th scope="col" th:text="#{course.page.title}"></th>
+                    <th scope="col" th:text="#{person.field.fname}"></th>
+                    <th scope="col" th:text="#{person.field.lname}"></th>
+                    <th scope="col" th:text="#{plan.field.type}"></th>
+                    <th scope="col" th:text="#{plan.field.status}"></th>
+                    <th scope="col" th:text="#{main.field.title}"></th>
+                    <th scope="col" th:text="#{plan.field.from.date}"></th>
+                    <th scope="col" th:text="#{plan.field.to.date}"></th>
+                    <th scope="col">
+                        <a class="btn btn-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
+                           th:href="@{/plans/new}" th:text="#{main.btn.new}"></a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" th:id="orgUnit" placeholder="" th:field="*{orgUnit.title}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="prCourseGrp" placeholder="" th:field="*{prCourse.prCourseGrp.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="prCourse" placeholder="" th:field="*{prCourse.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="fname" placeholder="" th:field="*{person.fname}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="lname" placeholder="" th:field="*{person.lname}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="elementType" placeholder="" th:field="*{elementType.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="elementStatus" placeholder="" th:field="*{elementStatus.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="title" placeholder="" th:field="*{title}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="fromDate" placeholder="" th:field="*{fromDate}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="toDate" placeholder="" th:field="*{toDate}">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                                type="submit"
+                                name="action"
+                                th:value="${0}"
+                                th:text="#{main.btn.search}"></button>
+                        <a class="btn btn-secondary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                           th:href="@{/plans}" th:text="#{main.btn.clear}"></a>
+                    </td>
+
+
+                </tr>
+                <tr th:each="plan : ${planss}">
+                    <td th:text="${plan.orgUnit != null ? plan.orgUnit.title : ''}"></td>
+                    <td th:text="${plan.prCourse != null ? plan.prCourse.prCourseGrp.prTitle : ''}"></td>
+                    <td th:text="${plan.prCourse != null ? plan.prCourse.prTitle : ''}"></td>
+                    <td th:text="${plan.person != null ? plan.person.fname : ''}"></td>
+                    <td th:text="${plan.person != null ? plan.person.lname : ''}"></td>
+                    <td th:text="${plan.elementType != null ? plan.elementType.prTitle : ''}"></td>
+                    <td th:text="${plan.elementStatus != null ? plan.elementStatus.prTitle : ''}"></td>
+                    <td th:text="${plan.title}"></td>
+                    <td th:text="${plan.fromDate}"></td>
+                    <td th:text="${plan.toDate}"></td>
+                    <td>
+                        <a class="btn btn-outline-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                           th:href="@{/plans/edit/{id}(id=${plan.id})}" th:text="#{main.btn.edit}"></a>
+                        <a class="btn btn-outline-danger"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                           th:href="@{/plans/delete/{id}(id=${plan.id})}"
+                           th:text="#{main.btn.delete}"
+                           th:data-confirm-delete="|#{main.validation.delete}|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+                        ></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:switch="${searchFlag}">
+                <nav aria-label="Page navigation" th:case="0">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <a class="page-link"
+                               th:href="${'/plans?page=' + #strings.toString(currentPage - 1)}"
+                               th:text="#{main.btn.previous}"></a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <a class="page-link"
+                               th:href="${'/plans?page=' + #strings.toString(i)}"
+                               th:text="${i + 1}"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                            <a class="page-link"
+                               th:href="${'/plans?page=' + #strings.toString(currentPage + 1)}"
+                               th:text="#{main.btn.next}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Page navigation" th:case="1">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <button class="page-link" type="submit" name="action"
+                                    th:value="${#strings.toString(currentPage - 1)}"
+                                    th:text="#{main.btn.previous}"></button>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <button class="page-link" type="submit" name="action" th:value="${#strings.toString(i)}"
+                                    th:text="${i + 1}"></button>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                            <button class="page-link" type="submit" name="action"
+                                    th:value="${#strings.toString(currentPage + 1)}"
+                                    th:text="#{main.btn.next}"></button>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

@@ -17,7 +17,7 @@ public class PlansDto extends TitleDto {
 
     private PrCourseDto prCourse;
 
-    private OrgUnitPostPersonDto orgUnitPostPerson;
+    private PersonDto person;
 
     private ElementDto elementType;
 

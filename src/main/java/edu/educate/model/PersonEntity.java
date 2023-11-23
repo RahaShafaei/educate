@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -19,6 +18,12 @@ import java.util.List;
 @Entity
 @Table(name = "person", schema = "dbo", catalog = "educate")
 public class PersonEntity extends BaseEntity {
+    @OneToMany(mappedBy = "person")
+    private List<AttendanceEntity> attendances;
+
+    @OneToMany(mappedBy = "person")
+    private List<PlansEntity> plans;
+
     @OneToMany(mappedBy = "person")
     private List<OrgUnitPostPersonEntity> orgUnitPostPersons;
 
@@ -43,15 +48,15 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "father_name", length = 50)
     private String fatherName;
 
-    @LengthOrEmpty(min = 10,max = 10, message = "{personEntity.nlCode}")
+    @LengthOrEmpty(min = 10, max = 10, message = "{personEntity.nlCode}")
     @Column(name = "nl_code", length = 50)
     private String nlCode;
 
-//    @LengthOrEmpty(min = 2, max = 10, message = "{personEntity.prCode}")
+    //    @LengthOrEmpty(min = 2, max = 10, message = "{personEntity.prCode}")
     @Column(name = "pr_code", length = 50)
     private String prCode;
 
-    @LengthOrEmpty(min = 10,max = 11, message = "{personEntity.tel}")
+    @LengthOrEmpty(min = 10, max = 11, message = "{personEntity.tel}")
     @Column(name = "tel", length = 50)
     private String tel;
 

@@ -3,6 +3,7 @@ package edu.educate.service;
 import edu.educate.dto.PersonDto;
 import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.exception.ParametersNotValidException;
+import edu.educate.model.ElementEntity;
 import edu.educate.model.OrgUnitPostPersonEntity;
 import edu.educate.model.PersonEntity;
 import edu.educate.model.RolesEntity;
@@ -10,6 +11,8 @@ import edu.educate.repository.PersonRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -119,20 +122,21 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
         }
     }
 
-//    private void updatePersonRoles(PersonEntity person, List<Integer> ids, RolesService rolesService) {
-//        List<RolesEntity> newRoles = rolesService.getAllEntitiesByIds(ids);
-//
-//        person.getPersonRoles().removeIf(role -> !newRoles.contains(role.getRole()));
-//
-//        newRoles.stream()
-//                .filter(role -> !person.getRoles().contains(role))
-//                .map(role -> {
-//                    PersonRoleEntity personRoleEntity = new PersonRoleEntity();
-//                    personRoleEntity.setPerson(person);
-//                    personRoleEntity.setRole(role);
-//                    return personRoleEntity;
-//                })
-//                .forEach(personRoleEntity -> person.getPersonRoles().add(personRoleEntity));
-//    }
+    @Override
+    public List<PersonEntity> findEntitiesBySpecificFields(PersonEntity personEntity) {
+        ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
+                .matching()
+                .withMatcher("personRoles.id", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withIgnoreNullValues()
+                .withIgnorePaths("id", "deletedAt", "insertedAt",
+                        "fname", "lname", "fatherName", "nlCode", "prCode", "tel"
+                );
+        personEntity.setDeleted(false);
+
+        Example<PersonEntity> example = Example.of(personEntity, SEARCH_CONDITIONS_MATCH_ALL);
+
+        return findEntities(example);
+    }
 
 }

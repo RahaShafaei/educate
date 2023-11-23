@@ -17,7 +17,7 @@ public class PlansMapper {
 
     private final PrCourseMapper prCourseMapper;
 
-    private final OrgUnitPostPersonMapper orgUnitPostPersonMapper;
+    private final PersonMapper person;
 
     private final ElementMapper elementMapper;
 
@@ -33,7 +33,7 @@ public class PlansMapper {
 
         plansDto.setOrgUnit(this.orgUnitMapper.toDto(plans.getOrgUnit()));
         plansDto.setPrCourse(this.prCourseMapper.toDto(plans.getPrCourse()));
-        plansDto.setOrgUnitPostPerson(this.orgUnitPostPersonMapper.toDto(plans.getOrgUnitPostPerson()));
+        plansDto.setPerson(this.person.toDto(plans.getPerson()));
         plansDto.setElementStatus(this.elementMapper.toDto(plans.getElementStatus()));
         plansDto.setElementType(this.elementMapper.toDto(plans.getElementType()));
         if (plans.getMeetings() != null) {

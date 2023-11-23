@@ -1,15 +1,12 @@
 package edu.educate.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.educate.model.baseModel.TitleEntity;
-import edu.educate.validator.CustomDateDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -29,7 +26,7 @@ import java.util.List;
                         {
                                 "org_unit_id",
                                 "pr_course_id",
-                                "org_unit_post_person_id",
+                                "person_id",
                                 "element_id_type",
                                 "element_id_status",
                                 "from_date",
@@ -50,8 +47,8 @@ public class PlansEntity extends TitleEntity {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "org_unit_post_person_id")
-    private OrgUnitPostPersonEntity orgUnitPostPerson;
+    @JoinColumn(name = "person_id")
+    private PersonEntity person;
 
     @ManyToOne
     @NotNull
@@ -82,17 +79,23 @@ public class PlansEntity extends TitleEntity {
     private LocalDateTime toDate;
 
     @AssertTrue(message = "general.dates.range")
-    private boolean isValidDateRange() {
+    public boolean isValidDateRange() {
+        if (fromDate == null)
+            return true;
         return fromDate.isBefore(toDate);
     }
 
     @AssertTrue(message = "{plansEntity.element.status}")
-    private boolean isValidElementStatus() {
+    public boolean isValidElementStatus() {
+        if (elementStatus == null)
+            return true;
         return elementStatus.getElementGrp().getLtTitle().equals("plan_status");
     }
 
     @AssertTrue(message = "{plansEntity.element.type}")
-    private boolean isValidElementType() {
+    public boolean isValidElementType() {
+        if (elementType == null)
+            return true;
         return elementType.getElementGrp().getLtTitle().equals("plan_type");
     }
 

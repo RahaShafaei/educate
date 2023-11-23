@@ -41,6 +41,11 @@ public class GenericServiceImpl<T extends BaseEntity, R extends BaseDto> impleme
     }
 
     @Override
+    public List<T> findEntities(Example<T> example) {
+        return repository.findAll(example);
+    }
+
+    @Override
     public Page<T> getAllEntities(Pageable pageable) {
         return repository.findByDeletedFalseOrderByIdDesc(pageable);
     }
@@ -54,6 +59,11 @@ public class GenericServiceImpl<T extends BaseEntity, R extends BaseDto> impleme
         }
 
         return entity.get();
+    }
+
+    @Override
+    public List<T> findEntitiesBySpecificFields(T entity) {
+        return null;
     }
 
     @Override

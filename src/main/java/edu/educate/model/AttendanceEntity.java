@@ -5,7 +5,9 @@ import edu.educate.validator.FloatLength;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
@@ -16,14 +18,14 @@ import lombok.*;
         name = "attendance",
         schema = "dbo",
         catalog = "educate",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"org_unit_post_person_id", "plan_id"})}
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"person_id", "plan_id"})}
 )
 public class AttendanceEntity extends BaseEntity {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "org_unit_post_person_id")
-    private OrgUnitPostPersonEntity orgUnitPostPerson;
+    @JoinColumn(name = "person_id")
+    private PersonEntity person;
 
     @ManyToOne
     @NotNull

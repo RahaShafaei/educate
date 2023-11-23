@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class AttendanceMapper {
     private final DtoMapperUtils dtoMapperUtils;
 
-    private final OrgUnitPostPersonMapper orgUnitPostPersonMapper;
+    private final PersonMapper personMapper;
 
     private final PlansMapper plansMapper;
 
@@ -21,8 +21,8 @@ public class AttendanceMapper {
         dtoMapperUtils.populateCommonFields(attendance, attendanceDto);
         attendanceDto.setGrade(attendance.getGrade());
 
-        attendanceDto.setOrgUnitPostPerson(
-                this.orgUnitPostPersonMapper.toDto(attendance.getOrgUnitPostPerson())
+        attendanceDto.setPerson(
+                this.personMapper.toDto(attendance.getPerson())
         );
         attendanceDto.setPlan(
                 this.plansMapper.toDto(attendance.getPlan())

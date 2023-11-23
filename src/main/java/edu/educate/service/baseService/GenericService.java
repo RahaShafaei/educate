@@ -24,6 +24,11 @@ public interface GenericService<T , R> extends MainService{
 
     public BaseDto getEntityByRelatedEntities(Integer id);
 
+    public List<T> findEntities(Example<T> example);
+
+    public List<T> findEntitiesBySpecificFields(T entity);
+
+
     public Boolean deleteEntity(Integer id);
 
     public T createEmptyEntity(Class<T> clazz);

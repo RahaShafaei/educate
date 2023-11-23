@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{plan.page.title}"></title>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="col-md-7 col-lg-8">
+        <h5 th:text="#{plan.page.title} + ' _ ' + #{main.form}"></h5>
+
+        <hr class="my-4">
+
+        <form th:action="@{/plans/save}" th:object="${entityObject}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{insertedAt}">
+            <div class="row g-3">
+                <div class="col-12">
+                    <label class="form-label" for="orgUnit" th:text="#{orgUnit.page.title}"></label>
+                    <select class="form-select" id="orgUnit" th:field="*{orgUnit}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="ou : ${orgUnits}" th:value="${ou.id}" th:text="${ou.title}"
+                                th:selected="${entityObject.getOrgUnit() != null && entityObject.getOrgUnit() == ou}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('orgUnit')}"
+                           th:text="#{orgUnitPostPerson.validate.orgUnit}"></small>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="prCourse" th:text="#{course.page.title}"></label>
+                    <select class="form-select" id="prCourse" th:field="*{prCourse}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="co : ${courses}" th:value="${co.id}" th:text="${co.prTitle}"
+                                th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse() == co}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('prCourse')}"
+                           th:text="#{course.validate.prCourse}"></small>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
+                    <select class="form-select" id="person" th:field="*{person}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${persons}" th:value="${pe.id}" th:text="${pe.fname} + ' _ ' + ${pe.lname}"
+                                th:selected="${entityObject.getPerson() != null && entityObject.getPerson() == pe}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('person')}"
+                           th:text="#{plan.validate.teacher}"></small>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="elementType" th:text="#{plan.field.type}"></label>
+                    <select class="form-select" id="elementType" th:field="*{elementType}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementTypes}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementType() != null && entityObject.getElementType() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementType')}"
+                           th:text="#{plan.validate.type}"></small>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="elementStatus" th:text="#{plan.field.status}"></label>
+                    <select class="form-select" id="elementStatus" th:field="*{elementStatus}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementStatus}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementStatus() != null && entityObject.getElementStatus() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementStatus')}"
+                           th:text="#{plan.validate.status}"></small>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="title" class="form-label" th:text="#{main.field.title}"></label>
+                    <input type="text" class="form-control" id="title" placeholder="" value=""
+                           th:field="*{title}">
+                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"
+                           th:text="#{main.validation.title}"></small>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
+                    <input type="text" class="" id="fromDate" placeholder="" value=""
+                           th:field="*{fromDate}"
+                           style="direction: ltr">
+                    <small class="text-danger" th:if="${#fields.hasErrors('fromDate')}"
+                           th:text="#{orgUnitPostPerson.validate.from.date}"></small>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
+                    <input type="text" class="" id="toDate" placeholder="" value=""
+                           th:field="*{toDate}"
+                           style="direction: ltr">
+                    <small class="text-danger" th:if="${#fields.hasErrors('toDate')}"
+                           th:text="#{plan.validate.toDate}"></small>
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('validDateRange')}"
+                           th:text="#{orgUnitPostPerson.validate.to.date}"></small>
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+            <a class="btn btn-secondary" th:href="@{/plans}" th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

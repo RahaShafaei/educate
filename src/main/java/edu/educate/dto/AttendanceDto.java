@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class AttendanceDto extends BaseDto {
 
-    private OrgUnitPostPersonDto orgUnitPostPerson;
+    private PersonDto person;
 
     private PlansDto plan;
 

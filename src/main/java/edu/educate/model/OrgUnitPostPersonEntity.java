@@ -1,19 +1,15 @@
 package edu.educate.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.educate.model.baseModel.BaseEntity;
-import edu.educate.validator.CustomDateDeserializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -36,11 +32,6 @@ import java.util.List;
         }
 )
 public class OrgUnitPostPersonEntity extends BaseEntity {
-    @OneToMany(mappedBy = "orgUnitPostPerson")
-    private List<AttendanceEntity> attendances;
-
-    @OneToMany(mappedBy = "orgUnitPostPerson")
-    private List<PlansEntity> plans;
 
     @ManyToOne
     @NotNull
