@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class OrgUnitController {
     @GetMapping("/orgUnit")
     public String orgUnit() {
-        return "orgUnitDir/orgUnit";
+        return "orgUnitList";
     }
 }

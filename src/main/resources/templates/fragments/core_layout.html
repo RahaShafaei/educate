@@ -173,11 +173,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" th:href="@{/orgUnit}">
+                            <a class="nav-link d-flex align-items-center gap-2" th:href="@{/orgunit}">
                                 <svg class="bi">
                                     <use xlink:href="#file-earmark-text"/>
                                 </svg>
                                 <span th:text="#{orgUnit.page.title}"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-2" th:href="@{/orgpost}">
+                                <svg class="bi">
+                                    <use xlink:href="#file-earmark-text"/>
+                                </svg>
+                                <span th:text="#{post.field.title}"></span>
                             </a>
                         </li>
                     </ul>
