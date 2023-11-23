@@ -55,10 +55,4 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "tel", length = 50)
     private String tel;
 
-//    public List<RolesEntity> getRoles() {
-//        return personRoles != null ? personRoles.stream()
-//                .map(PersonRoleEntity::getRole)
-//                .toList() : null;
-//    }
-
 }

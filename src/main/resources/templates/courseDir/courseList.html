@@ -16,6 +16,8 @@
             <table class="table table-bordered border-primary-subtle table-hover">
                 <thead>
                 <tr class="table-primary">
+                    <th scope="col" th:text="#{main.field.grp.ltTitle}"></th>
+                    <th scope="col" th:text="#{main.field.grp.prTitle}"></th>
                     <th scope="col" th:text="#{main.field.ltTitle}"></th>
                     <th scope="col" th:text="#{main.field.prTitle}"></th>
                     <th scope="col">
@@ -27,7 +29,12 @@
                 </thead>
                 <tbody>
                 <tr>
-
+                    <td>
+                        <input type="text" class="form-control" th:id="prCourseGrpltTitle" placeholder="" th:field="*{prCourseGrp.ltTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="prCourseGrpprTitle" placeholder="" th:field="*{prCourseGrp.prTitle}">
+                    </td>
                     <td>
                         <input type="text" class="form-control" th:id="ltTitle" placeholder="" th:field="*{ltTitle}">
                     </td>
@@ -49,6 +56,8 @@
 
                 </tr>
                 <tr th:each="course : ${courses}">
+                    <td th:text="${course.prCourseGrp != null ? course.prCourseGrp.ltTitle : null}"></td>
+                    <td th:text="${course.prCourseGrp != null ? course.prCourseGrp.prTitle : null}"></td>
                     <td th:text="${course.ltTitle}"></td>
                     <td th:text="${course.prTitle}"></td>
                     <td>

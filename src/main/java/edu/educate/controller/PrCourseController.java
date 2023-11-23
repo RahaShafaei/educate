@@ -19,6 +19,8 @@ public class PrCourseController extends BaseController<PrCourseEntity, PrCourseD
 
     private static final ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
             .matching()
+            .withMatcher("prCourseGrp.ltTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("prCourseGrp.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("ltTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
