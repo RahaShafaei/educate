@@ -103,6 +103,13 @@
                            th:text="#{orgUnitPostPerson.validate.to.date}"></small>
                 </div>
 
+                <div class="col-sm-6">
+                    <label for="meeting" class="form-label" th:text="#{meeting.field}"></label>
+                    <input type="file" class="" id="meeting">
+                    <small class="text-danger" th:if="${#fields.hasErrors('toDate')}"
+                           th:text="#{plan.validate.toDate}"></small>
+                </div>
+
             </div>
 
             <hr class="my-4">
