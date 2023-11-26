@@ -7,7 +7,7 @@ The Educate System is a planning system for the courses held in an organization 
 * Attendance tracking and reporting
 * Meeting coordination and communication
 
-#### This system Contain the following components:
+#### This system Contains the following components:
 * Person Management
 * Role Management
 * Course Management
@@ -19,6 +19,7 @@ The Educate System is a planning system for the courses held in an organization 
 * Meeting Management
 
 ## Technologies used in this project
+* Java
 * Spring boot
 * JPA
 * Thymeleaf
