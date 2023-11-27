@@ -18,4 +18,11 @@ public class MeetingEntity extends TitleEntity {
     @JoinColumn(name = "plan_id")
     private PlansEntity plan;
 
+    @Lob
+    @Column(name = "file_value")
+    private byte[] fileValue;
+
+    @Column(name = "file_type")
+    private String fileType;
+
 }

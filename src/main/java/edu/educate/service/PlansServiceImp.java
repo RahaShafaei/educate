@@ -2,22 +2,28 @@ package edu.educate.service;
 
 import edu.educate.dto.PlansDto;
 import edu.educate.model.ElementEntity;
+import edu.educate.model.MeetingEntity;
 import edu.educate.model.PlansEntity;
 import edu.educate.repository.PlansRepository;
-import edu.educate.repository.baseRepository.GenericRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @Service("plansService")
 public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> implements PlansService {
     @Autowired
     private ElementService elementService;
+
+    @Autowired
+    private MeetingService meetingService;
+
     @Autowired
     public PlansServiceImp(PlansRepository repository) {
         super(repository, "PlansEntity");
@@ -25,9 +31,50 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
 
     @Override
     public List<PlansEntity> findEntitiesBySpecificFields(PlansEntity plansEntity) {
-        List<ElementEntity> elementEntities =new ArrayList<>();
+        List<ElementEntity> elementEntities = new ArrayList<>();
         elementEntities.add(elementService.getEntityById(plansEntity.getElementStatus().getId()).get());
 
-        return ((PlansRepository)this.repository).findByElementStatusNotIn(elementEntities);
+        return ((PlansRepository) this.repository).findByElementStatusNotIn(elementEntities);
+    }
+
+    @Override
+    public PlansEntity createEntityByRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {
+        PlansEntity savedPlan = super.createEntity(plansEntity);
+        updateRelatedFiles(savedPlan, files);
+        return savedPlan;
+    }
+
+    private void updateRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {
+        if (files != null && files.length > 0) {
+            if (plansEntity.getMeetings() == null)
+                plansEntity.setMeetings(new ArrayList<>());
+
+            List<String> titles = Arrays.stream(files).map(file -> file.getOriginalFilename()).toList();
+
+            Iterator<MeetingEntity> iterator = plansEntity.getMeetings().iterator();
+            while (iterator.hasNext()) {
+                MeetingEntity meeting = iterator.next();
+                if (titles.contains(meeting.getTitle())) {
+                    iterator.remove();
+                    meetingService.deleteEntityEntirely(meeting.getId());
+                }
+            }
+
+            Arrays.stream(files)
+                    .toList()
+                    .forEach(file -> {
+                        MeetingEntity meetingEntity = new MeetingEntity();
+                        meetingEntity.setPlan(plansEntity);
+                        meetingEntity.setTitle(file.getOriginalFilename());
+                        meetingEntity.setFileType(file.getContentType());
+                        try {
+                            meetingEntity.setFileValue(file.getBytes());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        meetingService.createEntity(meetingEntity);
+                        plansEntity.getMeetings().add(meetingEntity);
+                    });
+        }
     }
 }

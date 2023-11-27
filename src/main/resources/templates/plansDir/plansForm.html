@@ -14,9 +14,10 @@
 
         <hr class="my-4">
 
-        <form th:action="@{/plans/save}" th:object="${entityObject}" method="post">
+        <form th:action="@{/plans/saveovr}" th:object="${entityObject}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{insertedAt}">
+            <input type="hidden" th:field="*{meetings}">
             <div class="row g-3">
                 <div class="col-12">
                     <label class="form-label" for="orgUnit" th:text="#{orgUnit.page.title}"></label>
@@ -105,7 +106,7 @@
 
                 <div class="col-sm-6">
                     <label for="meeting" class="form-label" th:text="#{meeting.field}"></label>
-                    <input type="file" class="" id="meeting">
+                    <input type="file" class="" id="meeting" th:name="file" multiple>
                     <small class="text-danger" th:if="${#fields.hasErrors('toDate')}"
                            th:text="#{plan.validate.toDate}"></small>
                 </div>
@@ -118,6 +119,42 @@
             <a class="btn btn-secondary" th:href="@{/plans}" th:text="#{main.btn.cancel}"></a>
             <hr class="my-4">
         </form>
+    </div>
+
+    <div class="table-responsive small">
+        <h5 th:text="#{meeting.field.page}"></h5>
+        <table class="table table-bordered border-primary-subtle table-hover">
+            <thead>
+            <tr class="table-primary">
+                <th scope="col" th:text="#{meeting.file.name}"></th>
+                <th scope="col" th:text="#{meeting.file}"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="meet : ${meetings}">
+                <td th:text="${meet.title}"></td>
+                <td>
+                    <a th:href="@{/meeting/download/{id}(id=${meet.id})}"
+                       th:text="#{meeting.file.download}"
+                    ></a>
+                </td>
+                <td>
+<!--                    <a class="btn btn-outline-primary"-->
+<!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
+<!--                       th:href="@{/meeting/edit/{id}(id=${meet.id})}" th:text="#{main.btn.edit}"></a>-->
+                    <a class="btn btn-outline-danger"
+                       style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                       th:href="@{/meeting/deleted/{id}(id=${meet.id})}"
+                       th:text="#{main.btn.delete}"
+                       th:data-confirm-delete="|#{main.validation.delete}|"
+                       onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+                    ></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <hr class="my-4">
     </div>
 
     <div class="table-responsive small">

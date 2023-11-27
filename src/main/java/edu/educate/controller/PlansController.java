@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,10 +65,26 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         this.elementService = elementService;
     }
 
+    @PostMapping("/saveovr")
+    public String savePerson(@Valid @ModelAttribute("entityObject") PlansEntity plan,
+                             BindingResult result,
+                             @RequestParam("file") MultipartFile[] files,
+                             Model model) {
+
+        if (result.hasErrors()) {
+            modelSetting(model, plan);
+            return "plansDir/plansForm";
+        }
+
+        ((PlansService)service).createEntityByRelatedFiles(plan, files);
+        return "redirect:/plans";
+    }
+
     @Override
     public void modelSetting(Model model, BaseEntity baseEntity) {
         model.addAttribute("entityObject", baseEntity);
         model.addAttribute("attendances", ((PlansEntity)baseEntity).getAttendances());
+        model.addAttribute("meetings", ((PlansEntity)baseEntity).getMeetings());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         model.addAttribute("courses", prCourseService.getAllEntities());
 

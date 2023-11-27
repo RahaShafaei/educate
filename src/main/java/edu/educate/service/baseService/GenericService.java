@@ -30,6 +30,7 @@ public interface GenericService<T , R> extends MainService{
 
 
     public Boolean deleteEntity(Integer id);
+    public Boolean deleteEntityEntirely(Integer id);
 
     public T createEmptyEntity(Class<T> clazz);
 

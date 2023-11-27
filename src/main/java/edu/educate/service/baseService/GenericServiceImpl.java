@@ -81,6 +81,18 @@ public class GenericServiceImpl<T extends BaseEntity, R extends BaseDto> impleme
     }
 
     @Override
+    public Boolean deleteEntityEntirely(Integer id) {
+        Optional<T> entity = repository.findById(id);
+
+        if (!entity.isEmpty()) {
+            repository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public T createEmptyEntity(Class<T> clazz) {
         try {
             return clazz.getDeclaredConstructor().newInstance();
