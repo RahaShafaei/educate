@@ -1,15 +1,13 @@
 package edu.educate.model;
 
 import edu.educate.model.baseModel.BaseEntity;
-import edu.educate.model.baseModel.TitleEntity;
 import edu.educate.validator.LengthOrEmpty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -40,4 +38,7 @@ public class PrCourseGrpEntity extends BaseEntity {
     @Column(name = "descr", length = 255)
     private String descr;
 
+    public List<PrCourseEntity> getPrCourses() {
+        return ifEntityListHasDeletedElement(prCourses);
+    }
 }

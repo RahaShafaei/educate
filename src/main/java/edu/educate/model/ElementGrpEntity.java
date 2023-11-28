@@ -1,11 +1,12 @@
 package edu.educate.model;
 
 import edu.educate.model.baseModel.TitleLPEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public class ElementGrpEntity extends TitleLPEntity {
 
     @OneToMany(mappedBy = "elementGrp")
     private List<ElementEntity> elements;
+
+    public List<ElementEntity> getElements() {
+        return ifEntityListHasDeletedElement(elements);
+    }
 }

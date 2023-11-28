@@ -25,13 +25,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class BaseEntity<T extends BaseEntity> implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -49,6 +51,22 @@ public class BaseEntity implements Serializable {
 
 	public boolean isNew() {
 		return this.id == null;
+	}
+
+	public T ifEntityIsDeleted(T baseEntity){
+		return Optional.ofNullable(baseEntity).filter(e -> !e.isDeleted()).orElse(null);
+	}
+
+	public List<T> ifEntityListHasDeletedElement(List<T> baseEntities){
+		if (baseEntities == null)
+			return null;
+
+		if (baseEntities.size() == 0)
+			return baseEntities;
+
+		baseEntities.removeIf(BaseEntity::isDeleted);
+
+		return baseEntities;
 	}
 
 	@AssertTrue(message = "{general.deletedAt}")

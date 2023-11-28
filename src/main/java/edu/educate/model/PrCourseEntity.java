@@ -3,7 +3,9 @@ package edu.educate.model;
 import edu.educate.model.baseModel.TitleLPEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -37,4 +39,11 @@ public class PrCourseEntity extends TitleLPEntity {
     @Column(name = "descr", length = 255)
     private String descr;
 
+    public PrCourseGrpEntity getPrCourseGrp() {
+        return (PrCourseGrpEntity)ifEntityIsDeleted(prCourseGrp);
+    }
+
+    public List<PlansEntity> getPlans() {
+        return ifEntityListHasDeletedElement(plans);
+    }
 }

@@ -3,9 +3,9 @@ package edu.educate.model;
 import edu.educate.model.baseModel.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.sql.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
@@ -32,4 +32,11 @@ public class PersonRoleEntity extends BaseEntity {
     @JoinColumn(name = "role_id")
     private RolesEntity role;
 
+    public PersonEntity getPerson() {
+        return (PersonEntity)ifEntityIsDeleted(person);
+    }
+
+    public RolesEntity getRole() {
+        return (RolesEntity)ifEntityIsDeleted(role);
+    }
 }

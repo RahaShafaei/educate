@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service("plansService")
 public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> implements PlansService {
@@ -45,7 +42,12 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
     }
 
     private void updateRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {
-        if (files != null && files.length > 0) {
+        List<MultipartFile> validFiles = Arrays.stream(files)
+                .filter(Objects::nonNull)
+                .filter(file-> !file.getContentType().equals("application/octet-stream"))
+                .toList();
+
+        if (validFiles != null && validFiles.size() > 0) {
             if (plansEntity.getMeetings() == null)
                 plansEntity.setMeetings(new ArrayList<>());
 
@@ -73,7 +75,7 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
                             throw new RuntimeException(e);
                         }
                         meetingService.createEntity(meetingEntity);
-                        plansEntity.getMeetings().add(meetingEntity);
+//                        plansEntity.getMeetings().add(meetingEntity);
                     });
         }
     }

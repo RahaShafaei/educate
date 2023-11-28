@@ -1,13 +1,14 @@
 package edu.educate.model;
 
 import edu.educate.model.baseModel.TitleEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,4 +27,7 @@ public class OrgPostEntity extends TitleEntity {
     @Column(name = "descr", length = 255)
     private String descr;
 
+    public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {
+        return ifEntityListHasDeletedElement(orgUnitPostPersons);
+    }
 }

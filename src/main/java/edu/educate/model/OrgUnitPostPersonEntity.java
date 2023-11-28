@@ -48,7 +48,7 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     @JoinColumn(name = "person_id")
     private PersonEntity person;
 
-//    @JsonDeserialize(using = CustomDateDeserializer.class)
+    //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     @Column(name = "from_date" , columnDefinition = "datetime")
@@ -58,6 +58,19 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "to_date" , columnDefinition = "datetime")
     private LocalDateTime toDate;
+
+    public PersonEntity getPerson() {
+        return (PersonEntity)ifEntityIsDeleted(person);
+    }
+
+    public OrgUnitEntity getOrgUnit() {
+        return (OrgUnitEntity)ifEntityIsDeleted(orgUnit);
+
+    }
+
+    public OrgPostEntity getOrgPost() {
+        return (OrgPostEntity)ifEntityIsDeleted(orgPost);
+    }
 
     @AssertTrue(message = "{general.dates.range}")
     public boolean isValidDateRange() {

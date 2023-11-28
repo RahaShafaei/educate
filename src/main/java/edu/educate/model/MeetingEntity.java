@@ -3,7 +3,9 @@ package edu.educate.model;
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
@@ -25,4 +27,7 @@ public class MeetingEntity extends TitleEntity {
     @Column(name = "file_type")
     private String fileType;
 
+    public PlansEntity getPlan() {
+        return (PlansEntity)ifEntityIsDeleted(plan);
+    }
 }

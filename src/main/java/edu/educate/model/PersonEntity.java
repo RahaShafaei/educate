@@ -60,4 +60,20 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "tel", length = 50)
     private String tel;
 
+    public List<AttendanceEntity> getAttendances() {
+        return ifEntityListHasDeletedElement(attendances);
+    }
+
+    public List<PlansEntity> getPlans() {
+        return ifEntityListHasDeletedElement(plans);
+    }
+
+    public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {
+        return ifEntityListHasDeletedElement(orgUnitPostPersons);
+    }
+
+    public List<RolesEntity> getPersonRoles() {
+        return ifEntityListHasDeletedElement(personRoles);
+    }
+
 }

@@ -78,6 +78,35 @@ public class PlansEntity extends TitleEntity {
     @Column(name = "to_date" , columnDefinition = "datetime")
     private LocalDateTime toDate;
 
+    public OrgUnitEntity getOrgUnit() {
+        return (OrgUnitEntity)ifEntityIsDeleted(orgUnit);
+    }
+
+    public PrCourseEntity getPrCourse() {
+        return (PrCourseEntity)ifEntityIsDeleted(prCourse);
+    }
+
+    public PersonEntity getPerson() {
+        return (PersonEntity)ifEntityIsDeleted(person);
+    }
+
+    public ElementEntity getElementType() {
+        return (ElementEntity)ifEntityIsDeleted(elementType);
+    }
+
+
+    public ElementEntity getElementStatus() {
+        return (ElementEntity)ifEntityIsDeleted(elementStatus);
+    }
+
+    public List<AttendanceEntity> getAttendances() {
+        return ifEntityListHasDeletedElement(attendances);
+    }
+
+    public List<MeetingEntity> getMeetings() {
+        return ifEntityListHasDeletedElement(meetings);
+    }
+
     @AssertTrue(message = "general.dates.range")
     public boolean isValidDateRange() {
         if (fromDate == null)

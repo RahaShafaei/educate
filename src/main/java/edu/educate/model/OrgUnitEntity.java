@@ -6,7 +6,6 @@ import jakarta.validation.constraints.AssertTrue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +35,22 @@ public class OrgUnitEntity extends TitleEntity {
 
     @Column(name = "descr", length = 255)
     private String descr;
+
+    public OrgUnitEntity getParentOrgUnit() {
+        return (OrgUnitEntity)ifEntityIsDeleted(parentOrgUnit);
+    }
+
+    public List<OrgUnitEntity> getOrgUnits() {
+        return ifEntityListHasDeletedElement(orgUnits);
+    }
+
+    public List<PlansEntity> getPlans() {
+        return ifEntityListHasDeletedElement(plans);
+    }
+
+    public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {
+        return ifEntityListHasDeletedElement(orgUnitPostPersons);
+    }
 
     @AssertTrue(message = "{orgUnitEntity.parentOrgUnit}")
     public boolean isValidParentOrgUnit() {

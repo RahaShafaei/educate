@@ -35,4 +35,19 @@ public class ElementEntity  extends TitleLPEntity {
     @OneToMany(mappedBy = "elementStatus")
     private List<PlansEntity> planStatus;
 
+    public ElementGrpEntity getElementGrp() {
+        return (ElementGrpEntity)ifEntityIsDeleted(elementGrp);
+    }
+
+    public List<AttendanceEntity> getAttendances() {
+        return ifEntityListHasDeletedElement(attendances);
+    }
+
+    public List<PlansEntity> getPlanTypes() {
+        return ifEntityListHasDeletedElement(planTypes);
+    }
+
+    public List<PlansEntity> getPlanStatus() {
+        return ifEntityListHasDeletedElement(planStatus);
+    }
 }

@@ -40,6 +40,18 @@ public class AttendanceEntity extends BaseEntity {
     @Column(name = "grade")
     private Float grade;
 
+    public PersonEntity getPerson() {
+        return (PersonEntity)ifEntityIsDeleted(person);
+    }
+
+    public PlansEntity getPlan() {
+        return (PlansEntity)ifEntityIsDeleted(plan);
+    }
+
+    public ElementEntity getElement() {
+        return (ElementEntity)ifEntityIsDeleted(element);
+    }
+
     @AssertTrue(message = "{attendanceEntity.element}")
     public boolean isValidElement() {
         if (element == null) {
