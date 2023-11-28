@@ -15,9 +15,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service("personService")
 public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto> implements PersonService {
@@ -77,11 +76,20 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
                 .orElse(null);
     }
 
+    private LocalDateTime getLastToDate(PersonEntity personEntity) {
+        return personEntity.getOrgUnitPostPersons().stream()
+                .map(OrgUnitPostPersonEntity::getToDate)
+                .filter(Objects::nonNull)
+                .max(Comparator.naturalOrder())
+                .orElse(null);
+    }
+
     private boolean checkDateRange(PersonEntity personEntity, OrgUnitPostPersonEntity orgUnitPostPersonEntity) {
-        if (personEntity.getOrgUnitPostPersons() == null || getLastPost(personEntity) != null)
+        if (personEntity.getOrgUnitPostPersons() == null || getLastToDate(personEntity) == null)
             return true;
 
         long cnt = personEntity.getOrgUnitPostPersons().stream()
+                .filter(e -> e.getToDate() != null)
                 .filter(e -> e.getToDate().isAfter(orgUnitPostPersonEntity.getFromDate()))
                 .count();
 
