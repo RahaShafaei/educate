@@ -16,6 +16,7 @@
             <table class="table table-bordered border-primary-subtle table-hover">
                 <thead>
                 <tr class="table-primary">
+                    <th scope="col" th:text="#{main.field.row}"></th>
                     <th scope="col" th:text="#{main.field.grp.ltTitle}"></th>
                     <th scope="col" th:text="#{main.field.grp.prTitle}"></th>
                     <th scope="col" th:text="#{main.field.ltTitle}"></th>
@@ -29,6 +30,7 @@
                 </thead>
                 <tbody>
                 <tr>
+                    <td></td>
                     <td>
                         <input type="text" class="form-control" th:id="prCourseGrpltTitle" placeholder="" th:field="*{prCourseGrp.ltTitle}">
                     </td>
@@ -55,7 +57,8 @@
 
 
                 </tr>
-                <tr th:each="course : ${courses}">
+                <tr th:each="course , rowStat: ${courses}">
+                    <td th:text="${rowStat.count +(currentPage * pageSize)}"></td>
                     <td th:text="${course.prCourseGrp != null ? course.prCourseGrp.ltTitle : null}"></td>
                     <td th:text="${course.prCourseGrp != null ? course.prCourseGrp.prTitle : null}"></td>
                     <td th:text="${course.ltTitle}"></td>
@@ -107,9 +110,9 @@
                         <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                             th:classappend="${currentPage == i ? 'active' : ''}">
                             <button class="page-link" type="submit" name="action" th:value="${#strings.toString(i)}"
-                                    th:text="${i + 1}"></button>
+                                    th:text="${i + 1}" th:if="${( i + 1) > 0}"></button>
                         </li>
-                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1) || currentPage == totalPages} ? 'disabled' : ''">
                             <button class="page-link" type="submit" name="action"
                                     th:value="${#strings.toString(currentPage + 1)}"
                                     th:text="#{main.btn.next}"></button>

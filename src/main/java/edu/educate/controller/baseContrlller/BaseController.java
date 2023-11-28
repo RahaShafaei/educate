@@ -39,6 +39,7 @@ public abstract class BaseController<T, R> {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", entityPage.getTotalPages());
         model.addAttribute("search" + modelAttribute, service.createEmptyEntity(entity));
+        model.addAttribute("pageSize", pageSize);
         model.addAttribute("searchFlag", 0);
         return viewPrefix + "List";
     }
@@ -99,6 +100,7 @@ public abstract class BaseController<T, R> {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", entityPage.getTotalPages());
         model.addAttribute("search" + modelAttribute, searchEntity);
+        model.addAttribute("pageSize", pageSize);
         model.addAttribute("searchFlag", 1);
         return viewPrefix + "List";
     }

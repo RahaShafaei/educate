@@ -16,6 +16,7 @@
             <table class="table table-bordered border-primary-subtle table-hover">
                 <thead>
                 <tr class="table-primary">
+                    <th scope="col" th:text="#{main.field.row}"></th>
                     <th scope="col" th:text="#{orgUnit.field.title}"></th>
                     <th scope="col" th:text="#{course.grp.page.title}"></th>
                     <th scope="col" th:text="#{course.page.title}"></th>
@@ -35,6 +36,7 @@
                 </thead>
                 <tbody>
                 <tr>
+                    <td></td>
                     <td>
                         <input type="text" class="form-control" th:id="orgUnit" placeholder="" th:field="*{orgUnit.title}">
                     </td>
@@ -79,7 +81,8 @@
 
 
                 </tr>
-                <tr th:each="plan : ${planss}">
+                <tr th:each="plan, rowStat  : ${planss}">
+                    <td th:text="${rowStat.count +(currentPage * pageSize)}"></td>
                     <td th:text="${plan.orgUnit != null ? plan.orgUnit.title : ''}"></td>
                     <td th:text="${plan.prCourse != null ? plan.prCourse.prCourseGrp.prTitle : ''}"></td>
                     <td th:text="${plan.prCourse != null ? plan.prCourse.prTitle : ''}"></td>
@@ -134,12 +137,13 @@
                                     th:value="${#strings.toString(currentPage - 1)}"
                                     th:text="#{main.btn.previous}"></button>
                         </li>
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, (totalPages - 1) )}"
                             th:classappend="${currentPage == i ? 'active' : ''}">
                             <button class="page-link" type="submit" name="action" th:value="${#strings.toString(i)}"
-                                    th:text="${i + 1}"></button>
+                                    th:text="${i + 1}"
+                            th:if="${( i + 1) > 0}"></button>
                         </li>
-                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1) || currentPage == totalPages} ? 'disabled' : ''">
                             <button class="page-link" type="submit" name="action"
                                     th:value="${#strings.toString(currentPage + 1)}"
                                     th:text="#{main.btn.next}"></button>

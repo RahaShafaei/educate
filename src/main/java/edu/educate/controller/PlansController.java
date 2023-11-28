@@ -1,9 +1,7 @@
 package edu.educate.controller;
 
 import edu.educate.controller.baseContrlller.BaseController;
-import edu.educate.dto.PersonDto;
 import edu.educate.dto.PlansDto;
-import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.model.*;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.*;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/plans")
