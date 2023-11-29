@@ -9,7 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 import java.util.Optional;
 @NoRepositoryBean
-public interface GenericRepository<T extends BaseEntity> extends JpaRepository<T, Integer> {
+public interface GenericRepository<T extends BaseEntity> extends JpaRepository<T, Integer>  {
     List<T> findByDeletedFalseOrderByIdDesc();
     List<T> findByIdIn(List<Integer> EntityIds);
     Optional<T> findById(Integer EntityId);

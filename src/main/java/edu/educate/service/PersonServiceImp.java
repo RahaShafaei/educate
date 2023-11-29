@@ -69,6 +69,23 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
         return baseDto;
     }
 
+    @Override
+    public List<PersonEntity> findEntitiesBySpecificFields(PersonEntity personEntity) {
+        ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
+                .matching()
+                .withMatcher("personRoles.id", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withIgnoreNullValues()
+                .withIgnorePaths("id", "deletedAt", "insertedAt",
+                        "fname", "lname", "fatherName", "nlCode", "prCode", "tel"
+                );
+        personEntity.setDeleted(false);
+
+        Example<PersonEntity> example = Example.of(personEntity, SEARCH_CONDITIONS_MATCH_ALL);
+
+        return findEntities(example);
+    }
+
     private OrgUnitPostPersonEntity getLastPost(PersonEntity personEntity) {
         return personEntity.getOrgUnitPostPersons().stream()
                 .filter(el -> el.getToDate() == null)
@@ -128,23 +145,6 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
                     .toList();
             personEntity.setOrgUnitPostPersons(orgUnitPostPersonEntities);
         }
-    }
-
-    @Override
-    public List<PersonEntity> findEntitiesBySpecificFields(PersonEntity personEntity) {
-        ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
-                .matching()
-                .withMatcher("personRoles.id", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withIgnoreNullValues()
-                .withIgnorePaths("id", "deletedAt", "insertedAt",
-                        "fname", "lname", "fatherName", "nlCode", "prCode", "tel"
-                );
-        personEntity.setDeleted(false);
-
-        Example<PersonEntity> example = Example.of(personEntity, SEARCH_CONDITIONS_MATCH_ALL);
-
-        return findEntities(example);
     }
 
 }

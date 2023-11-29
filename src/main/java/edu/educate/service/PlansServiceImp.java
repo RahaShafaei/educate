@@ -6,7 +6,12 @@ import edu.educate.model.MeetingEntity;
 import edu.educate.model.PlansEntity;
 import edu.educate.repository.PlansRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,10 +46,17 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
         return savedPlan;
     }
 
+    @Override
+    public Page<PlansEntity> getAllEntities(Example<PlansEntity> example, Pageable pageable) {
+        Specification<PlansEntity> dateSpec = getCriterias(example);
+        Page<PlansEntity> page = ((PlansRepository) repository).findAll(dateSpec, pageable);
+        return page;
+    }
+
     private void updateRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {
         List<MultipartFile> validFiles = Arrays.stream(files)
                 .filter(Objects::nonNull)
-                .filter(file-> !file.getContentType().equals("application/octet-stream"))
+                .filter(file -> !file.getContentType().equals("application/octet-stream"))
                 .toList();
 
         if (validFiles != null && validFiles.size() > 0) {
@@ -78,5 +90,52 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
 //                        plansEntity.getMeetings().add(meetingEntity);
                     });
         }
+    }
+
+    private  Specification<PlansEntity> getCriterias(Example<PlansEntity> example){
+        Specification<PlansEntity> dateSpec = (root, query, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (example.getProbe().getOrgUnit().getTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("orgUnit").get("title"), "%" +example.getProbe().getOrgUnit().getTitle()+ "%"));
+            }
+            if (example.getProbe().getPrCourse().getPrCourseGrp().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("prCourse").get("prCourseGrp").get("prTitle"), "%" +example.getProbe().getPrCourse().getPrTitle()+ "%"));
+            }
+            if (example.getProbe().getPrCourse().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("prCourse").get("prTitle"), "%" +example.getProbe().getPrCourse().getPrTitle()+ "%"));
+            }
+            if (example.getProbe().getPerson().getFname() != null) {
+                predicates.add(criteriaBuilder.like(root.get("person").get("fname"), "%" +example.getProbe().getPerson().getFname()+ "%"));
+            }
+            if (example.getProbe().getPerson().getLname() != null) {
+                predicates.add(criteriaBuilder.like(root.get("person").get("lname"), "%" +example.getProbe().getPerson().getLname()+ "%"));
+            }
+            if (example.getProbe().getElementType().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementType").get("prTitle"), "%" +example.getProbe().getElementType().getPrTitle()+ "%"));
+            }
+            if (example.getProbe().getElementStatus().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementStatus").get("prTitle"), "%" +example.getProbe().getElementStatus().getPrTitle()+ "%"));
+            }
+            if (example.getProbe().getTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("title"), "%" +example.getProbe().getTitle()+ "%"));
+            }
+            if (example.getProbe().getFromDate() != null)
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("fromDate"), example.getProbe().getFromDate()));
+
+            if (example.getProbe().getToDate() != null)
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("toDate"), example.getProbe().getToDate()));
+
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), example.getProbe().isDeleted()));
+
+            if (predicates.isEmpty()) {
+                predicates.add(criteriaBuilder.greaterThan(root.get("id"), 1));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return dateSpec;
     }
 }
