@@ -1,6 +1,7 @@
 package edu.educate.controller.baseContrlller;
 
 import edu.educate.dto.baseDto.BaseDto;
+import edu.educate.helper.ExcelGenerator;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.baseService.GenericService;
 import jakarta.validation.Valid;
@@ -14,6 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 public abstract class BaseController<T, R> {
@@ -102,6 +110,21 @@ public abstract class BaseController<T, R> {
         model.addAttribute("search" + modelAttribute, searchEntity);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("searchFlag", 1);
+        return viewPrefix + "List";
+    }
+
+    @GetMapping("/export-to-excel")
+    public String exportIntoExcelFile(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=student" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        ExcelGenerator generator = new ExcelGenerator(service.getAllEntities());
+        generator.generateExcelFile(response);
         return viewPrefix + "List";
     }
 

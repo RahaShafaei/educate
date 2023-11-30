@@ -1,10 +1,13 @@
 package edu.educate;
 
+
+import edu.educate.helper.MessageUtil;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ClassPathResource;
-
+import org.springframework.core.io.Resource;
 
 @SpringBootApplication
 public class EducateApplication {
@@ -18,6 +21,7 @@ public class EducateApplication {
         if (resource.exists()) {
             System.out.println(":::::::::::::::::  resource.exists()   : " + resource.exists());
         }
+
     }
 
 }

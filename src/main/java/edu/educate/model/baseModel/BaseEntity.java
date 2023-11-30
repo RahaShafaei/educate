@@ -69,6 +69,14 @@ public class BaseEntity<T extends BaseEntity> implements Serializable {
 		return baseEntities;
 	}
 
+	public List<String> getHeaderNames(){
+		return null;
+	}
+
+	public List<Object> getCellValues(){
+		return null;
+	}
+
 	@AssertTrue(message = "{general.deletedAt}")
 	private boolean isValidDeletedAt() {
 		if (!deleted) {

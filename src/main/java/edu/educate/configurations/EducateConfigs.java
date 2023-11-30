@@ -25,5 +25,4 @@ public class EducateConfigs {
     public LayoutDialect layoutDialect() {
         return new LayoutDialect();
     }
-
 }
