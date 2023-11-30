@@ -1,5 +1,6 @@
 package edu.educate.model;
 
+import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +37,26 @@ public class OrgUnitEntity extends TitleEntity {
 
     @Column(name = "descr", length = 255)
     private String descr;
+
+    @Override
+    public List<String> getHeaderNames() {
+        List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("orgUnit.field.parent.title"));
+        headers.add(MessageUtil.getMessage("post.field.title"));
+        headers.add(MessageUtil.getMessage("main.field.code"));
+        headers.add(MessageUtil.getMessage("main.field.descr"));
+        return headers;
+    }
+
+    @Override
+    public List<Object> getCellValues() {
+        List<Object> objects = new ArrayList<>();
+        objects.add(parentOrgUnit != null ? parentOrgUnit.getTitle() : null);
+        objects.add(getTitle() != null ? getTitle() : null);
+        objects.add(code != null ? code : null);
+        objects.add(descr != null ? descr : null);
+        return objects;
+    }
 
     public OrgUnitEntity getParentOrgUnit() {
         return (OrgUnitEntity)ifEntityIsDeleted(parentOrgUnit);

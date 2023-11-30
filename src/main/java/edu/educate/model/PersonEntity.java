@@ -1,5 +1,6 @@
 package edu.educate.model;
 
+import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.validator.LengthOrEmpty;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -59,6 +61,30 @@ public class PersonEntity extends BaseEntity {
     @LengthOrEmpty(min = 10, max = 11, message = "{personEntity.tel}")
     @Column(name = "tel", length = 50)
     private String tel;
+
+    @Override
+    public List<String> getHeaderNames() {
+        List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("person.field.fname"));
+        headers.add(MessageUtil.getMessage("person.field.lname"));
+        headers.add(MessageUtil.getMessage("person.field.father"));
+        headers.add(MessageUtil.getMessage("person.field.nl.code"));
+        headers.add(MessageUtil.getMessage("person.field.pr.code"));
+        headers.add(MessageUtil.getMessage("person.field.tel"));
+        return headers;
+    }
+
+    @Override
+    public List<Object> getCellValues() {
+        List<Object> objects = new ArrayList<>();
+        objects.add(fname != null ? fname : null);
+        objects.add(lname != null ? lname : null);
+        objects.add(fatherName != null ? fatherName : null);
+        objects.add(nlCode != null ? nlCode : null);
+        objects.add(prCode != null ? prCode : null);
+        objects.add(tel != null ? tel : null);
+        return objects;
+    }
 
     public List<AttendanceEntity> getAttendances() {
         return ifEntityListHasDeletedElement(attendances);

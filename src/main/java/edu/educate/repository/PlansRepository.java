@@ -17,4 +17,6 @@ public interface PlansRepository extends GenericRepository<PlansEntity> {
     List<PlansEntity> findByElementStatusNotIn(List<ElementEntity> elementEntities);
 
     Page<PlansEntity> findAll(Specification<PlansEntity> dateSpec, Pageable pageable);
+
+    List<PlansEntity> findAll(Specification<PlansEntity> dateSpec);
 }

@@ -49,8 +49,15 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
     @Override
     public Page<PlansEntity> getAllEntities(Example<PlansEntity> example, Pageable pageable) {
         Specification<PlansEntity> dateSpec = getCriterias(example);
-        Page<PlansEntity> page = ((PlansRepository) repository).findAll(dateSpec, pageable);
-        return page;
+
+        return ((PlansRepository) repository).findAll(dateSpec, pageable);
+    }
+
+    @Override
+    public List<PlansEntity> findEntities(Example<PlansEntity> example) {
+        Specification<PlansEntity> dateSpec = getCriterias(example);
+
+        return ((PlansRepository) repository).findAll(dateSpec);
     }
 
     private void updateRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {

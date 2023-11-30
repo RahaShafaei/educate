@@ -31,6 +31,9 @@
                         <a class="btn btn-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
                            th:href="@{/plans/new}" th:text="#{main.btn.new}"></a>
+                        <a class="btn btn-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
+                           th:href="@{/plans/export-to-excel}" th:text="#{main.btn.excel}"></a>
                     </th>
                 </tr>
                 </thead>
@@ -74,6 +77,12 @@
                                 name="action"
                                 th:value="${0}"
                                 th:text="#{main.btn.search}"></button>
+                        <button class="btn btn-primary"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
+                                type="submit"
+                                name="action"
+                                th:value="${-1000}"
+                                th:text="#{main.btn.search.excel}"></button>
                         <a class="btn btn-secondary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
                            th:href="@{/plans}" th:text="#{main.btn.clear}"></a>

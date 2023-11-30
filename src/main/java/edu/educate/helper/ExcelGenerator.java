@@ -1,7 +1,13 @@
 package edu.educate.helper;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -52,7 +58,15 @@ public class ExcelGenerator<T extends BaseEntity> {
             cell.setCellValue((String) valueOfCell);
         } else if (valueOfCell instanceof Float) {
             cell.setCellValue((Float) valueOfCell);
-        } else if (valueOfCell instanceof Boolean){
+        } else if (valueOfCell instanceof LocalDateTime) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String dateTimeValue = formatter.format((LocalDateTime) valueOfCell);
+            cell.setCellValue(dateTimeValue);
+
+//            CellStyle dateTimeStyle = workbook.createCellStyle();
+//            dateTimeStyle.setDataFormat(workbook.createDataFormat().getFormat("yyyy-MM-dd HH:mm:ss"));
+//            cell.setCellStyle(dateTimeStyle);
+        } else if (valueOfCell instanceof Boolean) {
             cell.setCellValue((Boolean) valueOfCell);
         } else {
             cell.setCellValue("");

@@ -17,6 +17,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +41,11 @@ public abstract class BaseController<T, R> {
 
     protected final ExampleMatcher exampleMatcher;
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @GetMapping
     public String list(@RequestParam(defaultValue = "0") int page, Model model) {
         Page<T> entityPage = service.getAllEntities(PageRequest.of(page, pageSize));
@@ -60,7 +66,7 @@ public abstract class BaseController<T, R> {
 
     @GetMapping("/newd")
     public String newFormDto(Model model) {
-        this.modelSettingDto(model,(BaseDto) service.createEmptyDto(dto));
+        this.modelSettingDto(model, (BaseDto) service.createEmptyDto(dto));
         return viewPrefix + "Form";
     }
 
@@ -97,8 +103,29 @@ public abstract class BaseController<T, R> {
     @PostMapping("/search")
     public String searchPost(@ModelAttribute T searchEntity,
                              @RequestParam String action,
+                             HttpServletResponse response,
                              Model model) {
         int page = Integer.parseInt(action);
+        if (page >= 0) {
+            getSearchResults(searchEntity, model, page);
+        } else {
+            getSearchExcelResults(searchEntity, model, 0, response);
+        }
+        return viewPrefix + "List";
+    }
+
+    @GetMapping("/export-to-excel")
+    public String exportIntoExcelFile(HttpServletResponse response) {
+        ExcelGenerator generator = new ExcelGenerator(service.getAllEntities());
+        try {
+            generator.generateExcelFile(excelSettings(response));
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return viewPrefix + "List";
+    }
+
+    private void getSearchResults(T searchEntity, Model model, int page) {
         ((BaseEntity) searchEntity).setDeleted(false);
         Example<T> example = Example.of(searchEntity, exampleMatcher);
 
@@ -110,27 +137,29 @@ public abstract class BaseController<T, R> {
         model.addAttribute("search" + modelAttribute, searchEntity);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("searchFlag", 1);
-        return viewPrefix + "List";
     }
 
-    @GetMapping("/export-to-excel")
-    public String exportIntoExcelFile(HttpServletResponse response) throws IOException {
+    private void getSearchExcelResults(T searchEntity, Model model, int page, HttpServletResponse response) {
+        getSearchResults(searchEntity,model, page);
+
+        Example<T> example = Example.of(searchEntity, exampleMatcher);
+        ExcelGenerator generator = new ExcelGenerator(service.findEntities(example));
+        try {
+            generator.generateExcelFile(excelSettings(response));
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    private HttpServletResponse excelSettings(HttpServletResponse response) {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=student" + currentDateTime + ".xlsx";
+        String headerValue = "attachment; filename=exported" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
-
-        ExcelGenerator generator = new ExcelGenerator(service.getAllEntities());
-        generator.generateExcelFile(response);
-        return viewPrefix + "List";
-    }
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        return response;
     }
 
     public void modelSetting(Model model, BaseEntity baseEntity) {

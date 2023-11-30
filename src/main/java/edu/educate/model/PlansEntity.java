@@ -1,5 +1,6 @@
 package edu.educate.model;
 
+import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -77,6 +79,40 @@ public class PlansEntity extends TitleEntity {
     @NotNull
     @Column(name = "to_date" , columnDefinition = "datetime")
     private LocalDateTime toDate;
+
+    @Override
+    public List<String> getHeaderNames() {
+        List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("orgUnit.field.title"));
+        headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.status") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("person.field.fname"));
+        headers.add(MessageUtil.getMessage("person.field.lname"));
+        headers.add(MessageUtil.getMessage("plan.field.from.date"));
+        headers.add(MessageUtil.getMessage("plan.field.to.date"));
+        return headers;
+    }
+
+    @Override
+    public List<Object> getCellValues() {
+        List<Object> objects = new ArrayList<>();
+        objects.add(orgUnit != null ? orgUnit.getTitle() : null);
+        objects.add(prCourse != null ? prCourse.getPrCourseGrp().getLtTitle() : null);
+        objects.add(prCourse != null ? prCourse.getPrCourseGrp().getPrTitle() : null);
+        objects.add(prCourse != null ? prCourse.getLtTitle() : null);
+        objects.add(prCourse != null ? prCourse.getPrTitle() : null);
+        objects.add(elementType != null ? elementType.getPrTitle() : null);
+        objects.add(elementStatus != null ? elementStatus.getPrTitle() : null);
+        objects.add(person != null ? person.getFname() : null);
+        objects.add(person != null ? person.getLname() : null);
+        objects.add(fromDate != null ? fromDate : null);
+        objects.add(toDate != null ? toDate : null);
+        return objects;
+    }
 
     public OrgUnitEntity getOrgUnit() {
         return (OrgUnitEntity)ifEntityIsDeleted(orgUnit);
