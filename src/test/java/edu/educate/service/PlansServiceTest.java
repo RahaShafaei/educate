@@ -26,7 +26,7 @@ public class PlansServiceTest {
     private PrCourseService prCourseService;
 
     @Autowired
-    private OrgUnitPostPersonService orgUnitPostPersonService;
+    private PersonService personService;
 
     @Autowired
     private ElementService elementService;
@@ -37,7 +37,7 @@ public class PlansServiceTest {
 
         plans.setOrgUnit(orgUnitService.getEntity(172));
         plans.setPrCourse(prCourseService.getEntity(4));
-        plans.setOrgUnitPostPerson(orgUnitPostPersonService.getEntity(35));
+        plans.setPerson(personService.getEntity(8));
         plans.setElementStatus(elementService.getEntity(4));
         plans.setElementType(elementService.getEntity(9));
         plans.setTitle("Sample Plan : Title Test");

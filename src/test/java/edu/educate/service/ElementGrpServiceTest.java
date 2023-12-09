@@ -21,8 +21,8 @@ public class ElementGrpServiceTest {
     public void testSaveDeleteElementGrp() {
 
         ElementGrpEntity elementGrp = new ElementGrpEntity();
-//        System.out.println(":::::::::::::: welcomeMessage : " + welcomeMessage);
-        elementGrp.setLtTitle("Sample elementGrp : Title");
+        elementGrp.setLtTitle("Sample elementGrp : LtTitle");
+        elementGrp.setPrTitle("Sample elementGrp : PrTitle");
 
         ElementGrpEntity savedElementGrp = elementGrpService.createEntity(elementGrp);
 

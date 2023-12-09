@@ -23,7 +23,8 @@ public class ElementServiceTest {
         ElementEntity element = new ElementEntity();
 
         element.setElementGrp(elementGrpService.getEntity(1));
-        element.setLtTitle("Sample element : Title");
+        element.setLtTitle("Sample elementGrp : LtTitle");
+        element.setPrTitle("Sample elementGrp : PrTitle");
 
         ElementEntity savedElement = elementService.createEntity(element);
 

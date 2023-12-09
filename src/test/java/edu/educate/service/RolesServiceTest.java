@@ -18,7 +18,8 @@ public class RolesServiceTest {
 
         RolesEntity roles = new RolesEntity();
 
-        roles.setLtTitle("Sample roles : Title");
+        roles.setLtTitle("Sample elementGrp : LtTitle");
+        roles.setPrTitle("Sample elementGrp : PrTitle");
 
         RolesEntity savedRole = rolesService.createEntity(roles);
 
