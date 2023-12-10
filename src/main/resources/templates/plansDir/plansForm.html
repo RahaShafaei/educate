@@ -82,32 +82,50 @@
                     <small class="text-danger " th:if="${#fields.hasErrors('title')}"
                            th:text="#{main.validation.title}"></small>
                 </div>
-
-                <div class="col-sm-6">
+                <div class="col-12" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
-                    <input type="text" class="" id="fromDate" placeholder="" value=""
-                           th:field="*{fromDate}"
-                           style="direction: ltr">
-                    <small class="text-danger" th:if="${#fields.hasErrors('fromDate')}"
+                    <div class="input-group mb-3">
+                        <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
+                        <input style="direction: ltr" type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prFromDate"
+                               th:field="*{prFromDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltFromDate"
+                               th:field="*{ltFromDate}">
+                        <input type="hidden" id="ltFromDateJS" th:field="*{ltFromDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltFromDate')}"
                            th:text="#{orgUnitPostPerson.validate.from.date}"></small>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-12" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
-                    <input type="text" class="" id="toDate" placeholder="" value=""
-                           th:field="*{toDate}"
-                           style="direction: ltr">
-                    <small class="text-danger" th:if="${#fields.hasErrors('toDate')}"
+                    <div class="input-group mb-3" :hidden="toDateFromDate == '0'">
+                        <span class="input-group-text cursor-pointer" id="toDate">📅</span>
+                        <input style="direction: ltr" type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prToDate"
+                               th:field="*{prToDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltToDate"
+                               th:field="*{ltToDate}">
+                        <input type="hidden" id="ltToDateJS" th:field="*{ltToDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltToDate')}"
                            th:text="#{plan.validate.toDate}"></small>
                     <small class="text-danger"
                            th:if="${#fields.hasErrors('validDateRange')}"
                            th:text="#{orgUnitPostPerson.validate.to.date}"></small>
+
                 </div>
 
                 <div class="col-sm-6">
                     <label for="meeting" class="form-label" th:text="#{meeting.field}"></label>
                     <input type="file" class="" id="meeting" th:name="file" multiple>
-                    <small class="text-danger" th:if="${#fields.hasErrors('toDate')}"
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltToDate')}"
                            th:text="#{plan.validate.toDate}"></small>
                 </div>
 
@@ -140,9 +158,6 @@
                     ></a>
                 </td>
                 <td>
-<!--                    <a class="btn btn-outline-primary"-->
-<!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
-<!--                       th:href="@{/meeting/edit/{id}(id=${meet.id})}" th:text="#{main.btn.edit}"></a>-->
                     <a class="btn btn-outline-danger"
                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
                        th:href="@{/meeting/deleted/{id}(id=${meet.id})}"

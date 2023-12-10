@@ -65,11 +65,39 @@
                         <input type="text" class="form-control" th:id="title" placeholder="" th:field="*{title}">
                     </td>
                     <td>
-                        <input type="text" class="form-control" th:id="fromDate" placeholder="" th:field="*{fromDate}">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
+                            <input style="direction: ltr" type="text" class="form-control"
+                                   placeholder="" value=""
+                                   id="prFromDate"
+                                   th:field="*{prFromDate}">
+                            <input type="hidden" class="form-control"
+                                   placeholder="" value=""
+                                   id="ltFromDate"
+                                   th:field="*{ltFromDate}">
+                            <input type="hidden" id="ltFromDateJS" th:field="*{ltFromDate}">
+                        </div>
                     </td>
+<!--                    <td>-->
+<!--                        <input type="text" class="form-control" th:id="fromDate" placeholder="" th:field="*{fromDate}">-->
+<!--                    </td>-->
                     <td>
-                        <input type="text" class="form-control" th:id="toDate" placeholder="" th:field="*{toDate}">
+                        <div class="input-group mb-3" :hidden="toDateFromDate == '0'">
+                            <span class="input-group-text cursor-pointer" id="toDate">📅</span>
+                            <input style="direction: ltr" type="text" class="form-control"
+                                   placeholder="" value=""
+                                   id="prToDate"
+                                   th:field="*{prToDate}">
+                            <input type="hidden" class="form-control"
+                                   placeholder="" value=""
+                                   id="ltToDate"
+                                   th:field="*{ltToDate}">
+                            <input type="hidden" id="ltToDateJS" th:field="*{ltToDate}">
+                        </div>
                     </td>
+<!--                    <td>-->
+<!--                        <input type="text" class="form-control" th:id="toDate" placeholder="" th:field="*{toDate}">-->
+<!--                    </td>-->
                     <td>
                         <button class="btn btn-primary"
                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
@@ -100,8 +128,8 @@
                     <td th:text="${plan.elementType != null ? plan.elementType.prTitle : ''}"></td>
                     <td th:text="${plan.elementStatus != null ? plan.elementStatus.prTitle : ''}"></td>
                     <td th:text="${plan.title}"></td>
-                    <td th:text="${plan.fromDate}"></td>
-                    <td th:text="${plan.toDate}"></td>
+                    <td th:text="${plan.prFromDate}"></td>
+                    <td th:text="${plan.prToDate}"></td>
                     <td>
                         <a class="btn btn-outline-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"

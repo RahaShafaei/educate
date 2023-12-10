@@ -128,11 +128,11 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
             if (example.getProbe().getTitle() != null) {
                 predicates.add(criteriaBuilder.like(root.get("title"), "%" +example.getProbe().getTitle()+ "%"));
             }
-            if (example.getProbe().getFromDate() != null)
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("fromDate"), example.getProbe().getFromDate()));
+            if (example.getProbe().getLtFromDate() != null)
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("ltFromDate"), example.getProbe().getLtFromDate()));
 
-            if (example.getProbe().getToDate() != null)
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("toDate"), example.getProbe().getToDate()));
+            if (example.getProbe().getLtToDate() != null)
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("ltToDate"), example.getProbe().getLtToDate()));
 
             predicates.add(criteriaBuilder.equal(root.get("deleted"), example.getProbe().isDeleted()));
 

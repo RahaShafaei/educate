@@ -41,12 +41,12 @@ public class PlansServiceTest {
         plans.setElementStatus(elementService.getEntity(4));
         plans.setElementType(elementService.getEntity(9));
         plans.setTitle("Sample Plan : Title Test");
-        plans.setFromDate(
+        plans.setLtFromDate(
                 LocalDateTime.parse("2023-10-26 15:01:10",
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 )
         );
-        plans.setToDate(
+        plans.setLtToDate(
                 LocalDateTime.parse("2023-10-27 15:01:10",
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 )

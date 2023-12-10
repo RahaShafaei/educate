@@ -28,8 +28,11 @@ public class PlansMapper {
 
         dtoMapperUtils.populateCommonFields(plans, plansDto);
 
-        plansDto.setFromDate(plans.getFromDate());
-        plansDto.setToDate(plans.getToDate());
+        plansDto.setLtFromDate(plans.getLtFromDate());
+        plansDto.setLtToDate(plans.getLtToDate());
+
+        plansDto.setPrFromDate(plans.getPrFromDate());
+        plansDto.setPrToDate(plans.getPrToDate());
 
         plansDto.setOrgUnit(this.orgUnitMapper.toDto(plans.getOrgUnit()));
         plansDto.setPrCourse(this.prCourseMapper.toDto(plans.getPrCourse()));

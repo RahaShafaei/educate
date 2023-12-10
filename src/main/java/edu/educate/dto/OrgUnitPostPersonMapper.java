@@ -21,8 +21,11 @@ public class OrgUnitPostPersonMapper {
 
         dtoMapperUtils.populateCommonFields(orgUnitPostPerson, orgUnitPostPersonDto);
 
-        orgUnitPostPersonDto.setFromDate(orgUnitPostPerson.getFromDate());
-        orgUnitPostPersonDto.setToDate(orgUnitPostPerson.getToDate());
+        orgUnitPostPersonDto.setLtFromDate(orgUnitPostPerson.getLtFromDate());
+        orgUnitPostPersonDto.setLtToDate(orgUnitPostPerson.getLtToDate());
+
+        orgUnitPostPersonDto.setPrFromDate(orgUnitPostPerson.getPrFromDate());
+        orgUnitPostPersonDto.setPrToDate(orgUnitPostPerson.getPrToDate());
 
         orgUnitPostPersonDto.setOrgPost(
                 orgUnitPostPerson.getOrgPost() != null ?

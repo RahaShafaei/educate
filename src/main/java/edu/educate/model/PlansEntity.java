@@ -31,8 +31,8 @@ import java.util.List;
                                 "person_id",
                                 "element_id_type",
                                 "element_id_status",
-                                "from_date",
-                                "to_date"
+                                "lt_from_date",
+                                "lt_to_date"
                         })
         }
 )
@@ -71,18 +71,27 @@ public class PlansEntity extends TitleEntity {
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
-    @Column(name = "from_date" , columnDefinition = "datetime")
-    private LocalDateTime fromDate;
+    @Column(name = "lt_from_date" , columnDefinition = "datetime")
+    private LocalDateTime ltFromDate;
 
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
-    @Column(name = "to_date" , columnDefinition = "datetime")
-    private LocalDateTime toDate;
+    @Column(name = "lt_to_date" , columnDefinition = "datetime")
+    private LocalDateTime ltToDate;
+
+    @NotNull
+    @Column(name = "pr_from_date")
+    private String prFromDate;
+
+    @NotNull
+    @Column(name = "pr_to_date")
+    private String prToDate;
 
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("main.field.title"));
         headers.add(MessageUtil.getMessage("orgUnit.field.title"));
         headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
         headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
@@ -100,6 +109,7 @@ public class PlansEntity extends TitleEntity {
     @Override
     public List<Object> getCellValues() {
         List<Object> objects = new ArrayList<>();
+        objects.add(getTitle() != null ? getTitle() : null);
         objects.add(orgUnit != null ? orgUnit.getTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrCourseGrp().getLtTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrCourseGrp().getPrTitle() : null);
@@ -109,8 +119,8 @@ public class PlansEntity extends TitleEntity {
         objects.add(elementStatus != null ? elementStatus.getPrTitle() : null);
         objects.add(person != null ? person.getFname() : null);
         objects.add(person != null ? person.getLname() : null);
-        objects.add(fromDate != null ? fromDate : null);
-        objects.add(toDate != null ? toDate : null);
+        objects.add(prFromDate != null ? prFromDate : null);
+        objects.add(prToDate != null ? prToDate : null);
         return objects;
     }
 
@@ -145,9 +155,9 @@ public class PlansEntity extends TitleEntity {
 
     @AssertTrue(message = "general.dates.range")
     public boolean isValidDateRange() {
-        if (fromDate == null)
+        if (ltFromDate == null)
             return true;
-        return fromDate.isBefore(toDate);
+        return ltFromDate.isBefore(ltToDate);
     }
 
     @AssertTrue(message = "{plansEntity.element.status}")

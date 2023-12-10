@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [educate]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Database [educate]    Script Date: 12/9/2023 4:56:06 PM ******/
 CREATE DATABASE [educate]
  CONTAINMENT = NONE
  ON  PRIMARY
@@ -84,7 +84,7 @@ ALTER DATABASE [educate] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_P
 GO
 USE [educate]
 GO
-/****** Object:  UserDefinedFunction [dbo].[fn_date_time_rand]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fn_date_time_rand]    Script Date: 12/9/2023 4:56:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,7 +99,7 @@ begin
  return DATEADD(SECOND, @Random, @FromDate)
 end
 GO
-/****** Object:  View [dbo].[vw_getRANDValue]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  View [dbo].[vw_getRANDValue]    Script Date: 12/9/2023 4:56:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE VIEW [dbo].[vw_getRANDValue]
 AS
 SELECT RAND() AS Value
 GO
-/****** Object:  Table [dbo].[attendance]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[attendance]    Script Date: 12/9/2023 4:56:07 PM ******/
 SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -128,7 +128,7 @@ CREATE TABLE [dbo].[attendance](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[element]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[element]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -147,7 +147,7 @@ CREATE TABLE [dbo].[element](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[element_grp]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[element_grp]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -165,7 +165,7 @@ CREATE TABLE [dbo].[element_grp](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[meeting]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[meeting]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -185,7 +185,7 @@ CREATE TABLE [dbo].[meeting](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_post]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[org_post]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -204,7 +204,7 @@ CREATE TABLE [dbo].[org_post](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_unit]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[org_unit]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -224,7 +224,7 @@ CREATE TABLE [dbo].[org_unit](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_unit_post_person]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[org_unit_post_person]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -234,8 +234,10 @@ CREATE TABLE [dbo].[org_unit_post_person](
     [org_unit_id] [int] NOT NULL,
     [org_post_id] [int] NULL,
     [person_id] [int] NOT NULL,
-    [from_date] [datetime] NULL,
-    [to_date] [datetime] NULL,
+    [lt_from_date] [datetime] NULL,
+    [pr_from_date] [nvarchar](30) NULL,
+    [lt_to_date] [datetime] NULL,
+    [pr_to_date] [nvarchar](30) NULL,
     [deleted] [bit] NULL,
     [deleted_at] [datetime] NULL,
     [inserted_at] [datetime] NULL,
@@ -245,7 +247,7 @@ CREATE TABLE [dbo].[org_unit_post_person](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[person]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[person]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -267,7 +269,7 @@ CREATE TABLE [dbo].[person](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[person_role]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[person_role]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -285,7 +287,7 @@ CREATE TABLE [dbo].[person_role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[plans]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[plans]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -298,8 +300,10 @@ CREATE TABLE [dbo].[plans](
     [element_id_type] [int] NULL,
     [element_id_status] [int] NULL,
     [title] [nvarchar](255) NULL,
-    [from_date] [datetime] NULL,
-    [to_date] [datetime] NULL,
+    [lt_from_date] [datetime] NULL,
+    [pr_from_date] [nvarchar](30) NULL,
+    [lt_to_date] [datetime] NULL,
+    [pr_to_date] [nvarchar](30) NULL,
     [deleted] [bit] NULL,
     [deleted_at] [datetime] NULL,
     [inserted_at] [datetime] NULL,
@@ -309,7 +313,7 @@ CREATE TABLE [dbo].[plans](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[pr_course]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[pr_course]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -329,7 +333,7 @@ CREATE TABLE [dbo].[pr_course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[pr_course_grp]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[pr_course_grp]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -348,7 +352,7 @@ CREATE TABLE [dbo].[pr_course_grp](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[roles]    Script Date: 11/27/2023 4:49:12 PM ******/
+/****** Object:  Table [dbo].[roles]    Script Date: 12/9/2023 4:56:07 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -540,5 +544,5 @@ ALTER TABLE [dbo].[pr_course] CHECK CONSTRAINT [FK_pr_course_pr_course_grp]
     GO
     USE [master]
     GO
-ALTER DATABASE [educate] SET  READ_WRITE 
+ALTER DATABASE [educate] SET  READ_WRITE
 GO

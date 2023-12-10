@@ -70,11 +70,10 @@ public class PersonController extends BaseController<PersonEntity,PersonDto> {
             model.addAttribute("rolesId", rolesId);
             model.addAttribute("rolesFlag", rolesId == null ? 1 : 0);
             model.addAttribute("fromDateFlag", !fromDateFlag ? 1 : 0);
-
             return "personDir/personForm";
         }
 
-        if (person.getOrgUnitPostPersonWrapper().getToDate() != null) {
+        if (person.getOrgUnitPostPersonWrapper().getLtToDate() != null) {
             person.setRolesWrapper(rolesId);
             modelSettingDto(model, (PersonDto) super.service.createEntityByRelatedEntities(person));
             return "personDir/personForm";

@@ -88,14 +88,14 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
 
     private OrgUnitPostPersonEntity getLastPost(PersonEntity personEntity) {
         return personEntity.getOrgUnitPostPersons().stream()
-                .filter(el -> el.getToDate() == null)
+                .filter(el -> el.getLtToDate() == null)
                 .findFirst()
                 .orElse(null);
     }
 
     private LocalDateTime getLastToDate(PersonEntity personEntity) {
         return personEntity.getOrgUnitPostPersons().stream()
-                .map(OrgUnitPostPersonEntity::getToDate)
+                .map(OrgUnitPostPersonEntity::getLtToDate)
                 .filter(Objects::nonNull)
                 .max(Comparator.naturalOrder())
                 .orElse(null);
@@ -105,9 +105,12 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
         if (personEntity.getOrgUnitPostPersons() == null || getLastToDate(personEntity) == null)
             return true;
 
+        if (orgUnitPostPersonEntity.getLtFromDate() == null)
+            return false;
+
         long cnt = personEntity.getOrgUnitPostPersons().stream()
-                .filter(e -> e.getToDate() != null)
-                .filter(e -> e.getToDate().isAfter(orgUnitPostPersonEntity.getFromDate()))
+                .filter(e -> e.getLtToDate() != null)
+                .filter(e -> e.getLtToDate().isAfter(orgUnitPostPersonEntity.getLtFromDate()))
                 .count();
 
         return cnt <= 0;

@@ -5,6 +5,7 @@
       layout:decorate="/fragments/core_layout.html">
 <head>
     <title th:text="#{person.page.title}"></title>
+
 </head>
 <body>
 
@@ -103,26 +104,44 @@
                     <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.orgUnit')}"
                            th:text="#{orgUnitPostPerson.validate.orgUnit}"></small>
                 </div>
-
-                <div class="col-sm-6">
+                <div class="col-12" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
-                    <input type="text" class="" id="fromDate" placeholder="" value=""
-                           th:field="*{orgUnitPostPersonWrapper.fromDate}"
-                           style="direction: ltr">
-                    <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.fromDate')}"
+                    <div class="input-group mb-3">
+                        <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
+                        <input style="direction: ltr" type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prFromDate"
+                               th:field="*{orgUnitPostPersonWrapper.prFromDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltFromDate"
+                               th:field="*{orgUnitPostPersonWrapper.ltFromDate}">
+                        <input type="hidden" id="ltFromDateJS" th:field="*{orgUnitPostPersonWrapper.ltFromDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.ltFromDate')}"
                            th:text="#{orgUnitPostPerson.validate.from.date}"></small>
                     <small class="text-danger" th:if="${fromDateFlag == 1}"
                            th:text="#{orgUnitPostPerson.validate.from.date.range}"></small>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-12" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
-                    <input type="text" class="" id="toDate" placeholder="" value=""
-                           th:field="*{orgUnitPostPersonWrapper.toDate}"
-                           style="direction: ltr">
+                    <div class="input-group mb-3" :hidden="toDateFromDate == '0'">
+                        <span class="input-group-text cursor-pointer" id="toDate">📅</span>
+                        <input style="direction: ltr" type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prToDate"
+                               th:field="*{orgUnitPostPersonWrapper.prToDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltToDate"
+                               th:field="*{orgUnitPostPersonWrapper.ltToDate}">
+                        <input type="hidden" id="ltToDateJS" th:field="*{orgUnitPostPersonWrapper.ltToDate}">
+                    </div>
                     <small class="text-danger"
                            th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.validDateRange')}"
                            th:text="#{orgUnitPostPerson.validate.to.date}"></small>
+
                 </div>
 
             </div>
@@ -150,14 +169,13 @@
             <tr th:each="oup : ${orgUnitsPosts}">
                 <td th:text="${oup.orgUnit.title}"></td>
                 <td th:text="${oup.orgPost.title}"></td>
-                <td th:text="${oup.fromDate}"></td>
-                <td th:text="${oup.toDate}"></td>
+                <td style="direction: ltr" th:text="${oup.prFromDate}"></td>
+                <td style="direction: ltr" th:text="${oup.prToDate}"></td>
             </tr>
             </tbody>
         </table>
     </div>
     <hr class="my-4">
 </main>
-
 </body>
 </html>

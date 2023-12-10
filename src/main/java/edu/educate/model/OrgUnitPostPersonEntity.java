@@ -29,8 +29,8 @@ import java.util.List;
                                 "org_unit_id",
                                 "org_post_id",
                                 "person_id",
-                                "from_date",
-                                "to_date"
+                                "lt_from_date",
+                                "lt_to_date"
                         })
         }
 )
@@ -54,13 +54,20 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
-    @Column(name = "from_date" , columnDefinition = "datetime")
-    private LocalDateTime fromDate;
+    @Column(name = "lt_from_date" , columnDefinition = "datetime")
+    private LocalDateTime ltFromDate;
 
-//    @JsonDeserialize(using = CustomDateDeserializer.class)
+    //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "to_date" , columnDefinition = "datetime")
-    private LocalDateTime toDate;
+    @Column(name = "lt_to_date" , columnDefinition = "datetime")
+    private LocalDateTime ltToDate;
+
+    @NotNull
+    @Column(name = "pr_from_date")
+    private String prFromDate;
+
+    @Column(name = "pr_to_date")
+    private String prToDate;
 
     @Override
     public List<String> getHeaderNames() {
@@ -81,8 +88,8 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
         objects.add(orgPost != null ? orgPost.getTitle() : null);
         objects.add(person != null ? person.getFname() : null);
         objects.add(person != null ? person.getLname() : null);
-        objects.add(fromDate != null ? fromDate : null);
-        objects.add(toDate != null ? toDate : null);
+        objects.add(prFromDate != null ? prFromDate : null);
+        objects.add(prToDate != null ? prToDate : null);
         return objects;
     }
 
@@ -101,11 +108,11 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
 
     @AssertTrue(message = "{general.dates.range}")
     public boolean isValidDateRange() {
-        if (toDate == null) {
+        if (ltToDate == null) {
             return true;
         }
 
-        return fromDate.isBefore(toDate);
+        return ltFromDate.isBefore(ltToDate);
     }
 
 }

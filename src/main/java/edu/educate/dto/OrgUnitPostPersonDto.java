@@ -22,7 +22,11 @@ public class OrgUnitPostPersonDto  extends BaseDto {
 
     private PersonDto person;
 
-    private LocalDateTime fromDate;
+    private LocalDateTime ltFromDate;
 
-    private LocalDateTime toDate;
+    private LocalDateTime ltToDate;
+
+    private String prFromDate;
+
+    private String prToDate;
 }
