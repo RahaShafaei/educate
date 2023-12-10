@@ -62,7 +62,7 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     @Column(name = "lt_to_date" , columnDefinition = "datetime")
     private LocalDateTime ltToDate;
 
-    @NotNull
+//    @NotNull
     @Column(name = "pr_from_date")
     private String prFromDate;
 

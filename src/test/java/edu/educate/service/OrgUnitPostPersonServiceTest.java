@@ -37,12 +37,12 @@ public class OrgUnitPostPersonServiceTest {
         orgUnitPostPerson.setOrgUnit(orgUnitService.getEntity(1));
         orgUnitPostPerson.setOrgPost(orgPostService.getEntity(1));
         orgUnitPostPerson.setPerson(PersonService.getEntity(8));
-        orgUnitPostPerson.setFromDate(
+        orgUnitPostPerson.setLtFromDate(
                 LocalDateTime.parse("2023-10-26 15:01:10",
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 )
         );
-        orgUnitPostPerson.setToDate(
+        orgUnitPostPerson.setLtToDate(
                 LocalDateTime.parse("2023-10-27 15:01:10",
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 )

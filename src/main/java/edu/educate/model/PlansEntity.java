@@ -80,11 +80,11 @@ public class PlansEntity extends TitleEntity {
     @Column(name = "lt_to_date" , columnDefinition = "datetime")
     private LocalDateTime ltToDate;
 
-    @NotNull
+//    @NotNull
     @Column(name = "pr_from_date")
     private String prFromDate;
 
-    @NotNull
+//    @NotNull
     @Column(name = "pr_to_date")
     private String prToDate;
 
