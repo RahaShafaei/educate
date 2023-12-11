@@ -108,22 +108,26 @@
 <svg th:replace="/fragments/header_layout.html :: headerSvg1"></svg>
 <div th:replace="/fragments/header_layout.html :: headerToggle"></div>
 <svg th:replace="/fragments/header_layout.html :: headerSvg2"></svg>
-<header th:replace="/fragments/header_layout.html :: headerTitle"></header>
-<!--  ================== HEADER END ==================   -->
+<!--<header th:replace="/fragments/header_layout.html :: headerTitle"></header>-->
 
-<!--  ================== BODY START ==================   -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
-            <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
-                 aria-labelledby="sidebarMenuLabel">
+<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" th:href="@{/}"
+       th:text="#{core.layout.page.title}"></a>
+    <nav class="navbar navbar-dark bg-dark fixed-top" style="line-height: 0.2;">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}" th:text="#{core.layout.page.title}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                    aria-controls="offcanvasNavbar" aria-label="Toggle navigation" style="line-height: 0.5;">
+                <span class="navbar-toggler-icon" style="height: 1em; width: 1em;"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" style="--bs-offcanvas-width: 250px;" tabindex="-1" id="offcanvasNavbar"
+                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
-                            aria-label="يغلق"></button>
+                    <h6 class="offcanvas-title" id="offcanvasNavbarLabel" th:text="#{core.layout.page.title}"></h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-                    <ul class="nav flex-column">
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page"
                                th:href="@{/}">
@@ -190,28 +194,22 @@
                             </a>
                         </li>
                     </ul>
-                    <hr class="my-3">
-
-                    <ul class="nav flex-column mb-auto">
-                        <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                <svg class="bi">
-                                    <use xlink:href="#door-closed"/>
-                                </svg>
-                                خروج
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
+    </nav>
+</header>
+<!--  ================== HEADER END ==================   -->
+
+<!--  ================== BODY START ==================   -->
+<div class="container-fluid">
+    <div class="row">
         <main layout:fragment="mainContent"></main>
     </div>
 </div>
 
 <div class="b-example-divider" style="height: 1rem;"></div>
 <!--  ================== BODY END ==================   -->
-
 <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -233,11 +231,11 @@
         dateFormat: 'yyyy-MM-dd HH:mm:ss'
     });
 
-    if(document.getElementById('ltFromDateJS').value){
+    if (document.getElementById('ltFromDateJS').value) {
         fromDate.updateOption('selectedDate', new Date(document.getElementById('ltFromDateJS').value));
     }
 
-    if(document.getElementById('ltToDateJS').value){
+    if (document.getElementById('ltToDateJS').value) {
         toDate.updateOption('selectedDate', new Date(document.getElementById('ltToDateJS').value));
     }
 </script>

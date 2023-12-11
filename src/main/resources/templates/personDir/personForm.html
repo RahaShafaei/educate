@@ -9,8 +9,8 @@
 </head>
 <body>
 
-<main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="col-md-7 col-lg-8">
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
         <h5 th:text="#{person.page.title} + ' _ ' + #{main.form}"></h5>
 
         <hr class="my-4">
@@ -24,7 +24,7 @@
             <input type="hidden" th:field="*{orgUnitPostPersonWrapper.person.id}">
             <input type="hidden" th:field="*{orgUnitPostPersonWrapper.insertedAt}">
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label for="fName" class="form-label" th:text="#{person.field.fname}"></label>
                     <input type="text" class="form-control" id="fName" placeholder="" value=""
                            th:field="*{personWrapper.fname}">
@@ -32,7 +32,7 @@
                            th:text="#{person.validate.fname}"></small>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label for="lName" class="form-label" th:text="#{person.field.lname}"></label>
                     <input type="text" class="form-control" id="lName" placeholder="" value=""
                            th:field="*{personWrapper.lname}">
@@ -40,7 +40,7 @@
                            th:text="#{person.validate.lname}"></small>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label for="father" class="form-label" th:text="#{person.field.father}"></label>
                     <input type="text" class="form-control" id="father" placeholder="" value=""
                            th:field="*{personWrapper.fatherName}">
@@ -48,7 +48,7 @@
                            th:text="#{person.validate.fname}"></small>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label for="nlCode" class="form-label" th:text="#{person.field.nl.code}"></label>
                     <input type="text" class="form-control" id="nlCode" placeholder="" value=""
                            th:field="*{personWrapper.nlCode}">
@@ -56,7 +56,7 @@
                            th:text="#{person.validate.nlCode}"></small>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label for="prCode" class="form-label" th:text="#{person.field.pr.code}"></label>
                     <input type="text" class="form-control" id="prCode" placeholder="" value=""
                            th:field="*{personWrapper.prCode}">
@@ -64,7 +64,7 @@
                            th:text="#{person.validate.prCode}"></small>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label for="tel" class="form-label" th:text="#{person.field.tel}"></label>
                     <input type="text" class="form-control" id="tel" placeholder="" value=""
                            th:field="*{personWrapper.tel}">
@@ -72,7 +72,7 @@
                            th:if="${#fields.hasErrors('personWrapper.tel')}" th:text="#{person.validate.tel}"></small>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-4">
                     <label th:text="#{role.field.title}"></label>
                     <div th:each="role : ${roles}">
                         <input type="checkbox" th:id="'role_' + ${role.id}" th:name="'roles'" th:value="${role.id}"
@@ -83,7 +83,7 @@
                     <small class="text-danger" th:if="${rolesFlag == 1}" th:text="#{role.validate}"></small>
                 </div>
 
-                <div class="col-12">
+                <div class="col-sm-4">
                     <label class="form-label" for="post" th:text="#{post.field.title}"></label>
                     <select class="form-select" id="post" th:field="*{orgUnitPostPersonWrapper.orgPost}">
                         <option value="" th:text="#{main.btn.select}">-- Select an option --</option>
@@ -94,7 +94,7 @@
                            th:text="#{orgUnitPostPerson.validate.orgPost}"></small>
                 </div>
 
-                <div class="col-12">
+                <div class="col-sm-4">
                     <label class="form-label" for="orgUnit" th:text="#{orgUnit.field.title}"></label>
                     <select class="form-select" id="orgUnit" th:field="*{orgUnitPostPersonWrapper.orgUnit}">
                         <option value="" th:text="#{main.btn.select}">-- Select an option --</option>
@@ -104,11 +104,11 @@
                     <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.orgUnit')}"
                            th:text="#{orgUnitPostPerson.validate.orgUnit}"></small>
                 </div>
-                <div class="col-12" :hidden="inLine == '1' && modalMode == '0'">
+                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3 date-pick-inp">
                         <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
-                        <input style="direction: ltr" type="text" class="form-control"
+                        <input type="text" class="form-control"
                                placeholder="" value=""
                                id="prFromDate"
                                th:field="*{orgUnitPostPersonWrapper.prFromDate}">
@@ -124,11 +124,11 @@
                            th:text="#{orgUnitPostPerson.validate.from.date.range}"></small>
                 </div>
 
-                <div class="col-12" :hidden="inLine == '1' && modalMode == '0'">
+                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
-                    <div class="input-group mb-3" :hidden="toDateFromDate == '0'">
+                    <div class="input-group mb-3 date-pick-inp" :hidden="toDateFromDate == '0'">
                         <span class="input-group-text cursor-pointer" id="toDate">📅</span>
-                        <input style="direction: ltr" type="text" class="form-control"
+                        <input type="text" class="form-control"
                                placeholder="" value=""
                                id="prToDate"
                                th:field="*{orgUnitPostPersonWrapper.prToDate}">

@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="col-md-7 col-lg-8">
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
         <h5 th:text="#{attendance.page.title} + ' _ ' + #{main.form}"></h5>
 
         <hr class="my-4">
@@ -19,7 +19,7 @@
             <input type="hidden" th:field="*{insertedAt}">
             <div class="row g-3">
 
-                <div class="col-12">
+                <div class="col-sm-4">
                     <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
                     <select class="form-select" id="person" th:field="*{person}">
                         <option value="" th:text="#{main.btn.select}"></option>
@@ -30,8 +30,8 @@
                            th:text="#{plan.validate.teacher}"></small>
                 </div>
 
-                <div class="col-12">
-                    <label class="form-label" for="plan" th:text="#{plan.page.title}"></label>
+                <div class="col-sm-4">
+                    <label class="form-label" for="plan" th:text="#{plan.field.title}"></label>
                     <select class="form-select" id="plan" th:field="*{plan}">
                         <option value="" th:text="#{main.btn.select}"></option>
                         <option th:each="pl : ${plans}" th:value="${pl.id}" th:text="${pl.title}"
@@ -43,7 +43,7 @@
                            th:text="#{attendance.validate.validPlan}"></small>
                 </div>
 
-                <div class="col-12">
+                <div class="col-sm-4">
                     <label class="form-label" for="element" th:text="#{attendance.field.status}"></label>
                     <select class="form-select" id="element" th:field="*{element}">
                         <option value="" th:text="#{main.btn.select}"></option>
@@ -54,10 +54,13 @@
                            th:text="#{attendance.validate.status}"></small>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <label for="grade" class="form-label" th:text="#{attendance.field.grade}"></label>
                     <input type="text" class="form-control" id="grade" placeholder="" value=""
                            th:field="*{grade}">
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('gradeForPresentAttendance')}"
+                           th:text="#{attendance.validate.grade}"></small>
                 </div>
 
             </div>

@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<main layout:fragment="mainContent" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<main layout:fragment="mainContent" class="px-md-4">
     <h5 th:text="#{course.grp.page.title}"></h5>
     <div class="table-responsive small">
         <form action="#" th:action="@{/coursegrp/search}" th:object="${searchcoursegrp}" method="post">
@@ -19,13 +19,19 @@
                     <th scope="col" th:text="#{main.field.row}"></th>
                     <th scope="col" th:text="#{main.field.ltTitle}"></th>
                     <th scope="col" th:text="#{main.field.prTitle}"></th>
-                    <th scope="col">
-                        <a class="btn btn-primary"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
-                           th:href="@{/coursegrp/new}" th:text="#{main.btn.new}"></a>
-                        <a class="btn btn-primary"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;"
-                           th:href="@{/coursegrp/export-to-excel}" th:text="#{main.btn.excel}"></a>
+                    <th  style="width: 6em;" scope="col">
+                        <a th:href="@{/coursegrp/new}"
+                           th:attr="title=#{main.btn.new}">
+                            <svg class="bi">
+                                <use xlink:href="#new-list"/>
+                            </svg>
+                        </a>
+                        <a th:href="@{/coursegrp/export-to-excel}"
+                           th:attr="title=#{main.btn.excel}">
+                            <svg class="bi">
+                                <use xlink:href="#download-list"/>
+                            </svg>
+                        </a>
                     </th>
                 </tr>
                 </thead>
@@ -39,23 +45,25 @@
                         <input type="text" class="form-control" th:id="prTitle" placeholder="" th:field="*{prTitle}">
                     </td>
                     <td>
-                        <button class="btn btn-primary"
-                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
-                                type="submit"
-                                name="action"
-                                th:value="${0}"
-                                th:text="#{main.btn.search}"></button>
-                        <button class="btn btn-primary"
-                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
-                                type="submit"
-                                name="action"
-                                th:value="${-1000}"
-                                th:text="#{main.btn.search.excel}"></button>
-                        <a class="btn btn-secondary"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
-                           th:href="@{/coursegrp}" th:text="#{main.btn.clear}"></a>
+                        <label th:attr="title=#{main.btn.search}" style="cursor: pointer;">
+                            <input type="submit" name="action" th:value="${0}" style="display: none;">
+                            <svg class="bi">
+                                <use xlink:href="#search-list"/>
+                            </svg>
+                        </label>
+                        <label th:attr="title=#{main.btn.search.excel}" style="cursor: pointer;">
+                            <input type="submit" name="action" th:value="${-1000}" style="display: none;">
+                            <svg class="bi">
+                                <use xlink:href="#download-list"/>
+                            </svg>
+                        </label>
+                        <a th:href="@{/coursegrp}"
+                           th:attr="title=#{main.btn.clear}">
+                            <svg class="bi">
+                                <use xlink:href="#clear-list"/>
+                            </svg>
+                        </a>
                     </td>
-
 
                 </tr>
                 <tr th:each="courseGrp , rowStat: ${coursegrps}">
@@ -63,16 +71,20 @@
                     <td th:text="${courseGrp.ltTitle}"></td>
                     <td th:text="${courseGrp.prTitle}"></td>
                     <td>
-                        <a class="btn btn-outline-primary"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
-                           th:href="@{/coursegrp/edit/{id}(id=${courseGrp.id})}" th:text="#{main.btn.edit}"></a>
-                        <a class="btn btn-outline-danger"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .55rem;"
-                           th:href="@{/coursegrp/delete/{id}(id=${courseGrp.id})}"
-                           th:text="#{main.btn.delete}"
+                        <a th:attr="title=#{main.btn.edit}"
+                           th:href="@{/coursegrp/edit/{id}(id=${courseGrp.id})}">
+                            <svg class="bi">
+                                <use xlink:href="#edit-list"/>
+                            </svg>
+                        </a>
+                        <a th:href="@{/coursegrp/delete/{id}(id=${courseGrp.id})}"
+                           th:attr="title=#{main.btn.delete}"
                            th:data-confirm-delete="|#{main.validation.delete}|"
-                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
-                        ></a>
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                            <svg class="bi">
+                                <use xlink:href="#delete-list"/>
+                            </svg>
+                        </a>
                     </td>
                 </tr>
                 </tbody>
