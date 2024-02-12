@@ -2,6 +2,7 @@ package edu.educate.controller.baseContrlller;
 
 import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.helper.ExcelGenerator;
+import edu.educate.model.OrgUnitEntity;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.baseService.GenericService;
 import jakarta.validation.Valid;

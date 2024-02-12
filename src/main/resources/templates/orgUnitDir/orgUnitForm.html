@@ -19,6 +19,17 @@
             <input type="hidden" th:field="*{insertedAt}">
             <div class="row g-3">
                 <div class="col-sm-4">
+                    <label class="form-label" for="elementType" th:text="#{orgUnit.field.type}"></label>
+                    <select class="form-select" id="elementType" th:field="*{elementType}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementTypes}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementType() != null && entityObject.getElementType() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementType')}"
+                           th:text="#{orgUnit.validate.type}"></small>
+                </div>
+
+                <div class="col-sm-4">
                     <label class="form-label" for="courseGrp" th:text="#{orgUnit.field.parent.title}"></label>
                     <select class="form-select" id="courseGrp" th:field="*{parentOrgUnit}">
                         <option value="" th:text="#{main.btn.select}"></option>

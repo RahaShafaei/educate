@@ -30,10 +30,14 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
             .withMatcher("person.lname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementType.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementStatus.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("elementEdu.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("elementProject.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("elementHolding.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("ltFromDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("ltToDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("planLink", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withIgnoreNullValues()
             .withIgnorePaths("id", "deletedAt", "insertedAt", "prFromDate", "prToDate");
 
@@ -92,16 +96,18 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         personEntity.getPersonRoles().add(rolesEntity);
         model.addAttribute("persons", personService.findEntitiesBySpecificFields(personEntity));
 
-        ElementEntity elementType = new ElementEntity();
-        ElementGrpEntity elementGrpType = new ElementGrpEntity();
-        elementGrpType.setId(3);
-        elementType.setElementGrp(elementGrpType);
-        model.addAttribute("elementTypes", elementService.findEntitiesBySpecificFields(elementType));
+        model.addAttribute("elementTypes", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(3)));
+        model.addAttribute("elementStatus", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(2)));
+        model.addAttribute("elementEdu", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(4)));
+        model.addAttribute("elementProject", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(5)));
+        model.addAttribute("elementHolding", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(6)));
+    }
 
-        ElementEntity elementStatus = new ElementEntity();
-        ElementGrpEntity elementGrpStatus = new ElementGrpEntity();
-        elementGrpStatus.setId(2);
-        elementStatus.setElementGrp(elementGrpStatus);
-        model.addAttribute("elementStatus", elementService.findEntitiesBySpecificFields(elementStatus));
+    private ElementEntity elementEntityConfiguration(int i){
+        ElementEntity elementProject = new ElementEntity();
+        ElementGrpEntity elementGrpProject = new ElementGrpEntity();
+        elementGrpProject.setId(i);
+        elementProject.setElementGrp(elementGrpProject);
+        return elementProject;
     }
 }

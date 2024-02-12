@@ -41,6 +41,9 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
 
     @Override
     public PlansEntity createEntityByRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {
+        String title = titleSetting(plansEntity);
+        plansEntity.setTitle(title);
+
         PlansEntity savedPlan = super.createEntity(plansEntity);
         updateRelatedFiles(savedPlan, files);
         return savedPlan;
@@ -58,6 +61,13 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
         Specification<PlansEntity> dateSpec = getCriterias(example);
 
         return ((PlansRepository) repository).findAll(dateSpec);
+    }
+
+    private String titleSetting(PlansEntity plansEntity){
+        return plansEntity.getElementEdu().getPrTitle() + " _ "+
+                plansEntity.getElementType().getPrTitle() + " _ "+
+                plansEntity.getOrgUnit().getTitle() + " _ "+
+                plansEntity.getPrFromDate().substring(0, Math.min(10, plansEntity.getPrFromDate().length()));
     }
 
     private void updateRelatedFiles(PlansEntity plansEntity, MultipartFile[] files) {
@@ -125,14 +135,24 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
             if (example.getProbe().getElementStatus().getPrTitle() != null) {
                 predicates.add(criteriaBuilder.like(root.get("elementStatus").get("prTitle"), "%" +example.getProbe().getElementStatus().getPrTitle()+ "%"));
             }
+            if (example.getProbe().getElementEdu().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementEdu").get("prTitle"), "%" +example.getProbe().getElementEdu().getPrTitle()+ "%"));
+            }
+            if (example.getProbe().getElementProject().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementProject").get("prTitle"), "%" +example.getProbe().getElementProject().getPrTitle()+ "%"));
+            }
+            if (example.getProbe().getElementHolding().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementHolding").get("prTitle"), "%" +example.getProbe().getElementHolding().getPrTitle()+ "%"));
+            }
             if (example.getProbe().getTitle() != null) {
                 predicates.add(criteriaBuilder.like(root.get("title"), "%" +example.getProbe().getTitle()+ "%"));
             }
             if (example.getProbe().getLtFromDate() != null)
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("ltFromDate"), example.getProbe().getLtFromDate()));
-
             if (example.getProbe().getLtToDate() != null)
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("ltToDate"), example.getProbe().getLtToDate()));
+            if (example.getProbe().getPlanLink() != null)
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("planLink"), example.getProbe().getPlanLink()));
 
             predicates.add(criteriaBuilder.equal(root.get("deleted"), example.getProbe().isDeleted()));
 

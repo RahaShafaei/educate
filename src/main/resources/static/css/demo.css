@@ -1,12 +1,14 @@
 header,
 body,
 table {
-    font-family: 'Segoe UI', Tahoma;
+    font-family: 'IranianSans';
+    /*font-family: 'Segoe UI', Tahoma;*/
     font-size: 0.7rem;
 }
 
 h5 {
-    font-family: 'Segoe UI', Tahoma;
+    font-family: 'IranianSans';
+    /*font-family: 'Segoe UI', Tahoma;*/
 }
 
 td, th {

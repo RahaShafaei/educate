@@ -77,12 +77,54 @@
                 </div>
 
                 <div class="col-sm-4">
-                    <label for="title" class="form-label" th:text="#{plan.field.title}"></label>
-                    <input type="text" class="form-control" id="title" placeholder="" value=""
-                           th:field="*{title}">
-                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"
-                           th:text="#{main.validation.title}"></small>
+                    <label class="form-label" for="elementEdu" th:text="#{plan.field.edu}"></label>
+                    <select class="form-select" id="elementEdu" th:field="*{elementEdu}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementEdu}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementEdu() != null && entityObject.getElementEdu() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementEdu')}"
+                           th:text="#{plan.validate.edu}"></small>
                 </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementProject" th:text="#{plan.field.project}"></label>
+                    <select class="form-select" id="elementProject" th:field="*{elementProject}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementProject}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementProject() != null && entityObject.getElementProject() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementProject')}"
+                           th:text="#{plan.validate.project}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementHolding" th:text="#{plan.field.holding}"></label>
+                    <select class="form-select" id="elementHolding" th:field="*{elementHolding}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementHolding}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementHolding() != null && entityObject.getElementHolding() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementHolding')}"
+                           th:text="#{plan.validate.holding}"></small>
+                </div>
+
+<!--                <div class="col-sm-4">-->
+<!--                    <label for="title" class="form-label" th:text="#{plan.field.title}"></label>-->
+<!--                    <input type="text" class="form-control" id="title" placeholder="" value=""-->
+<!--                           th:field="*{title}">-->
+<!--                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"-->
+<!--                           th:text="#{main.validation.title}"></small>-->
+<!--                </div>-->
+
+                <div class="col-sm-4">
+                    <label for="planLink" class="form-label" th:text="#{plan.field.link}"></label>
+                    <input type="text" class="form-control" id="planLink" placeholder="" value=""
+                           th:field="*{planLink}">
+<!--                    <small class="text-danger " th:if="${#fields.hasErrors('planLink')}"-->
+<!--                           th:text="#{main.validation.link}"></small>-->
+                </div>
+
                 <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
                     <div class="input-group mb-3 date-pick-inp">

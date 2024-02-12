@@ -24,6 +24,9 @@
                     <th scope="col" th:text="#{person.field.master.lname}"></th>
                     <th scope="col" th:text="#{plan.field.type}"></th>
                     <th scope="col" th:text="#{plan.field.status}"></th>
+                    <th scope="col" th:text="#{plan.field.edu}"></th>
+                    <th scope="col" th:text="#{plan.field.project}"></th>
+                    <th scope="col" th:text="#{plan.field.holding}"></th>
                     <th scope="col" th:text="#{plan.field.title}"></th>
                     <th scope="col" th:text="#{plan.field.from.date}"></th>
                     <th scope="col" th:text="#{plan.field.to.date}"></th>
@@ -66,6 +69,15 @@
                     </td>
                     <td>
                         <input type="text" class="form-control" th:id="elementStatus" placeholder="" th:field="*{elementStatus.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="elementEdu" placeholder="" th:field="*{elementEdu.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="elementProject" placeholder="" th:field="*{elementProject.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="elementHolding" placeholder="" th:field="*{elementHolding.prTitle}">
                     </td>
                     <td>
                         <input type="text" class="form-control" th:id="title" placeholder="" th:field="*{title}">
@@ -144,6 +156,9 @@
                     <td th:text="${plan.person != null ? plan.person.lname : ''}"></td>
                     <td th:text="${plan.elementType != null ? plan.elementType.prTitle : ''}"></td>
                     <td th:text="${plan.elementStatus != null ? plan.elementStatus.prTitle : ''}"></td>
+                    <td th:text="${plan.elementEdu != null ? plan.elementEdu.prTitle : ''}"></td>
+                    <td th:text="${plan.elementProject != null ? plan.elementProject.prTitle : ''}"></td>
+                    <td th:text="${plan.elementHolding != null ? plan.elementHolding.prTitle : ''}"></td>
                     <td th:text="${plan.title}"></td>
                     <td style="direction: ltr" th:text="${plan.prFromDate}"></td>
                     <td style="direction: ltr" th:text="${plan.prToDate}"></td>

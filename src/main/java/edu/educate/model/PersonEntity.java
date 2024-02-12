@@ -50,6 +50,7 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "father_name", length = 50)
     private String fatherName;
 
+    @NotNull
     @LengthOrEmpty(min = 10, max = 10, message = "{personEntity.nlCode}")
     @Column(name = "nl_code", length = 50)
     private String nlCode;

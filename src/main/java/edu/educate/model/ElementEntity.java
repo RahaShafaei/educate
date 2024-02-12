@@ -32,10 +32,22 @@ public class ElementEntity  extends TitleLPEntity {
     private List<AttendanceEntity> attendances;
 
     @OneToMany(mappedBy = "elementType")
+    private List<OrgUnitEntity> orgUnitTypes;
+
+    @OneToMany(mappedBy = "elementType")
     private List<PlansEntity> planTypes;
 
     @OneToMany(mappedBy = "elementStatus")
     private List<PlansEntity> planStatus;
+
+    @OneToMany(mappedBy = "elementEdu")
+    private List<PlansEntity> planEdus;
+
+    @OneToMany(mappedBy = "elementProject")
+    private List<PlansEntity> planProjects;
+
+    @OneToMany(mappedBy = "elementHolding")
+    private List<PlansEntity> planHoldings;
 
     @Override
     public List<String> getHeaderNames() {

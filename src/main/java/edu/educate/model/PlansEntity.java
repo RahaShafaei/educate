@@ -1,10 +1,12 @@
 package edu.educate.model;
 
 import edu.educate.helper.MessageUtil;
+import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,7 +38,12 @@ import java.util.List;
                         })
         }
 )
-public class PlansEntity extends TitleEntity {
+public class PlansEntity extends BaseEntity {
+
+    @Size(min = 2, message = "{titleEntity.title.min}")
+    @Column(name = "title", unique=true)
+    private String title;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "org_unit_id")
@@ -61,6 +68,21 @@ public class PlansEntity extends TitleEntity {
     @NotNull
     @JoinColumn(name = "element_id_status")
     private ElementEntity elementStatus;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "element_id_edu")
+    private ElementEntity elementEdu;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "element_id_project")
+    private ElementEntity elementProject;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "element_id_holding")
+    private ElementEntity elementHolding;
 
     @OneToMany(mappedBy = "plan")
     private List<AttendanceEntity> attendances;
@@ -88,6 +110,9 @@ public class PlansEntity extends TitleEntity {
     @Column(name = "pr_to_date")
     private String prToDate;
 
+    @Column(name = "plan_link")
+    private String planLink;
+
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
@@ -99,10 +124,13 @@ public class PlansEntity extends TitleEntity {
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.status") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.project") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.holding") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("person.field.fname"));
         headers.add(MessageUtil.getMessage("person.field.lname"));
         headers.add(MessageUtil.getMessage("plan.field.from.date"));
-        headers.add(MessageUtil.getMessage("plan.field.to.date"));
+        headers.add(MessageUtil.getMessage("plan.field.link"));
         return headers;
     }
 
@@ -117,10 +145,14 @@ public class PlansEntity extends TitleEntity {
         objects.add(prCourse != null ? prCourse.getPrTitle() : null);
         objects.add(elementType != null ? elementType.getPrTitle() : null);
         objects.add(elementStatus != null ? elementStatus.getPrTitle() : null);
+        objects.add(elementEdu != null ? elementEdu.getPrTitle() : null);
+        objects.add(elementProject != null ? elementProject.getPrTitle() : null);
+        objects.add(elementHolding != null ? elementHolding.getPrTitle() : null);
         objects.add(person != null ? person.getFname() : null);
         objects.add(person != null ? person.getLname() : null);
         objects.add(prFromDate != null ? prFromDate : null);
         objects.add(prToDate != null ? prToDate : null);
+        objects.add(planLink != null ? planLink : null);
         return objects;
     }
 
@@ -140,9 +172,20 @@ public class PlansEntity extends TitleEntity {
         return (ElementEntity)ifEntityIsDeleted(elementType);
     }
 
-
     public ElementEntity getElementStatus() {
         return (ElementEntity)ifEntityIsDeleted(elementStatus);
+    }
+
+    public ElementEntity getElementEdu() {
+        return (ElementEntity)ifEntityIsDeleted(elementEdu);
+    }
+
+    public ElementEntity getElementProject() {
+        return (ElementEntity)ifEntityIsDeleted(elementProject);
+    }
+
+    public ElementEntity getElementHolding() {
+        return (ElementEntity)ifEntityIsDeleted(elementHolding);
     }
 
     public List<AttendanceEntity> getAttendances() {

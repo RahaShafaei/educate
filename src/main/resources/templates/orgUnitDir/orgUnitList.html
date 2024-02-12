@@ -17,6 +17,7 @@
                 <thead>
                 <tr class="table-primary">
                     <th scope="col" th:text="#{main.field.row}"></th>
+                    <th scope="col" th:text="#{orgUnit.field.type}"></th>
                     <th scope="col" th:text="#{orgUnit.field.parent.title}"></th>
                     <th scope="col" th:text="#{main.field.title}"></th>
                     <th scope="col" th:text="#{main.field.code}"></th>
@@ -39,6 +40,9 @@
                 <tbody>
                 <tr>
                     <td></td>
+                    <td>
+                        <input type="text" class="form-control" th:id="elementType" placeholder="" th:field="*{elementType.prTitle}">
+                    </td>
                     <td>
                         <input type="text" class="form-control" th:id="parentOrgUnit" placeholder="" th:field="*{parentOrgUnit.title}">
                     </td>
@@ -72,6 +76,7 @@
                 </tr>
                 <tr th:each="ou , rowStat: ${orgunits}">
                     <td th:text="${rowStat.count +(currentPage * pageSize)}"></td>
+                    <td th:text="${ou.elementType != null ? ou.elementType.prTitle : ''}"></td>
                     <td th:text="${ou.parentOrgUnit != null ? ou.parentOrgUnit.title : ''}"></td>
                     <td th:text="${ou.title}"></td>
                     <td th:text="${ou.code}"></td>

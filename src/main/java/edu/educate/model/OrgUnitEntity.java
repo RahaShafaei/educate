@@ -4,6 +4,7 @@ import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,11 @@ public class OrgUnitEntity extends TitleEntity {
     @OneToMany(mappedBy = "orgUnit")
     private List<OrgUnitPostPersonEntity> orgUnitPostPersons;
 
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "element_id_type")
+    private ElementEntity elementType;
+
     @Column(name = "code", length = 50)
     private String code;
 
@@ -41,6 +47,7 @@ public class OrgUnitEntity extends TitleEntity {
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("orgUnit.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("orgUnit.field.parent.title"));
         headers.add(MessageUtil.getMessage("post.field.title"));
         headers.add(MessageUtil.getMessage("main.field.code"));
@@ -51,6 +58,7 @@ public class OrgUnitEntity extends TitleEntity {
     @Override
     public List<Object> getCellValues() {
         List<Object> objects = new ArrayList<>();
+        objects.add(elementType != null ? elementType.getPrTitle() : null);
         objects.add(parentOrgUnit != null ? parentOrgUnit.getTitle() : null);
         objects.add(getTitle() != null ? getTitle() : null);
         objects.add(code != null ? code : null);
@@ -68,6 +76,10 @@ public class OrgUnitEntity extends TitleEntity {
 
     public List<PlansEntity> getPlans() {
         return ifEntityListHasDeletedElement(plans);
+    }
+
+    public ElementEntity getElementType() {
+        return (ElementEntity)ifEntityIsDeleted(elementType);
     }
 
     public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {
