@@ -5,6 +5,11 @@
       layout:decorate="/fragments/core_layout.html">
 <head>
     <title th:text="#{course.page.title}"></title>
+    <script>
+        $(document).ready(function () {
+            $("select").select2();
+        });
+    </script>
 </head>
 <body>
 

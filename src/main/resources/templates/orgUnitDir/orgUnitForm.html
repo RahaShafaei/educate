@@ -5,6 +5,11 @@
       layout:decorate="/fragments/core_layout.html">
 <head>
     <title th:text="#{orgUnit.page.title}"></title>
+    <script>
+        $(document).ready(function () {
+            $("select").select2();
+        });
+    </script>
 </head>
 <body>
 
@@ -68,6 +73,5 @@
         </form>
     </div>
 </main>
-
 </body>
 </html>

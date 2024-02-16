@@ -10,13 +10,11 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/plans")
@@ -42,12 +40,14 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
             .withIgnorePaths("id", "deletedAt", "insertedAt", "prFromDate", "prToDate");
 
     private final OrgUnitService orgUnitService;
+    private final PrCourseGrpService prCourseGrpService;
     private final PrCourseService prCourseService;
     private final PersonService personService;
     private final ElementService elementService;
 
     public PlansController(PlansService plansService,
                            OrgUnitService orgUnitService,
+                           PrCourseGrpService prCourseGrpService,
                            PrCourseService prCourseService,
                            PersonService personService,
                            ElementService elementService
@@ -61,6 +61,7 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
                 SEARCH_CONDITIONS_MATCH_ALL);
 
         this.orgUnitService = orgUnitService;
+        this.prCourseGrpService = prCourseGrpService;
         this.prCourseService = prCourseService;
         this.personService = personService;
         this.elementService = elementService;
@@ -87,6 +88,8 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         model.addAttribute("attendances", ((PlansEntity) baseEntity).getAttendances());
         model.addAttribute("meetings", ((PlansEntity) baseEntity).getMeetings());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
+        model.addAttribute("parentOrgUnits", orgUnitService.findByParentOrgUnitIsNull());
+        model.addAttribute("courseGrps", prCourseGrpService.getAllEntities());
         model.addAttribute("courses", prCourseService.getAllEntities());
 
         PersonEntity personEntity = new PersonEntity();

@@ -17,6 +17,7 @@ public class OrgUnitMapper {
 
         dtoMapperUtils.populateCommonFields(orgUnit, orgUnitDto);
 
+        orgUnitDto.setTitle(orgUnit.getTitle());
         orgUnitDto.setCode(orgUnit.getCode());
         orgUnitDto.setDescr(orgUnit.getDescr());
         orgUnitDto.setParentOrgUnit(orgUnit.getParentOrgUnit().getId());

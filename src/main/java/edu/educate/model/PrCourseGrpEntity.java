@@ -1,14 +1,15 @@
 package edu.educate.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import edu.educate.helper.MessageUtil;
-import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.model.baseModel.TitleLPEntity;
-import edu.educate.validator.LengthOrEmpty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ import java.util.List;
 @Getter
 @Setter
 //@ToString
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+
 @Entity
 @Table(
         name = "pr_course_grp",

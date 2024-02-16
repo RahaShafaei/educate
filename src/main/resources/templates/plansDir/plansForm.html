@@ -5,11 +5,77 @@
       layout:decorate="/fragments/core_layout.html">
 <head>
     <title th:text="#{plan.page.title}"></title>
+
+    <script th:inline="javascript">
+        var $ = jQuery;
+
+        function updateSubcategories() {
+            var selectedCategory = $('#courseGrp').val();
+            var subcategorySelect = $('#prCourse');
+
+            $.ajax({
+                type: 'GET',
+                url: '/getSubcategories',
+                data: {category: selectedCategory},
+                success: function (data) {
+                    subcategorySelect.empty();
+                    $.each(data, function (index, subcategory) {
+                        subcategorySelect.append($('<option>', {
+                            value: subcategory.id,
+                            text: subcategory.prTitle
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error fetching subcategories.');
+                }
+            });
+        }
+
+        function updateOrgUnitSubcategories() {
+            var selectedCategory = $('#parentOrgUnits').val();
+            var subcategorySelect = $('#orgUnit');
+
+            $.ajax({
+                type: 'GET',
+                url: '/orgUnitGetSubcategories',
+                data: {category: selectedCategory},
+                success: function (data) {
+                    subcategorySelect.empty();
+                    // alert(data.length);
+                    // alert(data[0].title);
+                    $.each(data, function (index, subcategory) {
+                        subcategorySelect.append($('<option>', {
+                            value: subcategory.id,
+                            text: subcategory.title
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error fetching subcategories.');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // updateSubcategories();
+            // updateOrgUnitSubcategories();
+
+            $("select").select2();
+
+            // Handle change event on the category select
+            // $('#courseGrp').change(function () {
+            //     // Update subcategories when the category changes
+            //     updateSubcategories();
+            // });
+        });
+    </script>
+
 </head>
 <body>
 
 <main layout:fragment="mainContent" class="px-md-4">
-<!--    <div class="col-md-7 col-lg-8">-->
+    <!--    <div class="col-md-7 col-lg-8">-->
     <div>
         <h5 th:text="#{plan.page.title} + ' _ ' + #{main.form}"></h5>
 
@@ -20,6 +86,15 @@
             <input type="hidden" th:field="*{insertedAt}">
             <input type="hidden" th:field="*{meetings}">
             <div class="row g-3">
+                <div class="col-sm-4">
+                    <label class="form-label" for="parentOrgUnits" th:text="#{orgUnit.field.parent.title}"></label>
+                    <select class="form-select" id="parentOrgUnits" onchange="updateOrgUnitSubcategories()">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="ou : ${parentOrgUnits}" th:value="${ou.id}" th:text="${ou.title}"
+                                th:selected="${entityObject.getOrgUnit() != null && entityObject.getOrgUnit().getParentOrgUnit() == ou}"></option>
+                    </select>
+                </div>
+
                 <div class="col-sm-4">
                     <label class="form-label" for="orgUnit" th:text="#{orgUnit.page.title}"></label>
                     <select class="form-select" id="orgUnit" th:field="*{orgUnit}">
@@ -32,17 +107,6 @@
                 </div>
 
                 <div class="col-sm-4">
-                    <label class="form-label" for="prCourse" th:text="#{course.page.title}"></label>
-                    <select class="form-select" id="prCourse" th:field="*{prCourse}">
-                        <option value="" th:text="#{main.btn.select}"></option>
-                        <option th:each="co : ${courses}" th:value="${co.id}" th:text="${co.prTitle}"
-                                th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse() == co}"></option>
-                    </select>
-                    <small class="text-danger" th:if="${#fields.hasErrors('prCourse')}"
-                           th:text="#{course.validate.prCourse}"></small>
-                </div>
-
-                <div class="col-sm-4">
                     <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
                     <select class="form-select" id="person" th:field="*{person}">
                         <option value="" th:text="#{main.btn.select}"></option>
@@ -52,6 +116,26 @@
                     </select>
                     <small class="text-danger" th:if="${#fields.hasErrors('person')}"
                            th:text="#{plan.validate.teacher}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="courseGrp" th:text="#{course.grp.page.title}"></label>
+                    <select class="form-select" id="courseGrp" onchange="updateSubcategories()">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="cg : ${courseGrps}" th:value="${cg.id}" th:text="${cg.prTitle}"
+                                th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse().getPrCourseGrp() == cg}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="prCourse" th:text="#{course.page.title}"></label>
+                    <select class="form-select" id="prCourse" th:field="*{prCourse}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="co : ${courses}" th:value="${co.id}" th:text="${co.prTitle}"
+                                th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse() == co}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('prCourse')}"
+                           th:text="#{course.validate.prCourse}"></small>
                 </div>
 
                 <div class="col-sm-4">
@@ -109,20 +193,20 @@
                            th:text="#{plan.validate.holding}"></small>
                 </div>
 
-<!--                <div class="col-sm-4">-->
-<!--                    <label for="title" class="form-label" th:text="#{plan.field.title}"></label>-->
-<!--                    <input type="text" class="form-control" id="title" placeholder="" value=""-->
-<!--                           th:field="*{title}">-->
-<!--                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"-->
-<!--                           th:text="#{main.validation.title}"></small>-->
-<!--                </div>-->
+                <!--                <div class="col-sm-4">-->
+                <!--                    <label for="title" class="form-label" th:text="#{plan.field.title}"></label>-->
+                <!--                    <input type="text" class="form-control" id="title" placeholder="" value=""-->
+                <!--                           th:field="*{title}">-->
+                <!--                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"-->
+                <!--                           th:text="#{main.validation.title}"></small>-->
+                <!--                </div>-->
 
                 <div class="col-sm-4">
                     <label for="planLink" class="form-label" th:text="#{plan.field.link}"></label>
                     <input type="text" class="form-control" id="planLink" placeholder="" value=""
                            th:field="*{planLink}">
-<!--                    <small class="text-danger " th:if="${#fields.hasErrors('planLink')}"-->
-<!--                           th:text="#{main.validation.link}"></small>-->
+                    <!--                    <small class="text-danger " th:if="${#fields.hasErrors('planLink')}"-->
+                    <!--                           th:text="#{main.validation.link}"></small>-->
                 </div>
 
                 <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
@@ -196,9 +280,9 @@
             <tr th:each="meet : ${meetings}">
                 <td th:text="${meet.title}"></td>
                 <td>
-<!--                    <a th:href="@{/meeting/download/{id}(id=${meet.id})}"-->
-<!--                       th:text="#{meeting.file.download}"-->
-<!--                    ></a>-->
+                    <!--                    <a th:href="@{/meeting/download/{id}(id=${meet.id})}"-->
+                    <!--                       th:text="#{meeting.file.download}"-->
+                    <!--                    ></a>-->
 
                     <a th:href="@{/meeting/download/{id}(id=${meet.id})}"
                        th:attr="title=#{meeting.file.download}">
@@ -208,13 +292,13 @@
                     </a>
                 </td>
                 <td>
-<!--                    <a class="btn btn-outline-danger"-->
-<!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
-<!--                       th:href="@{/meeting/deleted/{id}(id=${meet.id})}"-->
-<!--                       th:text="#{main.btn.delete}"-->
-<!--                       th:data-confirm-delete="|#{main.validation.delete}|"-->
-<!--                       onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"-->
-<!--                    ></a>-->
+                    <!--                    <a class="btn btn-outline-danger"-->
+                    <!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
+                    <!--                       th:href="@{/meeting/deleted/{id}(id=${meet.id})}"-->
+                    <!--                       th:text="#{main.btn.delete}"-->
+                    <!--                       th:data-confirm-delete="|#{main.validation.delete}|"-->
+                    <!--                       onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"-->
+                    <!--                    ></a>-->
 
                     <a th:href="@{/meeting/deleted/{id}(id=${meet.id})}"
                        th:attr="title=#{main.btn.delete}"
@@ -252,16 +336,16 @@
                 <td th:text="${attend.element != null ? attend.element.prTitle : ''}"></td>
                 <td th:text="${attend.plan != null ? attend.plan.title : ''}"></td>
                 <td>
-<!--                    <a class="btn btn-outline-primary"-->
-<!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
-<!--                       th:href="@{/attendance/edit/{id}(id=${attend.id})}" th:text="#{main.btn.edit}"></a>-->
-<!--                    <a class="btn btn-outline-danger"-->
-<!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
-<!--                       th:href="@{/attendance/delete/{id}(id=${attend.id})}"-->
-<!--                       th:text="#{main.btn.delete}"-->
-<!--                       th:data-confirm-delete="|#{main.validation.delete}|"-->
-<!--                       onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"-->
-<!--                    ></a>-->
+                    <!--                    <a class="btn btn-outline-primary"-->
+                    <!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
+                    <!--                       th:href="@{/attendance/edit/{id}(id=${attend.id})}" th:text="#{main.btn.edit}"></a>-->
+                    <!--                    <a class="btn btn-outline-danger"-->
+                    <!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
+                    <!--                       th:href="@{/attendance/delete/{id}(id=${attend.id})}"-->
+                    <!--                       th:text="#{main.btn.delete}"-->
+                    <!--                       th:data-confirm-delete="|#{main.validation.delete}|"-->
+                    <!--                       onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"-->
+                    <!--                    ></a>-->
                     <a th:attr="title=#{main.btn.edit}"
                        th:href="@{/attendance/edit/{id}(id=${attend.id})}">
                         <svg class="bi">
@@ -327,6 +411,5 @@
         <hr class="my-4">
     </div>
 </main>
-
 </body>
 </html>

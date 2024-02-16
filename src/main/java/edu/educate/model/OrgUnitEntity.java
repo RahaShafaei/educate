@@ -1,5 +1,7 @@
 package edu.educate.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
@@ -18,6 +20,9 @@ import java.util.Objects;
 @Setter
 //@ToString
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Table(name = "org_unit", schema = "dbo", catalog = "educate")
 public class OrgUnitEntity extends TitleEntity {
     @OneToMany(mappedBy = "parentOrgUnit")
