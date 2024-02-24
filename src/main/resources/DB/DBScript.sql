@@ -1,12 +1,12 @@
 USE [master]
 GO
-/****** Object:  Database [educate]    Script Date: 12/9/2023 4:56:06 PM ******/
+/****** Object:  Database [educate]    Script Date: 2/24/2024 6:50:40 PM ******/
 CREATE DATABASE [educate]
  CONTAINMENT = NONE
  ON  PRIMARY
 ( NAME = N'educate', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\educate.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON
-( NAME = N'educate_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\educate_log.ldf' , SIZE = 73728KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'educate_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\educate_log.ldf' , SIZE = 139264KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
 GO
 ALTER DATABASE [educate] SET COMPATIBILITY_LEVEL = 160
@@ -84,7 +84,7 @@ ALTER DATABASE [educate] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_P
 GO
 USE [educate]
 GO
-/****** Object:  UserDefinedFunction [dbo].[fn_date_time_rand]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fn_date_time_rand]    Script Date: 2/24/2024 6:50:40 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,7 +99,7 @@ begin
  return DATEADD(SECOND, @Random, @FromDate)
 end
 GO
-/****** Object:  View [dbo].[vw_getRANDValue]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  View [dbo].[vw_getRANDValue]    Script Date: 2/24/2024 6:50:40 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE VIEW [dbo].[vw_getRANDValue]
 AS
 SELECT RAND() AS Value
 GO
-/****** Object:  Table [dbo].[attendance]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[attendance]    Script Date: 2/24/2024 6:50:40 PM ******/
 SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -128,7 +128,7 @@ CREATE TABLE [dbo].[attendance](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[element]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[element]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -147,7 +147,7 @@ CREATE TABLE [dbo].[element](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[element_grp]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[element_grp]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -165,7 +165,7 @@ CREATE TABLE [dbo].[element_grp](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[meeting]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[meeting]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -185,7 +185,7 @@ CREATE TABLE [dbo].[meeting](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_post]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[org_post]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -204,7 +204,7 @@ CREATE TABLE [dbo].[org_post](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_unit]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[org_unit]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -214,6 +214,7 @@ CREATE TABLE [dbo].[org_unit](
     [parent_org_unit_id] [int] NULL,
     [title] [nvarchar](255) NULL,
     [code] [nvarchar](50) NULL,
+    [element_id_type] [int] NULL,
     [descr] [nvarchar](255) NULL,
     [deleted] [bit] NULL,
     [deleted_at] [datetime] NULL,
@@ -224,7 +225,7 @@ CREATE TABLE [dbo].[org_unit](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_unit_post_person]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[org_unit_post_person]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -247,7 +248,7 @@ CREATE TABLE [dbo].[org_unit_post_person](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[person]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[person]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -269,7 +270,7 @@ CREATE TABLE [dbo].[person](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[person_role]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[person_role]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -287,7 +288,7 @@ CREATE TABLE [dbo].[person_role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[plans]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[plans]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -299,11 +300,15 @@ CREATE TABLE [dbo].[plans](
     [person_id] [int] NULL,
     [element_id_type] [int] NULL,
     [element_id_status] [int] NULL,
+    [element_id_edu] [int] NULL,
+    [element_id_project] [int] NULL,
+    [element_id_holding] [int] NULL,
     [title] [nvarchar](255) NULL,
     [lt_from_date] [datetime] NULL,
     [pr_from_date] [nvarchar](30) NULL,
     [lt_to_date] [datetime] NULL,
     [pr_to_date] [nvarchar](30) NULL,
+    [plan_link] [nvarchar](255) NULL,
     [deleted] [bit] NULL,
     [deleted_at] [datetime] NULL,
     [inserted_at] [datetime] NULL,
@@ -313,7 +318,7 @@ CREATE TABLE [dbo].[plans](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[pr_course]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[pr_course]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -333,7 +338,7 @@ CREATE TABLE [dbo].[pr_course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[pr_course_grp]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[pr_course_grp]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -352,7 +357,7 @@ CREATE TABLE [dbo].[pr_course_grp](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[roles]    Script Date: 12/9/2023 4:56:07 PM ******/
+/****** Object:  Table [dbo].[roles]    Script Date: 2/24/2024 6:50:40 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -447,6 +452,11 @@ ALTER TABLE [dbo].[meeting]  WITH CHECK ADD  CONSTRAINT [FK_meeting_plan] FOREIG
     GO
 ALTER TABLE [dbo].[meeting] CHECK CONSTRAINT [FK_meeting_plan]
     GO
+ALTER TABLE [dbo].[org_unit]  WITH CHECK ADD  CONSTRAINT [FK_org_unit_element] FOREIGN KEY([element_id_type])
+    REFERENCES [dbo].[element] ([id])
+    GO
+ALTER TABLE [dbo].[org_unit] CHECK CONSTRAINT [FK_org_unit_element]
+    GO
 ALTER TABLE [dbo].[org_unit_post_person]  WITH CHECK ADD  CONSTRAINT [FK_org_unit_post_person_org_post] FOREIGN KEY([org_post_id])
     REFERENCES [dbo].[org_post] ([id])
     GO
@@ -491,6 +501,21 @@ ALTER TABLE [dbo].[plans]  WITH CHECK ADD  CONSTRAINT [FK_plan_pr_course] FOREIG
     REFERENCES [dbo].[pr_course] ([id])
     GO
 ALTER TABLE [dbo].[plans] CHECK CONSTRAINT [FK_plan_pr_course]
+    GO
+ALTER TABLE [dbo].[plans]  WITH CHECK ADD  CONSTRAINT [FK_plans_element_edu] FOREIGN KEY([element_id_edu])
+    REFERENCES [dbo].[element] ([id])
+    GO
+ALTER TABLE [dbo].[plans] CHECK CONSTRAINT [FK_plans_element_edu]
+    GO
+ALTER TABLE [dbo].[plans]  WITH CHECK ADD  CONSTRAINT [FK_plans_element_holding] FOREIGN KEY([element_id_holding])
+    REFERENCES [dbo].[element] ([id])
+    GO
+ALTER TABLE [dbo].[plans] CHECK CONSTRAINT [FK_plans_element_holding]
+    GO
+ALTER TABLE [dbo].[plans]  WITH CHECK ADD  CONSTRAINT [FK_plans_element_project] FOREIGN KEY([element_id_project])
+    REFERENCES [dbo].[element] ([id])
+    GO
+ALTER TABLE [dbo].[plans] CHECK CONSTRAINT [FK_plans_element_project]
     GO
 ALTER TABLE [dbo].[plans]  WITH CHECK ADD  CONSTRAINT [FK_plans_person] FOREIGN KEY([person_id])
     REFERENCES [dbo].[person] ([id])
