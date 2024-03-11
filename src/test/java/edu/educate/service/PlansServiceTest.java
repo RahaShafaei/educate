@@ -65,4 +65,22 @@ public class PlansServiceTest {
 
         assertEquals(true, planIsDeleted);
     }
+
+    @Test
+    public void testFindById() {
+
+        PlansEntity plan = plansService.getEntityById(5).get();
+
+        assertNotNull(plan);
+    }
+
+    @Test
+    public void testFindByIdAndDeletedFalse () {
+
+        PlansEntity plan = plansService.getEntity(5);
+
+        assertNotNull(plan);
+    }
+
+
 }
