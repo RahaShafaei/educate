@@ -88,7 +88,8 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         model.addAttribute("attendances", ((PlansEntity) baseEntity).getAttendances());
         model.addAttribute("meetings", ((PlansEntity) baseEntity).getMeetings());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
-        model.addAttribute("parentOrgUnits", orgUnitService.findByParentOrgUnitIsNull());
+        model.addAttribute("parentOrgUnits", orgUnitService.findByElementTypeId());
+//        model.addAttribute("parentOrgUnits", orgUnitService.findByParentOrgUnitIsNull());
         model.addAttribute("courseGrps", prCourseGrpService.getAllEntities());
         model.addAttribute("courses", prCourseService.getAllEntities());
 

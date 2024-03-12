@@ -9,4 +9,5 @@ import java.util.List;
 public interface OrgUnitService extends GenericService<OrgUnitEntity, OrgUnitDto> {
     List<OrgUnitEntity> findByParentOrgUnitIsNull();
     List<OrgUnitEntity> findByParentOrgUnitId(Integer id);
+    List<OrgUnitEntity> findByElementTypeId();
 }

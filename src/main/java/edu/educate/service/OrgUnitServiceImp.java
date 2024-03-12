@@ -38,6 +38,11 @@ public class OrgUnitServiceImp extends GenericServiceImpl<OrgUnitEntity, OrgUnit
         return ((OrgUnitRepository) repository).findByParentOrgUnitId(id);
     }
 
+    @Override
+    public List<OrgUnitEntity> findByElementTypeId() {
+        return ((OrgUnitRepository) repository).findByElementTypeId(17);
+    }
+
     //    @Override
 //    public Page<OrgUnitEntity> getAllEntities(Example<OrgUnitEntity> example, Pageable pageable) {
 //        Specification<OrgUnitEntity> dateSpec = getCriterias(example);
