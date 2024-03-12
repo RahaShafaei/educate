@@ -4,6 +4,7 @@ import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.exception.ItemNotFoundException;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.repository.baseRepository.GenericRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,17 @@ public class GenericServiceImpl<T extends BaseEntity, R extends BaseDto> impleme
     }
 
     @Override
+    public T getEntity(Integer id) {
+        Optional<T> entity = repository.findByIdAndDeletedFalse(id);
+
+        if (entity.isEmpty()) {
+            throw new ItemNotFoundException(entityName + " id: " + id);
+        }
+
+        return entity.get();
+    }
+    @Override
+    @Transactional
     public Optional<T> getEntityById(Integer EntityId){
         return repository.findById(EntityId);
     }
@@ -48,17 +60,6 @@ public class GenericServiceImpl<T extends BaseEntity, R extends BaseDto> impleme
     @Override
     public Page<T> getAllEntities(Pageable pageable) {
         return repository.findByDeletedFalseOrderByIdDesc(pageable);
-    }
-
-    @Override
-    public T getEntity(Integer id) {
-        Optional<T> entity = repository.findByIdAndDeletedFalse(id);
-
-        if (entity.isEmpty()) {
-            throw new ItemNotFoundException(entityName + " id: " + id);
-        }
-
-        return entity.get();
     }
 
     @Override

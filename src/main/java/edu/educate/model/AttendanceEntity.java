@@ -21,7 +21,8 @@ import java.util.List;
 @Table(
         name = "attendance",
         schema = "dbo",
-        catalog = "educate",
+        catalog = "educate"
+        ,
         uniqueConstraints = {@UniqueConstraint(columnNames = {"person_id", "plan_id"})}
 )
 public class AttendanceEntity extends BaseEntity {
@@ -67,15 +68,15 @@ public class AttendanceEntity extends BaseEntity {
     }
 
     public PersonEntity getPerson() {
-        return (PersonEntity)ifEntityIsDeleted(person);
+        return (PersonEntity) ifEntityIsDeleted(person);
     }
 
     public PlansEntity getPlan() {
-        return (PlansEntity)ifEntityIsDeleted(plan);
+        return (PlansEntity) ifEntityIsDeleted(plan);
     }
 
     public ElementEntity getElement() {
-        return (ElementEntity)ifEntityIsDeleted(element);
+        return (ElementEntity) ifEntityIsDeleted(element);
     }
 
     @AssertTrue(message = "{attendanceEntity.element}")
