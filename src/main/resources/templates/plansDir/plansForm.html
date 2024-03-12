@@ -77,7 +77,7 @@
 <main layout:fragment="mainContent" class="px-md-4">
     <!--    <div class="col-md-7 col-lg-8">-->
     <div>
-        <h5 th:text="#{plan.page.title} + ' _ ' + #{main.form}"></h5>
+        <h5 th:text="#{plan.page.title} + ' _ ' + #{main.form} + ${entityObject.getTitle() != null ? ' : ' + entityObject.getTitle() : ' '}"></h5>
 
         <hr class="my-4">
 
@@ -322,19 +322,49 @@
         <table class="table table-bordered border-primary-subtle table-hover">
             <thead>
             <tr class="table-primary">
+                <th scope="col" th:text="#{main.field.row}"></th>
                 <th scope="col" th:text="#{person.field.fname}"></th>
                 <th scope="col" th:text="#{person.field.lname}"></th>
                 <th scope="col" th:text="#{attendance.field.status}"></th>
-                <th scope="col" th:text="#{plan.page.title}"></th>
-                <th scope="col"></th>
+                <th scope="col" th:text="#{attendance.field.grade}"></th>
+                <th scope="col">
+                    <a href="#" th:href="${entityObject.getId() != null} ? @{/attendance/newovr/{planId}(planId=${entityObject.id})} : null"
+                       th:classappend="${entityObject.getId() == null ? 'disabled-link' : ''}"
+                       th:attr="title=#{main.btn.new}">
+                        <svg class="bi">
+                            <use xlink:href="#new-list"/>
+                        </svg>
+                    </a>
+                    <a href="#" th:href="${entityObject.getId() != null} ? @{/attendance/export-to-excelovr/{planId}(planId=${entityObject.id})} : null"
+                       th:classappend="${entityObject.getId() == null ? 'disabled-link' : ''}"
+                       th:attr="title=#{main.btn.excel}">
+                        <svg class="bi">
+                            <use xlink:href="#download-list"/>
+                        </svg>
+                    </a>
+
+<!--                    <a th:href="@{/attendance/newovr/{planId}(planId=${entityObject.id})}"-->
+<!--                       th:attr="title=#{main.btn.new}">-->
+<!--                        <svg class="bi">-->
+<!--                            <use xlink:href="#new-list"/>-->
+<!--                        </svg>-->
+<!--                    </a>-->
+<!--                    <a th:href="@{/attendance/export-to-excelovr/{planId}(planId=${entityObject.id})}"-->
+<!--                       th:attr="title=#{main.btn.excel}">-->
+<!--                        <svg class="bi">-->
+<!--                            <use xlink:href="#download-list"/>-->
+<!--                        </svg>-->
+<!--                    </a>-->
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="attend : ${attendances}">
+            <tr th:each="attend, rowStat : ${attendances}">
+                <td th:text="${rowStat.count}"></td>
                 <td th:text="${attend.person != null ? attend.person.fname : ''}"></td>
                 <td th:text="${attend.person != null ? attend.person.lname : ''}"></td>
                 <td th:text="${attend.element != null ? attend.element.prTitle : ''}"></td>
-                <td th:text="${attend.plan != null ? attend.plan.title : ''}"></td>
+                <td th:text="${attend.grade != null ? attend.grade : ''}"></td>
                 <td>
                     <!--                    <a class="btn btn-outline-primary"-->
                     <!--                       style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .55rem;"-->
@@ -347,12 +377,12 @@
                     <!--                       onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"-->
                     <!--                    ></a>-->
                     <a th:attr="title=#{main.btn.edit}"
-                       th:href="@{/attendance/edit/{id}(id=${attend.id})}">
+                       th:href="@{/attendance/editovr/{planId}/{id}(planId=${entityObject.id}, id=${attend.id})}">
                         <svg class="bi">
                             <use xlink:href="#edit-list"/>
                         </svg>
                     </a>
-                    <a th:href="@{/attendance/delete/{id}(id=${attend.id})}"
+                    <a th:href="@{/attendance/deleteovr/{planId}/{id}(planId=${entityObject.id}, id=${attend.id})}"
                        th:attr="title=#{main.btn.delete}"
                        th:data-confirm-delete="|#{main.validation.delete}|"
                        onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">

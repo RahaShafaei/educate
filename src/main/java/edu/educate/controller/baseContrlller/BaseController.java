@@ -2,12 +2,9 @@ package edu.educate.controller.baseContrlller;
 
 import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.helper.ExcelGenerator;
-import edu.educate.model.OrgUnitEntity;
-import edu.educate.model.PlansEntity;
 import edu.educate.model.baseModel.BaseEntity;
-import edu.educate.service.AttendanceService;
-import edu.educate.service.PlansService;
 import edu.educate.service.baseService.GenericService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -20,13 +17,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 public abstract class BaseController<T, R> {
@@ -155,7 +149,7 @@ public abstract class BaseController<T, R> {
         }
     }
 
-    private HttpServletResponse excelSettings(HttpServletResponse response) {
+    public HttpServletResponse excelSettings(HttpServletResponse response) {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());

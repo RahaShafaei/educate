@@ -33,7 +33,7 @@ public class AttendanceEntity extends BaseEntity {
     private PersonEntity person;
 
     @ManyToOne
-    @NotNull
+//    @NotNull
     @JoinColumn(name = "plan_id")
     private PlansEntity plan;
 
@@ -97,13 +97,13 @@ public class AttendanceEntity extends BaseEntity {
         return element.getLtTitle().equals("Present");
     }
 
-    @AssertTrue(message = "{attendanceEntity.plan}")
-    public boolean isValidPlan() {
-        if (plan == null) {
-            return true;
-        }
-
-        return !plan.getElementStatus().getLtTitle().equals("Planning");
-    }
+//    @AssertTrue(message = "{attendanceEntity.plan}")
+//    public boolean isValidPlan() {
+//        if (plan == null) {
+//            return true;
+//        }
+//
+//        return !plan.getElementStatus().getLtTitle().equals("Planning");
+//    }
 
 }

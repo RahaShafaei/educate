@@ -46,3 +46,8 @@ img {
     width: 35%;
     margin: 1rem 1rem;
 }
+
+.disabled-link {
+    pointer-events: none;
+    color: grey;
+}

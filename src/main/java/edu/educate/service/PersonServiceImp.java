@@ -3,10 +3,8 @@ package edu.educate.service;
 import edu.educate.dto.PersonDto;
 import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.exception.ParametersNotValidException;
-import edu.educate.model.ElementEntity;
-import edu.educate.model.OrgUnitPostPersonEntity;
-import edu.educate.model.PersonEntity;
-import edu.educate.model.RolesEntity;
+import edu.educate.model.*;
+import edu.educate.repository.AttendanceRepository;
 import edu.educate.repository.PersonRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
@@ -26,6 +24,8 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
     @Autowired
     private RolesService rolesService;
 
+    @Autowired PlansService plansService;
+
     @Autowired
     public PersonServiceImp(PersonRepository repository) {
         super(repository, "PersonEntity");
@@ -37,6 +37,12 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
         OrgUnitPostPersonEntity orgUnitPostPersonEntity = ((PersonDto) baseDto).getOrgUnitPostPersonWrapper();
 
         return checkDateRange(personEntity, orgUnitPostPersonEntity);
+    }
+
+    @Override
+    public List<PersonEntity> findAllByOrgUnitId(Integer planId) {
+        PlansEntity plansEntity  = plansService.getEntityById(planId).get();
+        return ((PersonRepository) repository).findByOrgUnitIdAndLtToDateIsNull(plansEntity.getOrgUnit().getId());
     }
 
     @Override
