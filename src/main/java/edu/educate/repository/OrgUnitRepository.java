@@ -17,5 +17,6 @@ public interface OrgUnitRepository extends GenericRepository<OrgUnitEntity> {
     List<OrgUnitEntity> findByParentOrgUnitIsNull();
     List<OrgUnitEntity> findByParentOrgUnitId(Integer id);
     List<OrgUnitEntity> findByElementTypeId(Integer id);
+    Page<OrgUnitEntity> findByDeletedFalseAndTitleNotOrderByIdDesc(Pageable pageable, String title);
 
 }

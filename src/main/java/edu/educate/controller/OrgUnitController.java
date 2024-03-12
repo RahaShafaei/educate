@@ -46,14 +46,6 @@ public class OrgUnitController extends BaseController<OrgUnitEntity, OrgUnitDto>
     public void modelSetting(Model model, BaseEntity baseEntity) {
         model.addAttribute("entityObject", baseEntity);
         model.addAttribute("parents", service.getAllEntities());
-        model.addAttribute("elementTypes", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(7)));
-    }
-
-    private ElementEntity elementEntityConfiguration(int i){
-        ElementEntity elementProject = new ElementEntity();
-        ElementGrpEntity elementGrpProject = new ElementGrpEntity();
-        elementGrpProject.setId(i);
-        elementProject.setElementGrp(elementGrpProject);
-        return elementProject;
+        model.addAttribute("elementTypes", elementService.findByLtTitleNot());
     }
 }

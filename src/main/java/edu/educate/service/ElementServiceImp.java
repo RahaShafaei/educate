@@ -3,6 +3,7 @@ package edu.educate.service;
 import edu.educate.dto.ElementDto;
 import edu.educate.model.ElementEntity;
 import edu.educate.model.baseModel.BaseEntity;
+import edu.educate.repository.AttendanceRepository;
 import edu.educate.repository.ElementRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class ElementServiceImp extends GenericServiceImpl<ElementEntity, Element
         Example<ElementEntity> example = Example.of(elementEntity, SEARCH_CONDITIONS_MATCH_ALL);
 
         return findEntities(example);
+    }
+
+    @Override
+    public List<ElementEntity> findByLtTitleNot() {
+        return ((ElementRepository) repository).findByLtTitleNotAndElementGrpId("root",7);
     }
 }
