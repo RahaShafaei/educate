@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -72,11 +73,18 @@ public class PersonEntity extends BaseEntity {
         headers.add(MessageUtil.getMessage("person.field.nl.code"));
         headers.add(MessageUtil.getMessage("person.field.pr.code"));
         headers.add(MessageUtil.getMessage("person.field.tel"));
+        headers.add(MessageUtil.getMessage("role.field.title"));
+        headers.add(MessageUtil.getMessage("orgUnit.page.title"));
+        headers.add(MessageUtil.getMessage("post.field.title"));
+        headers.add(MessageUtil.getMessage("plan.field.from.date"));
+        headers.add(MessageUtil.getMessage("plan.field.to.date"));
+        headers.add(MessageUtil.getMessage("person.field.location"));
         return headers;
     }
 
     @Override
     public List<Object> getCellValues() {
+        OrgUnitPostPersonEntity orgUnitPostPersonEntity = getLastPost(this);
         List<Object> objects = new ArrayList<>();
         objects.add(fname != null ? fname : null);
         objects.add(lname != null ? lname : null);
@@ -84,6 +92,13 @@ public class PersonEntity extends BaseEntity {
         objects.add(nlCode != null ? nlCode : null);
         objects.add(prCode != null ? prCode : null);
         objects.add(tel != null ? tel : null);
+        objects.add(personRoles != null ? personRoles.stream().map(m-> m.getPrTitle())
+                .collect(Collectors.joining(", ")) : null);
+        objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getOrgUnit().getTitle() : null);
+        objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getOrgPost().getTitle() : null);
+        objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getPrFromDate() : null);
+        objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getPrToDate() : null);
+        objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getLocation() : null);
         return objects;
     }
 
@@ -101,6 +116,13 @@ public class PersonEntity extends BaseEntity {
 
     public List<RolesEntity> getPersonRoles() {
         return ifEntityListHasDeletedElement(personRoles);
+    }
+
+    private OrgUnitPostPersonEntity getLastPost(PersonEntity personEntity) {
+        return personEntity.getOrgUnitPostPersons().stream()
+                .filter(el -> el.getLtToDate() == null)
+                .findFirst()
+                .orElse(null);
     }
 
 }

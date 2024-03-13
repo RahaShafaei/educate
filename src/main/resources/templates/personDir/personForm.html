@@ -108,6 +108,13 @@
                     <small class="text-danger" th:if="${#fields.hasErrors('orgUnitPostPersonWrapper.orgUnit')}"
                            th:text="#{orgUnitPostPerson.validate.orgUnit}"></small>
                 </div>
+
+                <div class="col-sm-4">
+                    <label for="location" class="form-label" th:text="#{person.field.location}"></label>
+                    <input type="text" class="form-control" id="location" placeholder="" value=""
+                           th:field="*{orgUnitPostPersonWrapper.location}">
+                </div>
+
                 <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
                     <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
                     <div class="input-group mb-3 date-pick-inp">
@@ -165,6 +172,7 @@
             <tr class="table-primary">
                 <th scope="col" th:text="#{orgUnit.field.title}"></th>
                 <th scope="col" th:text="#{post.field.title}"></th>
+                <th scope="col" th:text="#{person.field.location}"></th>
                 <th scope="col" th:text="#{orgUnitPostPerson.field.from.date}"></th>
                 <th scope="col" th:text="#{orgUnitPostPerson.field.to.date}"></th>
             </tr>
@@ -173,6 +181,7 @@
             <tr th:each="oup : ${orgUnitsPosts}">
                 <td th:text="${oup.orgUnit.title}"></td>
                 <td th:text="${oup.orgPost.title}"></td>
+                <td th:text="${oup.location}"></td>
                 <td style="direction: ltr" th:text="${oup.prFromDate}"></td>
                 <td style="direction: ltr" th:text="${oup.prToDate}"></td>
             </tr>

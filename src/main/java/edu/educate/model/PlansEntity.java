@@ -130,6 +130,7 @@ public class PlansEntity extends BaseEntity {
         headers.add(MessageUtil.getMessage("person.field.fname"));
         headers.add(MessageUtil.getMessage("person.field.lname"));
         headers.add(MessageUtil.getMessage("plan.field.from.date"));
+        headers.add(MessageUtil.getMessage("plan.field.to.date"));
         headers.add(MessageUtil.getMessage("plan.field.link"));
         return headers;
     }

@@ -69,6 +69,9 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     @Column(name = "pr_to_date")
     private String prToDate;
 
+    @Column(name = "location")
+    private String location;
+
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
@@ -78,6 +81,7 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
         headers.add(MessageUtil.getMessage("person.field.lname"));
         headers.add(MessageUtil.getMessage("plan.field.from.date"));
         headers.add(MessageUtil.getMessage("plan.field.to.date"));
+        headers.add(MessageUtil.getMessage("person.field.location"));
         return headers;
     }
 
@@ -90,6 +94,7 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
         objects.add(person != null ? person.getLname() : null);
         objects.add(prFromDate != null ? prFromDate : null);
         objects.add(prToDate != null ? prToDate : null);
+        objects.add(location != null ? location : null);
         return objects;
     }
 

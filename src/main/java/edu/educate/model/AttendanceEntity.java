@@ -79,23 +79,23 @@ public class AttendanceEntity extends BaseEntity {
         return (ElementEntity) ifEntityIsDeleted(element);
     }
 
-    @AssertTrue(message = "{attendanceEntity.element}")
-    public boolean isValidElement() {
-        if (element == null) {
-            return true;
-        }
+//    @AssertTrue(message = "{attendanceEntity.element}")
+//    public boolean isValidElement() {
+//        if (element == null) {
+//            return true;
+//        }
+//
+//        return element.getElementGrp().getLtTitle().equals("attendance_status");
+//    }
 
-        return element.getElementGrp().getLtTitle().equals("attendance_status");
-    }
-
-    @AssertTrue(message = "{attendanceEntity.element.present}")
-    public boolean isGradeForPresentAttendance() {
-        if (grade == null) {
-            return true;
-        }
-
-        return element.getLtTitle().equals("Present");
-    }
+//    @AssertTrue(message = "{attendanceEntity.element.present}")
+//    public boolean isGradeForPresentAttendance() {
+//        if (grade == null) {
+//            return true;
+//        }
+//
+//        return element.getLtTitle().equals("Present");
+//    }
 
 //    @AssertTrue(message = "{attendanceEntity.plan}")
 //    public boolean isValidPlan() {

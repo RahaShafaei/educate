@@ -32,6 +32,10 @@ public class OrgUnitEntity extends TitleEntity {
     @JoinColumn(name = "parent_org_unit_id")
     private OrgUnitEntity parentOrgUnit;
 
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private LocationEntity location;
+
     @OneToMany(mappedBy = "orgUnit")
     private List<PlansEntity> plans;
 
@@ -55,6 +59,7 @@ public class OrgUnitEntity extends TitleEntity {
         headers.add(MessageUtil.getMessage("orgUnit.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("orgUnit.field.parent.title"));
         headers.add(MessageUtil.getMessage("post.field.title"));
+        headers.add(MessageUtil.getMessage("location.page.title"));
         headers.add(MessageUtil.getMessage("main.field.code"));
         headers.add(MessageUtil.getMessage("main.field.descr"));
         return headers;
@@ -66,6 +71,7 @@ public class OrgUnitEntity extends TitleEntity {
         objects.add(elementType != null ? elementType.getPrTitle() : null);
         objects.add(parentOrgUnit != null ? parentOrgUnit.getTitle() : null);
         objects.add(getTitle() != null ? getTitle() : null);
+        objects.add(location != null ? location.getTitle() : null);
         objects.add(code != null ? code : null);
         objects.add(descr != null ? descr : null);
         return objects;
@@ -73,6 +79,10 @@ public class OrgUnitEntity extends TitleEntity {
 
     public OrgUnitEntity getParentOrgUnit() {
         return (OrgUnitEntity)ifEntityIsDeleted(parentOrgUnit);
+    }
+
+    public LocationEntity getLocation() {
+        return (LocationEntity)ifEntityIsDeleted(location);
     }
 
     public List<OrgUnitEntity> getOrgUnits() {

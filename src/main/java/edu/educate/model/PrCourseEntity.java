@@ -44,6 +44,9 @@ public class PrCourseEntity extends TitleLPEntity {
     @OneToMany(mappedBy = "prCourse")
     private List<PlansEntity> plans;
 
+    @OneToMany(mappedBy = "prCourse")
+    private List<ProcessEntity> process;
+
     @Column(name = "descr", length = 255)
     private String descr;
 
