@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [educate]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Database [educate]    Script Date: 3/13/2024 1:27:28 PM ******/
 CREATE DATABASE [educate]
  CONTAINMENT = NONE
  ON  PRIMARY
@@ -84,7 +84,7 @@ ALTER DATABASE [educate] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_P
 GO
 USE [educate]
 GO
-/****** Object:  UserDefinedFunction [dbo].[fn_date_time_rand]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fn_date_time_rand]    Script Date: 3/13/2024 1:27:29 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,7 +99,7 @@ begin
  return DATEADD(SECOND, @Random, @FromDate)
 end
 GO
-/****** Object:  View [dbo].[vw_getRANDValue]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  View [dbo].[vw_getRANDValue]    Script Date: 3/13/2024 1:27:29 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,8 +108,27 @@ CREATE VIEW [dbo].[vw_getRANDValue]
 AS
 SELECT RAND() AS Value
 GO
-/****** Object:  Table [dbo].[attendance]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[assessment]    Script Date: 3/13/2024 1:27:29 PM ******/
 SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+CREATE TABLE [dbo].[assessment](
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    [plan_id] [int] NULL,
+    [question] [text] NULL,
+    [score] [int] NULL,
+    [deleted] [bit] NULL,
+    [deleted_at] [datetime] NULL,
+    [inserted_at] [datetime] NULL,
+    CONSTRAINT [PK_assessment] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+    ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+    GO
+/****** Object:  Table [dbo].[attendance]    Script Date: 3/13/2024 1:27:29 PM ******/
+    SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
     GO
@@ -128,7 +147,7 @@ CREATE TABLE [dbo].[attendance](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[element]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[element]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -147,7 +166,7 @@ CREATE TABLE [dbo].[element](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[element_grp]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[element_grp]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -165,7 +184,26 @@ CREATE TABLE [dbo].[element_grp](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[meeting]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[location]    Script Date: 3/13/2024 1:27:29 PM ******/
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+CREATE TABLE [dbo].[location](
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    [title] [nvarchar](255) NULL,
+    [code] [nvarchar](50) NULL,
+    [descr] [nvarchar](255) NULL,
+    [deleted] [bit] NULL,
+    [deleted_at] [datetime] NULL,
+    [inserted_at] [datetime] NULL,
+    CONSTRAINT [PK_location] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+    ) ON [PRIMARY]
+    GO
+/****** Object:  Table [dbo].[meeting]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -185,7 +223,7 @@ CREATE TABLE [dbo].[meeting](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_post]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[org_post]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -204,13 +242,14 @@ CREATE TABLE [dbo].[org_post](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_unit]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[org_unit]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
     GO
 CREATE TABLE [dbo].[org_unit](
     [id] [int] IDENTITY(1,1) NOT NULL,
+    [location_id] [int] NULL,
     [parent_org_unit_id] [int] NULL,
     [title] [nvarchar](255) NULL,
     [code] [nvarchar](50) NULL,
@@ -225,7 +264,7 @@ CREATE TABLE [dbo].[org_unit](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[org_unit_post_person]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[org_unit_post_person]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -235,6 +274,7 @@ CREATE TABLE [dbo].[org_unit_post_person](
     [org_unit_id] [int] NOT NULL,
     [org_post_id] [int] NULL,
     [person_id] [int] NOT NULL,
+    [location] [nvarchar](255) NULL,
     [lt_from_date] [datetime] NULL,
     [pr_from_date] [nvarchar](30) NULL,
     [lt_to_date] [datetime] NULL,
@@ -248,7 +288,7 @@ CREATE TABLE [dbo].[org_unit_post_person](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[person]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[person]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -270,7 +310,7 @@ CREATE TABLE [dbo].[person](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[person_role]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[person_role]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -288,7 +328,7 @@ CREATE TABLE [dbo].[person_role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[plans]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[plans]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -318,7 +358,7 @@ CREATE TABLE [dbo].[plans](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[pr_course]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[pr_course]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -338,7 +378,7 @@ CREATE TABLE [dbo].[pr_course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[pr_course_grp]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[pr_course_grp]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -357,7 +397,27 @@ CREATE TABLE [dbo].[pr_course_grp](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
-/****** Object:  Table [dbo].[roles]    Script Date: 2/24/2024 6:50:40 PM ******/
+/****** Object:  Table [dbo].[process]    Script Date: 3/13/2024 1:27:29 PM ******/
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+CREATE TABLE [dbo].[process](
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    [pr_course_id] [int] NULL,
+    [lt_title] [nvarchar](255) NULL,
+    [pr_title] [nvarchar](255) NULL,
+    [descr] [nvarchar](255) NULL,
+    [deleted] [bit] NULL,
+    [deleted_at] [datetime] NULL,
+    [inserted_at] [datetime] NULL,
+    CONSTRAINT [PK_process] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+    ) ON [PRIMARY]
+    GO
+/****** Object:  Table [dbo].[roles]    Script Date: 3/13/2024 1:27:29 PM ******/
     SET ANSI_NULLS ON
     GO
     SET QUOTED_IDENTIFIER ON
@@ -375,6 +435,10 @@ CREATE TABLE [dbo].[roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
     ) ON [PRIMARY]
     GO
+ALTER TABLE [dbo].[assessment] ADD  CONSTRAINT [DF_assessment_deleted]  DEFAULT ((0)) FOR [deleted]
+    GO
+ALTER TABLE [dbo].[assessment] ADD  CONSTRAINT [DF_assessment_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
+    GO
 ALTER TABLE [dbo].[attendance] ADD  CONSTRAINT [DF_attendance_deleted]  DEFAULT ((0)) FOR [deleted]
     GO
 ALTER TABLE [dbo].[attendance] ADD  CONSTRAINT [DF_attendance_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
@@ -386,6 +450,10 @@ ALTER TABLE [dbo].[element] ADD  CONSTRAINT [DF_element_inserted_at]  DEFAULT (s
 ALTER TABLE [dbo].[element_grp] ADD  CONSTRAINT [DF_element_grp_deleted]  DEFAULT ((0)) FOR [deleted]
     GO
 ALTER TABLE [dbo].[element_grp] ADD  CONSTRAINT [DF_Type_grp_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
+    GO
+ALTER TABLE [dbo].[location] ADD  CONSTRAINT [DF_location_deleted]  DEFAULT ((0)) FOR [deleted]
+    GO
+ALTER TABLE [dbo].[location] ADD  CONSTRAINT [DF_location_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
     GO
 ALTER TABLE [dbo].[meeting] ADD  CONSTRAINT [DF_meeting_deleted]  DEFAULT ((0)) FOR [deleted]
     GO
@@ -423,9 +491,18 @@ ALTER TABLE [dbo].[pr_course_grp] ADD  CONSTRAINT [DF_pr_course_grp_deleted]  DE
     GO
 ALTER TABLE [dbo].[pr_course_grp] ADD  CONSTRAINT [DF_pr_course_grp_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
     GO
+ALTER TABLE [dbo].[process] ADD  CONSTRAINT [DF_process_deleted]  DEFAULT ((0)) FOR [deleted]
+    GO
+ALTER TABLE [dbo].[process] ADD  CONSTRAINT [DF_process_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
+    GO
 ALTER TABLE [dbo].[roles] ADD  CONSTRAINT [DF_roles_deleted]  DEFAULT ((0)) FOR [deleted]
     GO
 ALTER TABLE [dbo].[roles] ADD  CONSTRAINT [DF_role_inserted_at]  DEFAULT (sysdatetime()) FOR [inserted_at]
+    GO
+ALTER TABLE [dbo].[assessment]  WITH CHECK ADD  CONSTRAINT [FK_assessment_plans] FOREIGN KEY([plan_id])
+    REFERENCES [dbo].[plans] ([id])
+    GO
+ALTER TABLE [dbo].[assessment] CHECK CONSTRAINT [FK_assessment_plans]
     GO
 ALTER TABLE [dbo].[attendance]  WITH CHECK ADD  CONSTRAINT [FK_attendance_element] FOREIGN KEY([element_id])
     REFERENCES [dbo].[element] ([id])
@@ -456,6 +533,11 @@ ALTER TABLE [dbo].[org_unit]  WITH CHECK ADD  CONSTRAINT [FK_org_unit_element] F
     REFERENCES [dbo].[element] ([id])
     GO
 ALTER TABLE [dbo].[org_unit] CHECK CONSTRAINT [FK_org_unit_element]
+    GO
+ALTER TABLE [dbo].[org_unit]  WITH CHECK ADD  CONSTRAINT [FK_org_unit_location] FOREIGN KEY([location_id])
+    REFERENCES [dbo].[location] ([id])
+    GO
+ALTER TABLE [dbo].[org_unit] CHECK CONSTRAINT [FK_org_unit_location]
     GO
 ALTER TABLE [dbo].[org_unit_post_person]  WITH CHECK ADD  CONSTRAINT [FK_org_unit_post_person_org_post] FOREIGN KEY([org_post_id])
     REFERENCES [dbo].[org_post] ([id])
@@ -526,6 +608,11 @@ ALTER TABLE [dbo].[pr_course]  WITH CHECK ADD  CONSTRAINT [FK_pr_course_pr_cours
     REFERENCES [dbo].[pr_course_grp] ([id])
     GO
 ALTER TABLE [dbo].[pr_course] CHECK CONSTRAINT [FK_pr_course_pr_course_grp]
+    GO
+ALTER TABLE [dbo].[process]  WITH CHECK ADD  CONSTRAINT [FK_process_pr_course] FOREIGN KEY([pr_course_id])
+    REFERENCES [dbo].[pr_course] ([id])
+    GO
+ALTER TABLE [dbo].[process] CHECK CONSTRAINT [FK_process_pr_course]
     GO
     EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0 for false, 1 for true' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'attendance', @level2type=N'COLUMN',@level2name=N'deleted'
     GO
