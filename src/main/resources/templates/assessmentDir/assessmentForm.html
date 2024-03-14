@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{assessment.page.title}"></title>
+    <script>
+        $(document).ready(function () {
+            $("select").select2();
+        });
+    </script>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
+        <h5 th:text="#{assessment.page.title} + ' _ ' + #{main.form}"></h5>
+
+        <hr class="my-4">
+
+        <form th:action="@{/assessment/save}" th:object="${entityObject}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{insertedAt}">
+
+            <div class="col-sm-4">
+                <label class="form-label" for="plan" th:text="#{plan.page.title}"></label>
+                <select class="form-select" id="plan" th:field="*{plan}">
+                    <option value="" th:text="#{main.btn.select}"></option>
+                    <option th:each="cg : ${plans}" th:value="${cg.id}" th:text="${cg.title}"
+                            th:selected="${entityObject.getPlan() != null && entityObject.getPlan() == cg}"></option>
+                </select>
+                <small class="text-danger" th:if="${#fields.hasErrors('plan')}"
+                       th:text="#{attendance.validate.plan}"></small>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-sm-4">
+                    <label for="question" class="form-label" th:text="#{assessment.field.question}"></label>
+                    <input type="text" class="form-control" id="question" placeholder="" value=""
+                           th:field="*{question}">
+                    <small class="text-danger " th:if="${#fields.hasErrors('question')}"
+                           th:text="#{assessment.validation.question}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="score" class="form-label" th:text="#{assessment.field.score}"></label>
+                    <input type="text" class="form-control" id="score" placeholder="" value=""
+                           th:field="*{score}">
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+            <a class="btn btn-secondary" th:href="@{/assessment}" th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 //@ToString
 @Entity
-@Table(name = "org_post", schema = "dbo", catalog = "educate")
+@Table(name = "location", schema = "dbo", catalog = "educate")
 public class LocationEntity extends TitleEntity {
     @OneToMany(mappedBy = "location")
     private List<OrgUnitEntity> orgUnits;

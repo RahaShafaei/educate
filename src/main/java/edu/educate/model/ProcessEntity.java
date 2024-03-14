@@ -34,10 +34,10 @@ public class ProcessEntity extends TitleLPEntity {
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("main.field.ltTitle"));
         headers.add(MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.title"));
-        headers.add(MessageUtil.getMessage("plan.field.title"));
         headers.add(MessageUtil.getMessage("main.field.descr"));
         return headers;
     }
@@ -45,10 +45,10 @@ public class ProcessEntity extends TitleLPEntity {
     @Override
     public List<Object> getCellValues() {
         List<Object> objects = new ArrayList<>();
-        objects.add(getLtTitle() != null ? getLtTitle() : null);
-        objects.add(getPrTitle() != null ? getPrTitle() : null);
         objects.add(prCourse != null ? prCourse.getLtTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrTitle() : null);
+        objects.add(getLtTitle() != null ? getLtTitle() : null);
+        objects.add(getPrTitle() != null ? getPrTitle() : null);
         objects.add(descr != null ? descr : null);
         return objects;
     }

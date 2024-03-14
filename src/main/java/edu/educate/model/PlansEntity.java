@@ -127,8 +127,8 @@ public class PlansEntity extends BaseEntity {
         headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.project") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.holding") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("person.field.fname"));
-        headers.add(MessageUtil.getMessage("person.field.lname"));
+        headers.add(MessageUtil.getMessage("person.field.master.fname"));
+        headers.add(MessageUtil.getMessage("person.field.master.lname"));
         headers.add(MessageUtil.getMessage("plan.field.from.date"));
         headers.add(MessageUtil.getMessage("plan.field.to.date"));
         headers.add(MessageUtil.getMessage("plan.field.link"));

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{process.page.title}"></title>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="px-md-4">
+    <h5 th:text="#{process.page.title}"></h5>
+    <div class="table-responsive small">
+        <form action="#" th:action="@{/process/search}" th:object="${searchprocess}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <table class="table table-bordered border-primary-subtle table-hover">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col" th:text="#{main.field.row}"></th>
+                    <th scope="col" th:text="#{course.page.title}"></th>
+                    <th scope="col" th:text="#{main.field.ltTitle}"></th>
+                    <th scope="col" th:text="#{main.field.prTitle}"></th>
+                    <th  style="width: 6em;" scope="col">
+                        <a th:href="@{/process/new}"
+                           th:attr="title=#{main.btn.new}">
+                            <svg class="bi">
+                                <use xlink:href="#new-list"/>
+                            </svg>
+                        </a>
+                        <a th:href="@{/process/export-to-excel}"
+                           th:attr="title=#{main.btn.excel}">
+                            <svg class="bi">
+                                <use xlink:href="#download-list"/>
+                            </svg>
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="text" class="form-control" th:id="prCourse" placeholder="" th:field="*{prCourse.prTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="ltTitle" placeholder="" th:field="*{ltTitle}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" th:id="prTitle" placeholder="" th:field="*{prTitle}">
+                    </td>
+                    <td>
+                        <label th:attr="title=#{main.btn.search}" style="cursor: pointer;">
+                            <input type="submit" name="action" th:value="${0}" style="display: none;">
+                            <svg class="bi">
+                                <use xlink:href="#search-list"/>
+                            </svg>
+                        </label>
+                        <label th:attr="title=#{main.btn.search.excel}" style="cursor: pointer;">
+                            <input type="submit" name="action" th:value="${-1000}" style="display: none;">
+                            <svg class="bi">
+                                <use xlink:href="#download-list"/>
+                            </svg>
+                        </label>
+                        <a th:href="@{/process}"
+                           th:attr="title=#{main.btn.clear}">
+                            <svg class="bi">
+                                <use xlink:href="#clear-list"/>
+                            </svg>
+                        </a>
+                    </td>
+
+                </tr>
+                <tr th:each="process , rowStat: ${processs}">
+                    <td th:text="${rowStat.count +(currentPage * pageSize)}"></td>
+                    <td th:text="${process.prCourse != null ? process.prCourse.prTitle : ''}"></td>
+                    <td th:text="${process.ltTitle}"></td>
+                    <td th:text="${process.prTitle}"></td>
+                    <td>
+                        <a th:attr="title=#{main.btn.edit}"
+                           th:href="@{/process/edit/{id}(id=${process.id})}">
+                            <svg class="bi">
+                                <use xlink:href="#edit-list"/>
+                            </svg>
+                        </a>
+                        <a th:href="@{/process/delete/{id}(id=${process.id})}"
+                           th:attr="title=#{main.btn.delete}"
+                           th:data-confirm-delete="|#{main.validation.delete}|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                            <svg class="bi">
+                                <use xlink:href="#delete-list"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:switch="${searchFlag}">
+                <nav aria-label="Page navigation" th:case="0">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <a class="page-link"
+                               th:href="${'/process?page=' + #strings.toString(currentPage - 1)}"
+                               th:text="#{main.btn.previous}"></a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <a class="page-link"
+                               th:href="${'/process?page=' + #strings.toString(i)}"
+                               th:text="${i + 1}"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)} ? 'disabled' : ''">
+                            <a class="page-link"
+                               th:href="${'/process?page=' + #strings.toString(currentPage + 1)}"
+                               th:text="#{main.btn.next}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Page navigation" th:case="1">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <button class="page-link" type="submit" name="action"
+                                    th:value="${#strings.toString(currentPage - 1)}"
+                                    th:text="#{main.btn.previous}"></button>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${currentPage == i ? 'active' : ''}">
+                            <button class="page-link" type="submit" name="action" th:value="${#strings.toString(i)}"
+                                    th:text="${i + 1}" th:if="${( i + 1) > 0}"></button>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == (totalPages - 1)  || currentPage == totalPages} ? 'disabled' : ''">
+                            <button class="page-link" type="submit" name="action"
+                                    th:value="${#strings.toString(currentPage + 1)}"
+                                    th:text="#{main.btn.next}"></button>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

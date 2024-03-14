@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{process.page.title}"></title>
+
+    <script th:inline="javascript">
+        var $ = jQuery;
+
+        function updateSubcategories() {
+            var selectedCategory = $('#courseGrp').val();
+            var subcategorySelect = $('#prCourse');
+
+            $.ajax({
+                type: 'GET',
+                url: '/getSubcategories',
+                data: {category: selectedCategory},
+                success: function (data) {
+                    subcategorySelect.empty();
+                    $.each(data, function (index, subcategory) {
+                        subcategorySelect.append($('<option>', {
+                            value: subcategory.id,
+                            text: subcategory.prTitle
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error fetching subcategories.');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // updateSubcategories();
+            // updateOrgUnitSubcategories();
+
+            $("select").select2();
+
+            // Handle change event on the category select
+            // $('#courseGrp').change(function () {
+            //     // Update subcategories when the category changes
+            //     updateSubcategories();
+            // });
+        });
+    </script>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
+        <h5 th:text="#{process.page.title} + ' _ ' + #{main.form}"></h5>
+
+        <hr class="my-4">
+
+        <form th:action="@{/process/save}" th:object="${entityObject}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{insertedAt}">
+
+            <div class="col-sm-4">
+                <label class="form-label" for="courseGrp" th:text="#{course.grp.page.title}"></label>
+                <select class="form-select" id="courseGrp" onchange="updateSubcategories()">
+                    <option value="" th:text="#{main.btn.select}"></option>
+                    <option th:each="cg : ${courseGrps}" th:value="${cg.id}" th:text="${cg.prTitle}"
+                            th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse().getPrCourseGrp() == cg}"></option>
+                </select>
+            </div>
+
+            <div class="col-sm-4">
+                <label class="form-label" for="prCourse" th:text="#{course.page.title}"></label>
+                <select class="form-select" id="prCourse" th:field="*{prCourse}">
+                    <option value="" th:text="#{main.btn.select}"></option>
+                    <option th:each="co : ${courses}" th:value="${co.id}" th:text="${co.prTitle}"
+                            th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse() == co}"></option>
+                </select>
+                <small class="text-danger" th:if="${#fields.hasErrors('prCourse')}"
+                       th:text="#{course.validate.prCourse}"></small>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-sm-4">
+                    <label for="ltTitle" class="form-label" th:text="#{main.field.ltTitle}"></label>
+                    <input type="text" class="form-control" id="ltTitle" placeholder="" value=""
+                           th:field="*{ltTitle}">
+                    <small class="text-danger " th:if="${#fields.hasErrors('ltTitle')}"
+                           th:text="#{main.validation.ltTitle}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="prTitle" class="form-label" th:text="#{main.field.prTitle}"></label>
+                    <input type="text" class="form-control" id="prTitle" placeholder="" value=""
+                           th:field="*{prTitle}">
+                    <small class="text-danger" th:if="${#fields.hasErrors('prTitle')}"
+                           th:text="#{main.validation.prTitle}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="descr" class="form-label" th:text="#{main.field.descr}"></label>
+                    <textarea class="form-control" id="descr" placeholder="" value=""
+                              th:field="*{descr}" rows="4" cols="100"></textarea>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+            <a class="btn btn-secondary" th:href="@{/process}" th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

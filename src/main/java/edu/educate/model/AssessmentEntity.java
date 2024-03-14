@@ -32,25 +32,35 @@ public class AssessmentEntity extends BaseEntity {
     @Column(name = "question", columnDefinition = "nvarchar(max)")
     private String question;
 
-    @NotNull
+    @FloatLength(minLength = 3)
     @Column(name = "score")
-    private Integer score;
+    private Float score;
 
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
+        headers.add(MessageUtil.getMessage("plan.page.title"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.from.date"));
+        headers.add(MessageUtil.getMessage("person.field.master.fname"));
+        headers.add(MessageUtil.getMessage("person.field.master.lname"));
         headers.add(MessageUtil.getMessage("assessment.field.question"));
         headers.add(MessageUtil.getMessage("assessment.field.score"));
-        headers.add(MessageUtil.getMessage("plan.page.title"));
         return headers;
     }
 
     @Override
     public List<Object> getCellValues() {
         List<Object> objects = new ArrayList<>();
+        objects.add(plan != null ? plan.getTitle() : null);
+        objects.add(plan != null ? plan.getPrCourse().getPrCourseGrp().getLtTitle() : null);
+        objects.add(plan != null ? plan.getPrCourse().getPrCourseGrp().getPrTitle() : null);
+        objects.add(plan != null ? plan.getPrFromDate() : null);
+        objects.add(plan != null ? plan.getPerson().getFname() : null);
+        objects.add(plan != null ? plan.getPerson().getLname() : null);
         objects.add(question != null ? question : null);
         objects.add(score != null ? score : null);
-        objects.add(plan != null ? plan.getTitle() : null);
         return objects;
     }
 

@@ -7,9 +7,8 @@ import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("LocationService")
+@Service("locationService")
 public class LocationServiceImp extends GenericServiceImpl<LocationEntity, LocationDto> implements LocationService {
-
     @Autowired
     public LocationServiceImp(LocationRepository repository) {
         super(repository, "LocationEntity");

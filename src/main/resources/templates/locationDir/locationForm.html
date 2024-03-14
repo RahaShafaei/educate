@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{location.page.title}"></title>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
+        <h5 th:text="#{location.page.title} + ' _ ' + #{main.form}"></h5>
+
+        <hr class="my-4">
+
+        <form th:action="@{/location/save}" th:object="${entityObject}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{insertedAt}">
+            <div class="row g-3">
+
+                <div class="col-sm-4">
+                    <label for="title" class="form-label" th:text="#{main.field.title}"></label>
+                    <input type="text" class="form-control" id="title" placeholder="" value=""
+                           th:field="*{title}">
+                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"
+                           th:text="#{main.validation.title}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="code" class="form-label" th:text="#{main.field.code}"></label>
+                    <input type="text" class="form-control" id="code" placeholder="" value=""
+                           th:field="*{code}">
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="descr" class="form-label" th:text="#{main.field.descr}"></label>
+                    <textarea class="form-control" id="descr" placeholder="" value=""
+                              th:field="*{descr}" rows="4" cols="100"></textarea>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+            <a class="btn btn-secondary" th:href="@{/location}" th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+
+</body>
+</html>
