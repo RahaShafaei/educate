@@ -27,6 +27,9 @@ public class PersonEntity extends BaseEntity {
     @OneToMany(mappedBy = "person")
     private List<PlansEntity> plans;
 
+    @OneToMany(mappedBy = "personSupervisor")
+    private List<PlansEntity> planSupervisors;
+
     @OneToMany(mappedBy = "person")
     private List<OrgUnitPostPersonEntity> orgUnitPostPersons;
 

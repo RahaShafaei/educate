@@ -49,6 +49,9 @@ public class ElementEntity  extends TitleLPEntity {
     @OneToMany(mappedBy = "elementHolding")
     private List<PlansEntity> planHoldings;
 
+    @OneToMany(mappedBy = "elementPhase")
+    private List<PlansEntity> planPhases;
+
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();

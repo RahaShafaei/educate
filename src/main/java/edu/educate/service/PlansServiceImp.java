@@ -64,9 +64,8 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
     }
 
     private String titleSetting(PlansEntity plansEntity){
-        return plansEntity.getElementEdu().getPrTitle() + " _ "+
-                plansEntity.getElementType().getPrTitle() + " _ "+
-                plansEntity.getOrgUnit().getTitle() + " _ "+
+        return plansEntity.getOrgUnit().getTitle() + " _ "+
+                plansEntity.getPrCourse().getPrTitle() + " _ "+
                 plansEntity.getPrFromDate().substring(0, Math.min(10, plansEntity.getPrFromDate().length()));
     }
 

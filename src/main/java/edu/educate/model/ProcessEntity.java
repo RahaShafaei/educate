@@ -23,6 +23,9 @@ import java.util.List;
 )
 public class ProcessEntity extends TitleLPEntity {
 
+    @ManyToMany(mappedBy = "planProcess")
+    private List<PlansEntity> planProcess;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "pr_course_id", nullable = false)
@@ -55,6 +58,9 @@ public class ProcessEntity extends TitleLPEntity {
 
     public PrCourseEntity getPrCourse() {
         return (PrCourseEntity)ifEntityIsDeleted(prCourse);
+    }
+    public List<PlansEntity> getPersonRoles() {
+        return ifEntityListHasDeletedElement(planProcess);
     }
 
 }

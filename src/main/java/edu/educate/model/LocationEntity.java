@@ -23,6 +23,9 @@ public class LocationEntity extends TitleEntity {
     @OneToMany(mappedBy = "location")
     private List<OrgUnitEntity> orgUnits;
 
+    @OneToMany(mappedBy = "location")
+    private List<PlansEntity> plans;
+
     @Column(name = "code", length = 50)
     private String code;
 

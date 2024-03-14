@@ -2,7 +2,6 @@ package edu.educate.model;
 
 import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.BaseEntity;
-import edu.educate.model.baseModel.TitleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -41,13 +40,28 @@ import java.util.List;
 public class PlansEntity extends BaseEntity {
 
     @Size(min = 2, message = "{titleEntity.title.min}")
-    @Column(name = "title", unique=true)
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "method")
+    private String method;
+
+    @ManyToMany
+    @JoinTable(
+            name = "plan_process",
+            joinColumns = @JoinColumn(name = "plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "process_id"))
+    private List<ProcessEntity> planProcess;
 
     @ManyToOne
     @NotNull
     @JoinColumn(name = "org_unit_id")
     private OrgUnitEntity orgUnit;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "location_id")
+    private LocationEntity location;
 
     @ManyToOne
     @NotNull
@@ -58,6 +72,11 @@ public class PlansEntity extends BaseEntity {
     @NotNull
     @JoinColumn(name = "person_id")
     private PersonEntity person;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "person_id_supervisor")
+    private PersonEntity personSupervisor;
 
     @ManyToOne
     @NotNull
@@ -83,6 +102,11 @@ public class PlansEntity extends BaseEntity {
     @NotNull
     @JoinColumn(name = "element_id_holding")
     private ElementEntity elementHolding;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "element_id_phase")
+    private ElementEntity elementPhase;
 
     @OneToMany(mappedBy = "plan")
     private List<AttendanceEntity> attendances;
@@ -113,52 +137,74 @@ public class PlansEntity extends BaseEntity {
     @Column(name = "plan_link")
     private String planLink;
 
+    @Column(name = "descr")
+    private String descr;
+
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
-        headers.add(MessageUtil.getMessage("main.field.title"));
+        headers.add(MessageUtil.getMessage("plan.field.project") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.holding") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("orgUnit.field.title"));
+        headers.add(MessageUtil.getMessage("location.page.title"));
         headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
         headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.status") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.project") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.holding") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("person.field.master.fname"));
-        headers.add(MessageUtil.getMessage("person.field.master.lname"));
         headers.add(MessageUtil.getMessage("plan.field.from.date"));
         headers.add(MessageUtil.getMessage("plan.field.to.date"));
+        headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.method"));
+        headers.add(MessageUtil.getMessage("plan.field.phase") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("main.field.title"));
+        headers.add(MessageUtil.getMessage("plan.field.teacher") + "_"+MessageUtil.getMessage("person.field.master.fname"));
+        headers.add(MessageUtil.getMessage("plan.field.teacher") + "_"+MessageUtil.getMessage("person.field.master.lname"));
+        headers.add(MessageUtil.getMessage("plan.field.supervisor") + "_"+MessageUtil.getMessage("person.field.master.fname"));
+        headers.add(MessageUtil.getMessage("plan.field.supervisor") + "_"+MessageUtil.getMessage("person.field.master.lname"));
         headers.add(MessageUtil.getMessage("plan.field.link"));
+        headers.add(MessageUtil.getMessage("main.field.descr"));
         return headers;
     }
 
     @Override
     public List<Object> getCellValues() {
         List<Object> objects = new ArrayList<>();
-        objects.add(getTitle() != null ? getTitle() : null);
+        objects.add(elementProject != null ? elementProject.getPrTitle() : null);
+        objects.add(elementHolding != null ? elementHolding.getPrTitle() : null);
         objects.add(orgUnit != null ? orgUnit.getTitle() : null);
+        objects.add(location != null ? location.getTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrCourseGrp().getLtTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrCourseGrp().getPrTitle() : null);
         objects.add(prCourse != null ? prCourse.getLtTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrTitle() : null);
-        objects.add(elementType != null ? elementType.getPrTitle() : null);
         objects.add(elementStatus != null ? elementStatus.getPrTitle() : null);
-        objects.add(elementEdu != null ? elementEdu.getPrTitle() : null);
-        objects.add(elementProject != null ? elementProject.getPrTitle() : null);
-        objects.add(elementHolding != null ? elementHolding.getPrTitle() : null);
-        objects.add(person != null ? person.getFname() : null);
-        objects.add(person != null ? person.getLname() : null);
         objects.add(prFromDate != null ? prFromDate : null);
         objects.add(prToDate != null ? prToDate : null);
+        objects.add(elementEdu != null ? elementEdu.getPrTitle() : null);
+        objects.add(elementType != null ? elementType.getPrTitle() : null);
+        objects.add(method != null ? method : null);
+        objects.add(elementPhase != null ? elementPhase.getPrTitle() : null);
+        objects.add(getTitle() != null ? getTitle() : null);
+        objects.add(person != null ? person.getFname() : null);
+        objects.add(person != null ? person.getLname() : null);
+        objects.add(personSupervisor != null ? personSupervisor.getFname() : null);
+        objects.add(personSupervisor != null ? personSupervisor.getLname() : null);
         objects.add(planLink != null ? planLink : null);
+        objects.add(descr != null ? descr : null);
         return objects;
+    }
+
+    public List<ProcessEntity> getPersonRoles() {
+        return ifEntityListHasDeletedElement(planProcess);
     }
 
     public OrgUnitEntity getOrgUnit() {
         return (OrgUnitEntity)ifEntityIsDeleted(orgUnit);
+    }
+    public LocationEntity getLocation() {
+        return (LocationEntity)ifEntityIsDeleted(location);
     }
 
     public PrCourseEntity getPrCourse() {
@@ -167,6 +213,10 @@ public class PlansEntity extends BaseEntity {
 
     public PersonEntity getPerson() {
         return (PersonEntity)ifEntityIsDeleted(person);
+    }
+
+    public PersonEntity getPersonSupervisor() {
+        return (PersonEntity)ifEntityIsDeleted(personSupervisor);
     }
 
     public ElementEntity getElementType() {
@@ -187,6 +237,10 @@ public class PlansEntity extends BaseEntity {
 
     public ElementEntity getElementHolding() {
         return (ElementEntity)ifEntityIsDeleted(elementHolding);
+    }
+
+    public ElementEntity getElementPhase() {
+        return (ElementEntity)ifEntityIsDeleted(elementPhase);
     }
 
     public List<AttendanceEntity> getAttendances() {
