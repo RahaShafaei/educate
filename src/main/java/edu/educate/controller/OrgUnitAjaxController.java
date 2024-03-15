@@ -1,8 +1,12 @@
 package edu.educate.controller;
 
+import edu.educate.dto.LocationDto;
+import edu.educate.dto.LocationMapper;
 import edu.educate.dto.OrgUnitDto;
 import edu.educate.dto.OrgUnitMapper;
+import edu.educate.model.LocationEntity;
 import edu.educate.model.OrgUnitEntity;
+import edu.educate.service.LocationService;
 import edu.educate.service.OrgUnitService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,8 @@ import java.util.List;
 public class OrgUnitAjaxController {
     private final OrgUnitService orgUnitService;
     private final OrgUnitMapper orgUnitMapper;
+    private final LocationService locationService;
+    private final LocationMapper locationMapper;
     @GetMapping("/orgUnitGetSubcategories")
     @ResponseBody
     public ResponseEntity<List<OrgUnitDto>> getSubcategories(@RequestParam Integer category) {
@@ -25,6 +31,16 @@ public class OrgUnitAjaxController {
         return ResponseEntity.ok(subcategories
                 .stream()
                 .map(orgUnitMapper::toDto)
+                .toList());
+    }
+
+    @GetMapping("/orgUnitGetLocations")
+    @ResponseBody
+    public ResponseEntity<List<LocationDto>> getLocations(@RequestParam Integer category) {
+        List<LocationEntity> subcategories = locationService.findByOrgUnitsId(category);
+        return ResponseEntity.ok(subcategories
+                .stream()
+                .map(locationMapper::toDto)
                 .toList());
     }
 }

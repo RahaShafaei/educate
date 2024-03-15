@@ -34,8 +34,8 @@ public class ElementEntity  extends TitleLPEntity {
     @OneToMany(mappedBy = "elementType")
     private List<OrgUnitEntity> orgUnitTypes;
 
-    @OneToMany(mappedBy = "elementType")
-    private List<PlansEntity> planTypes;
+//    @OneToMany(mappedBy = "elementType")
+//    private List<PlansEntity> planTypes;
 
     @OneToMany(mappedBy = "elementStatus")
     private List<PlansEntity> planStatus;
@@ -80,9 +80,9 @@ public class ElementEntity  extends TitleLPEntity {
         return ifEntityListHasDeletedElement(attendances);
     }
 
-    public List<PlansEntity> getPlanTypes() {
-        return ifEntityListHasDeletedElement(planTypes);
-    }
+//    public List<PlansEntity> getPlanTypes() {
+//        return ifEntityListHasDeletedElement(planTypes);
+//    }
 
     public List<PlansEntity> getPlanStatus() {
         return ifEntityListHasDeletedElement(planStatus);

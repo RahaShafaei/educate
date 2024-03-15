@@ -128,8 +128,8 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
             if (example.getProbe().getPerson().getLname() != null) {
                 predicates.add(criteriaBuilder.like(root.get("person").get("lname"), "%" +example.getProbe().getPerson().getLname()+ "%"));
             }
-            if (example.getProbe().getElementType().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("elementType").get("prTitle"), "%" +example.getProbe().getElementType().getPrTitle()+ "%"));
+            if (example.getProbe().getElementPhase().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementPhase").get("prTitle"), "%" +example.getProbe().getElementPhase().getPrTitle()+ "%"));
             }
             if (example.getProbe().getElementStatus().getPrTitle() != null) {
                 predicates.add(criteriaBuilder.like(root.get("elementStatus").get("prTitle"), "%" +example.getProbe().getElementStatus().getPrTitle()+ "%"));
@@ -148,8 +148,8 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
             }
             if (example.getProbe().getLtFromDate() != null)
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("ltFromDate"), example.getProbe().getLtFromDate()));
-            if (example.getProbe().getLtToDate() != null)
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("ltToDate"), example.getProbe().getLtToDate()));
+//            if (example.getProbe().getLtToDate() != null)
+//                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("ltToDate"), example.getProbe().getLtToDate()));
             if (example.getProbe().getPlanLink() != null)
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("planLink"), example.getProbe().getPlanLink()));
 

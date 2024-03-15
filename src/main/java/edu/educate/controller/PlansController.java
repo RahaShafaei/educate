@@ -26,19 +26,21 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
             .withMatcher("prCourse.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("person.fname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("person.lname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-            .withMatcher("elementType.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("elementPhase.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementStatus.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementEdu.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementProject.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementHolding.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("ltFromDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-            .withMatcher("ltToDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+//            .withMatcher("ltToDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("planLink", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withIgnoreNullValues()
             .withIgnorePaths("id", "deletedAt", "insertedAt", "prFromDate", "prToDate");
 
+    private final PlanProcessService planProcessService;
+    private final LocationService locationService;
     private final OrgUnitService orgUnitService;
     private final PrCourseGrpService prCourseGrpService;
     private final PrCourseService prCourseService;
@@ -47,6 +49,8 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
 
     public PlansController(PlansService plansService,
                            OrgUnitService orgUnitService,
+                           LocationService LocationService,
+                           PlanProcessService planProcessService,
                            PrCourseGrpService prCourseGrpService,
                            PrCourseService prCourseService,
                            PersonService personService,
@@ -60,6 +64,8 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 
+        this.locationService = LocationService;
+        this.planProcessService = planProcessService;
         this.orgUnitService = orgUnitService;
         this.prCourseGrpService = prCourseGrpService;
         this.prCourseService = prCourseService;
@@ -85,8 +91,13 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
     @Override
     public void modelSetting(Model model, BaseEntity baseEntity) {
         model.addAttribute("entityObject", baseEntity);
+
+        if (((PlansEntity) baseEntity).getId() != null )
+            model.addAttribute("planProcess", planProcessService.findByPlanId(((PlansEntity) baseEntity).getId()));
+
         model.addAttribute("attendances", ((PlansEntity) baseEntity).getAttendances());
         model.addAttribute("meetings", ((PlansEntity) baseEntity).getMeetings());
+        model.addAttribute("locations", locationService.getAllEntities());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         model.addAttribute("parentOrgUnits", orgUnitService.findByElementTypeId());
 //        model.addAttribute("parentOrgUnits", orgUnitService.findByParentOrgUnitIsNull());
@@ -100,11 +111,19 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         personEntity.getPersonRoles().add(rolesEntity);
         model.addAttribute("persons", personService.findEntitiesBySpecificFields(personEntity));
 
+        PersonEntity personSupervisor = new PersonEntity();
+        RolesEntity personSupervisorRoles = new RolesEntity();
+        personSupervisorRoles.setId(9);
+        personSupervisor.setPersonRoles(new ArrayList<>());
+        personSupervisor.getPersonRoles().add(personSupervisorRoles);
+        model.addAttribute("personSupervisors", personService.findEntitiesBySpecificFields(personSupervisor));
+
         model.addAttribute("elementTypes", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(3)));
         model.addAttribute("elementStatus", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(2)));
         model.addAttribute("elementEdu", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(4)));
         model.addAttribute("elementProject", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(5)));
         model.addAttribute("elementHolding", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(6)));
+        model.addAttribute("elementPhase", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(8)));
     }
 
     private ElementEntity elementEntityConfiguration(int i){

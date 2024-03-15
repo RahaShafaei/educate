@@ -23,19 +23,18 @@ import java.util.List;
 @Table(
         name = "plans",
         schema = "dbo",
-        catalog = "educate",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames =
-                        {
-                                "org_unit_id",
-                                "pr_course_id",
-                                "person_id",
-                                "element_id_type",
-                                "element_id_status",
-                                "lt_from_date",
-                                "lt_to_date"
-                        })
-        }
+        catalog = "educate"
+//        ,uniqueConstraints = {
+//                @UniqueConstraint(columnNames =
+//                        {
+//                                "org_unit_id",
+//                                "pr_course_id",
+//                                "person_id",
+//                                "element_id_status",
+//                                "lt_from_date",
+//                                "lt_to_date"
+//                        })
+//        }
 )
 public class PlansEntity extends BaseEntity {
 
@@ -74,14 +73,14 @@ public class PlansEntity extends BaseEntity {
     private PersonEntity person;
 
     @ManyToOne
-    @NotNull
+//    @NotNull
     @JoinColumn(name = "person_id_supervisor")
     private PersonEntity personSupervisor;
 
-    @ManyToOne
-    @NotNull
-    @JoinColumn(name = "element_id_type")
-    private ElementEntity elementType;
+//    @ManyToOne
+//    @NotNull
+//    @JoinColumn(name = "element_id_type")
+//    private ElementEntity elementType;
 
     @ManyToOne
     @NotNull
@@ -120,19 +119,9 @@ public class PlansEntity extends BaseEntity {
     @Column(name = "lt_from_date" , columnDefinition = "datetime")
     private LocalDateTime ltFromDate;
 
-    //    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @NotNull
-    @Column(name = "lt_to_date" , columnDefinition = "datetime")
-    private LocalDateTime ltToDate;
-
-//    @NotNull
+    //    @NotNull
     @Column(name = "pr_from_date")
     private String prFromDate;
-
-//    @NotNull
-    @Column(name = "pr_to_date")
-    private String prToDate;
 
     @Column(name = "plan_link")
     private String planLink;
@@ -152,10 +141,10 @@ public class PlansEntity extends BaseEntity {
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.status") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.from.date"));
+//        headers.add(MessageUtil.getMessage("plan.field.from.date"));
         headers.add(MessageUtil.getMessage("plan.field.to.date"));
         headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+//        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.method"));
         headers.add(MessageUtil.getMessage("plan.field.phase") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("main.field.title"));
@@ -181,9 +170,9 @@ public class PlansEntity extends BaseEntity {
         objects.add(prCourse != null ? prCourse.getPrTitle() : null);
         objects.add(elementStatus != null ? elementStatus.getPrTitle() : null);
         objects.add(prFromDate != null ? prFromDate : null);
-        objects.add(prToDate != null ? prToDate : null);
+//        objects.add(prToDate != null ? prToDate : null);
         objects.add(elementEdu != null ? elementEdu.getPrTitle() : null);
-        objects.add(elementType != null ? elementType.getPrTitle() : null);
+//        objects.add(elementType != null ? elementType.getPrTitle() : null);
         objects.add(method != null ? method : null);
         objects.add(elementPhase != null ? elementPhase.getPrTitle() : null);
         objects.add(getTitle() != null ? getTitle() : null);
@@ -219,9 +208,9 @@ public class PlansEntity extends BaseEntity {
         return (PersonEntity)ifEntityIsDeleted(personSupervisor);
     }
 
-    public ElementEntity getElementType() {
-        return (ElementEntity)ifEntityIsDeleted(elementType);
-    }
+//    public ElementEntity getElementType() {
+//        return (ElementEntity)ifEntityIsDeleted(elementType);
+//    }
 
     public ElementEntity getElementStatus() {
         return (ElementEntity)ifEntityIsDeleted(elementStatus);
@@ -251,13 +240,6 @@ public class PlansEntity extends BaseEntity {
         return ifEntityListHasDeletedElement(meetings);
     }
 
-    @AssertTrue(message = "general.dates.range")
-    public boolean isValidDateRange() {
-        if (ltFromDate == null)
-            return true;
-        return ltFromDate.isBefore(ltToDate);
-    }
-
     @AssertTrue(message = "{plansEntity.element.status}")
     public boolean isValidElementStatus() {
         if (elementStatus == null)
@@ -265,11 +247,11 @@ public class PlansEntity extends BaseEntity {
         return elementStatus.getElementGrp().getLtTitle().equals("plan_status");
     }
 
-    @AssertTrue(message = "{plansEntity.element.type}")
-    public boolean isValidElementType() {
-        if (elementType == null)
-            return true;
-        return elementType.getElementGrp().getLtTitle().equals("plan_type");
-    }
+//    @AssertTrue(message = "{plansEntity.element.type}")
+//    public boolean isValidElementType() {
+//        if (elementType == null)
+//            return true;
+//        return elementType.getElementGrp().getLtTitle().equals("plan_type");
+//    }
 
 }

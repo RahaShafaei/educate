@@ -22,14 +22,14 @@
                     <th scope="col" th:text="#{course.page.title}"></th>
                     <th scope="col" th:text="#{person.field.master.fname}"></th>
                     <th scope="col" th:text="#{person.field.master.lname}"></th>
-                    <th scope="col" th:text="#{plan.field.type}"></th>
+                    <th scope="col" th:text="#{plan.field.phase}"></th>
                     <th scope="col" th:text="#{plan.field.status}"></th>
                     <th scope="col" th:text="#{plan.field.edu}"></th>
                     <th scope="col" th:text="#{plan.field.project}"></th>
                     <th scope="col" th:text="#{plan.field.holding}"></th>
                     <th scope="col" th:text="#{plan.field.title}"></th>
-                    <th scope="col" th:text="#{plan.field.from.date}"></th>
-                    <th scope="col" th:text="#{plan.field.to.date}"></th>
+                    <th scope="col" th:text="#{main.field.date}"></th>
+<!--                    <th scope="col" th:text="#{plan.field.to.date}"></th>-->
                     <th  style="width: 6em;" scope="col">
                         <a th:href="@{/plans/new}"
                            th:attr="title=#{main.btn.new}">
@@ -65,7 +65,7 @@
                         <input type="text" class="form-control" th:id="lname" placeholder="" th:field="*{person.lname}">
                     </td>
                     <td>
-                        <input type="text" class="form-control" th:id="elementType" placeholder="" th:field="*{elementType.prTitle}">
+                        <input type="text" class="form-control" th:id="elementPhase" placeholder="" th:field="*{elementPhase.prTitle}">
                     </td>
                     <td>
                         <input type="text" class="form-control" th:id="elementStatus" placeholder="" th:field="*{elementStatus.prTitle}">
@@ -96,20 +96,20 @@
                             <input type="hidden" id="ltFromDateJS" th:field="*{ltFromDate}">
                         </div>
                     </td>
-                    <td>
-                        <div class="input-group date-pick-inp" :hidden="toDateFromDate == '0'">
-                            <span class="cursor-pointer" id="toDate">📅</span>
-                            <input type="text" class="form-control"
-                                   placeholder="" value=""
-                                   id="prToDate"
-                                   th:field="*{prToDate}">
-                            <input type="hidden" class="form-control"
-                                   placeholder="" value=""
-                                   id="ltToDate"
-                                   th:field="*{ltToDate}">
-                            <input type="hidden" id="ltToDateJS" th:field="*{ltToDate}">
-                        </div>
-                    </td>
+<!--                    <td>-->
+<!--                        <div class="input-group date-pick-inp" :hidden="toDateFromDate == '0'">-->
+<!--                            <span class="cursor-pointer" id="toDate">📅</span>-->
+<!--                            <input type="text" class="form-control"-->
+<!--                                   placeholder="" value=""-->
+<!--                                   id="prToDate"-->
+<!--                                   th:field="*{prToDate}">-->
+<!--                            <input type="hidden" class="form-control"-->
+<!--                                   placeholder="" value=""-->
+<!--                                   id="ltToDate"-->
+<!--                                   th:field="*{ltToDate}">-->
+<!--                            <input type="hidden" id="ltToDateJS" th:field="*{ltToDate}">-->
+<!--                        </div>-->
+<!--                    </td>-->
                     <td>
                         <label th:attr="title=#{main.btn.search}" style="cursor: pointer;">
                             <input type="submit" name="action" th:value="${0}" style="display: none;">
@@ -154,14 +154,14 @@
                     <td th:text="${plan.prCourse != null ? plan.prCourse.prTitle : ''}"></td>
                     <td th:text="${plan.person != null ? plan.person.fname : ''}"></td>
                     <td th:text="${plan.person != null ? plan.person.lname : ''}"></td>
-                    <td th:text="${plan.elementType != null ? plan.elementType.prTitle : ''}"></td>
+                    <td th:text="${plan.elementPhase != null ? plan.elementPhase.prTitle : ''}"></td>
                     <td th:text="${plan.elementStatus != null ? plan.elementStatus.prTitle : ''}"></td>
                     <td th:text="${plan.elementEdu != null ? plan.elementEdu.prTitle : ''}"></td>
                     <td th:text="${plan.elementProject != null ? plan.elementProject.prTitle : ''}"></td>
                     <td th:text="${plan.elementHolding != null ? plan.elementHolding.prTitle : ''}"></td>
                     <td th:text="${plan.title}"></td>
                     <td style="direction: ltr" th:text="${plan.prFromDate}"></td>
-                    <td style="direction: ltr" th:text="${plan.prToDate}"></td>
+<!--                    <td style="direction: ltr" th:text="${plan.prToDate}"></td>-->
                     <td>
                         <a th:attr="title=#{main.btn.edit}"
                            th:href="@{/plans/edit/{id}(id=${plan.id})}">

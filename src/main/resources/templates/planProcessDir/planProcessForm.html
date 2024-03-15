@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{process.page.title}"></title>
+    <script>
+        $(document).ready(function () {
+            $("select").select2();
+        });
+    </script>
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
+        <h5 th:text="#{process.page.title} + ' _ ' + #{main.form}"></h5>
+
+        <hr class="my-4">
+
+        <form th:action="@{/planProcess/saveovr}" th:object="${entityObject}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{insertedAt}">
+            <input type="hidden" name="planId" th:value="${planId}">
+            <div class="row g-3">
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="process" th:text="#{process.page.title}"></label>
+                    <select class="form-select" id="process" th:field="*{process}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="cg : ${process}" th:value="${cg.id}" th:text="${cg.prTitle}"
+                                th:selected="${entityObject.getProcess() != null && entityObject.getProcess() == cg}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('process')}"
+                           th:text="#{plan.validate.process}"></small>
+                </div>
+
+                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
+                    <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
+                    <div class="input-group mb-3 date-pick-inp">
+                        <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
+                        <input type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prFromDate"
+                               th:field="*{prFromDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltFromDate"
+                               th:field="*{ltFromDate}">
+                        <input type="hidden" id="ltFromDateJS" th:field="*{ltFromDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltFromDate')}"
+                           th:text="#{orgUnitPostPerson.validate.from.date}"></small>
+                </div>
+
+                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
+                    <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
+                    <div class="input-group mb-3 date-pick-inp" :hidden="toDateFromDate == '0'">
+                        <span class="input-group-text cursor-pointer" id="toDate">📅</span>
+                        <input type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prToDate"
+                               th:field="*{prToDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltToDate"
+                               th:field="*{ltToDate}">
+                        <input type="hidden" id="ltToDateJS" th:field="*{ltToDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltToDate')}"
+                           th:text="#{plan.validate.toDate}"></small>
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('validDateRange')}"
+                           th:text="#{orgUnitPostPerson.validate.to.date}"></small>
+
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.save}"></button>
+            <a class="btn btn-secondary" th:href="@{/plans/edit/{id}(id=${planId})}"  th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

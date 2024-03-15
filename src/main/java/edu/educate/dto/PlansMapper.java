@@ -29,16 +29,16 @@ public class PlansMapper {
         dtoMapperUtils.populateCommonFields(plans, plansDto);
 
         plansDto.setLtFromDate(plans.getLtFromDate());
-        plansDto.setLtToDate(plans.getLtToDate());
+//        plansDto.setLtToDate(plans.getLtToDate());
 
         plansDto.setPrFromDate(plans.getPrFromDate());
-        plansDto.setPrToDate(plans.getPrToDate());
+//        plansDto.setPrToDate(plans.getPrToDate());
 
         plansDto.setOrgUnit(this.orgUnitMapper.toDto(plans.getOrgUnit()));
         plansDto.setPrCourse(this.prCourseMapper.toDto(plans.getPrCourse()));
         plansDto.setPerson(this.person.toDto(plans.getPerson()));
         plansDto.setElementStatus(this.elementMapper.toDto(plans.getElementStatus()));
-        plansDto.setElementType(this.elementMapper.toDto(plans.getElementType()));
+        plansDto.setElementType(this.elementMapper.toDto(plans.getElementPhase()));
         if (plans.getMeetings() != null) {
             Map<Integer, MeetingDto> meetingDtoDtl = ConvertListToMap.apply(
                     plans.getMeetings(),

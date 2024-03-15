@@ -35,10 +35,16 @@
         function updateOrgUnitSubcategories() {
             var selectedCategory = $('#parentOrgUnits').val();
             var subcategorySelect = $('#orgUnit');
+            orgUnitSubFunction('/orgUnitGetSubcategories', selectedCategory, subcategorySelect);
 
+            subcategorySelect = $('#location');
+            orgUnitSubFunction('/orgUnitGetLocations', selectedCategory, subcategorySelect);
+        }
+
+        function orgUnitSubFunction(url, selectedCategory, subcategorySelect) {
             $.ajax({
                 type: 'GET',
-                url: '/orgUnitGetSubcategories',
+                url: url,
                 data: {category: selectedCategory},
                 success: function (data) {
                     subcategorySelect.empty();
@@ -86,6 +92,7 @@
             <input type="hidden" th:field="*{insertedAt}">
             <input type="hidden" th:field="*{meetings}">
             <div class="row g-3">
+
                 <div class="col-sm-4">
                     <label class="form-label" for="parentOrgUnits" th:text="#{orgUnit.field.parent.title}"></label>
                     <select class="form-select" id="parentOrgUnits" onchange="updateOrgUnitSubcategories()">
@@ -107,15 +114,14 @@
                 </div>
 
                 <div class="col-sm-4">
-                    <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
-                    <select class="form-select" id="person" th:field="*{person}">
+                    <label class="form-label" for="location" th:text="#{location.page.title}"></label>
+                    <select class="form-select" id="location" th:field="*{location}">
                         <option value="" th:text="#{main.btn.select}"></option>
-                        <option th:each="pe : ${persons}" th:value="${pe.id}"
-                                th:text="${pe.fname} + ' _ ' + ${pe.lname}"
-                                th:selected="${entityObject.getPerson() != null && entityObject.getPerson() == pe}"></option>
+                        <option th:each="lo : ${locations}" th:value="${lo.id}" th:text="${lo.title}"
+                                th:selected="${entityObject.getLocation() != null && entityObject.getLocation() == lo}"></option>
                     </select>
-                    <small class="text-danger" th:if="${#fields.hasErrors('person')}"
-                           th:text="#{plan.validate.teacher}"></small>
+                    <small class="text-danger" th:if="${#fields.hasErrors('location')}"
+                           th:text="#{person.validate.location}"></small>
                 </div>
 
                 <div class="col-sm-4">
@@ -139,17 +145,6 @@
                 </div>
 
                 <div class="col-sm-4">
-                    <label class="form-label" for="elementType" th:text="#{plan.field.type}"></label>
-                    <select class="form-select" id="elementType" th:field="*{elementType}">
-                        <option value="" th:text="#{main.btn.select}"></option>
-                        <option th:each="et : ${elementTypes}" th:value="${et.id}" th:text="${et.prTitle}"
-                                th:selected="${entityObject.getElementType() != null && entityObject.getElementType() == et}"></option>
-                    </select>
-                    <small class="text-danger" th:if="${#fields.hasErrors('elementType')}"
-                           th:text="#{plan.validate.type}"></small>
-                </div>
-
-                <div class="col-sm-4">
                     <label class="form-label" for="elementStatus" th:text="#{plan.field.status}"></label>
                     <select class="form-select" id="elementStatus" th:field="*{elementStatus}">
                         <option value="" th:text="#{main.btn.select}"></option>
@@ -159,6 +154,17 @@
                     <small class="text-danger" th:if="${#fields.hasErrors('elementStatus')}"
                            th:text="#{plan.validate.status}"></small>
                 </div>
+
+                <!--                <div class="col-sm-4">-->
+                <!--                    <label class="form-label" for="elementType" th:text="#{plan.field.type}"></label>-->
+                <!--                    <select class="form-select" id="elementType" th:field="*{elementType}">-->
+                <!--                        <option value="" th:text="#{main.btn.select}"></option>-->
+                <!--                        <option th:each="et : ${elementTypes}" th:value="${et.id}" th:text="${et.prTitle}"-->
+                <!--                                th:selected="${entityObject.getElementType() != null && entityObject.getElementType() == et}"></option>-->
+                <!--                    </select>-->
+                <!--                    <small class="text-danger" th:if="${#fields.hasErrors('elementType')}"-->
+                <!--                           th:text="#{plan.validate.type}"></small>-->
+                <!--                </div>-->
 
                 <div class="col-sm-4">
                     <label class="form-label" for="elementEdu" th:text="#{plan.field.edu}"></label>
@@ -193,6 +199,49 @@
                            th:text="#{plan.validate.holding}"></small>
                 </div>
 
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementPhase" th:text="#{plan.field.phase}"></label>
+                    <select class="form-select" id="elementPhase" th:field="*{elementPhase}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementPhase}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementPhase() != null && entityObject.getElementPhase() == et}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('elementPhase')}"
+                           th:text="#{plan.validate.phase}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="method" class="form-label" th:text="#{plan.field.method}"></label>
+                    <input type="text" class="form-control" id="method" placeholder="" value=""
+                           th:field="*{method}">
+                    <!--                    <small class="text-danger " th:if="${#fields.hasErrors('planLink')}"-->
+                    <!--                           th:text="#{main.validation.link}"></small>-->
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
+                    <select class="form-select" id="person" th:field="*{person}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${persons}" th:value="${pe.id}"
+                                th:text="${pe.fname} + ' _ ' + ${pe.lname}"
+                                th:selected="${entityObject.getPerson() != null && entityObject.getPerson() == pe}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('person')}"
+                           th:text="#{plan.validate.teacher}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="personSupervisor" th:text="#{plan.field.supervisor}"></label>
+                    <select class="form-select" id="personSupervisor" th:field="*{personSupervisor}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${personSupervisors}" th:value="${pe.id}"
+                                th:text="${pe.fname} + ' _ ' + ${pe.lname}"
+                                th:selected="${entityObject.getPersonSupervisor() != null && entityObject.getPersonSupervisor() == pe}"></option>
+                    </select>
+                    <!--                    <small class="text-danger" th:if="${#fields.hasErrors('person')}"-->
+                    <!--                           th:text="#{plan.validate.teacher}"></small>-->
+                </div>
+
                 <!--                <div class="col-sm-4">-->
                 <!--                    <label for="title" class="form-label" th:text="#{plan.field.title}"></label>-->
                 <!--                    <input type="text" class="form-control" id="title" placeholder="" value=""-->
@@ -200,7 +249,6 @@
                 <!--                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"-->
                 <!--                           th:text="#{main.validation.title}"></small>-->
                 <!--                </div>-->
-
                 <div class="col-sm-4">
                     <label for="planLink" class="form-label" th:text="#{plan.field.link}"></label>
                     <input type="text" class="form-control" id="planLink" placeholder="" value=""
@@ -208,9 +256,8 @@
                     <!--                    <small class="text-danger " th:if="${#fields.hasErrors('planLink')}"-->
                     <!--                           th:text="#{main.validation.link}"></small>-->
                 </div>
-
                 <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
-                    <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
+                    <label for="fromDate" class="form-label" th:text="#{main.field.date}"></label>
                     <div class="input-group mb-3 date-pick-inp">
                         <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
                         <input type="text" class="form-control"
@@ -227,33 +274,15 @@
                            th:text="#{orgUnitPostPerson.validate.from.date}"></small>
                 </div>
 
-                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
-                    <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
-                    <div class="input-group mb-3 date-pick-inp" :hidden="toDateFromDate == '0'">
-                        <span class="input-group-text cursor-pointer" id="toDate">📅</span>
-                        <input type="text" class="form-control"
-                               placeholder="" value=""
-                               id="prToDate"
-                               th:field="*{prToDate}">
-                        <input type="hidden" class="form-control"
-                               placeholder="" value=""
-                               id="ltToDate"
-                               th:field="*{ltToDate}">
-                        <input type="hidden" id="ltToDateJS" th:field="*{ltToDate}">
-                    </div>
-                    <small class="text-danger" th:if="${#fields.hasErrors('ltToDate')}"
-                           th:text="#{plan.validate.toDate}"></small>
-                    <small class="text-danger"
-                           th:if="${#fields.hasErrors('validDateRange')}"
-                           th:text="#{orgUnitPostPerson.validate.to.date}"></small>
-
+                <div class="col-sm-4">
+                    <label for="descr" class="form-label" th:text="#{main.field.descr}"></label>
+                    <textarea class="form-control" id="descr" placeholder="" value=""
+                              th:field="*{descr}" rows="4" cols="100"></textarea>
                 </div>
 
                 <div class="col-sm-4">
                     <label for="meeting" class="form-label" th:text="#{meeting.field}"></label>
                     <input type="file" class="" id="meeting" th:name="file" multiple>
-                    <small class="text-danger" th:if="${#fields.hasErrors('ltToDate')}"
-                           th:text="#{plan.validate.toDate}"></small>
                 </div>
 
             </div>
@@ -265,7 +294,7 @@
             <hr class="my-4">
         </form>
     </div>
-
+    <!--*************************MEETINGS**************************************-->
     <div class="table-responsive small">
         <h6 th:text="#{meeting.field.page}"></h6>
         <table class="table table-bordered border-primary-subtle table-hover">
@@ -314,7 +343,67 @@
         </table>
         <hr class="my-4">
     </div>
-
+    <!--*************************PROCESS**************************************-->
+    <div class="table-responsive small">
+        <h6 th:text="#{process.page.title}"></h6>
+            <table class="table table-bordered border-primary-subtle table-hover">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col" th:text="#{main.field.row}"></th>
+                    <th scope="col" th:text="#{main.field.ltTitle}"></th>
+                    <th scope="col" th:text="#{main.field.prTitle}"></th>
+                    <th scope="col" th:text="#{plan.field.from.date}"></th>
+                    <th scope="col" th:text="#{plan.field.to.date}"></th>
+                    <th scope="col" th:text="#{process.field.duration}"></th>
+                    <th  style="width: 6em;" scope="col">
+                        <a href="#"
+                           th:href="${entityObject.getId() != null} ? @{/planProcess/newovr/{planId}(planId=${entityObject.id})} : null"
+                           th:classappend="${entityObject.getId() == null ? 'disabled-link' : ''}"
+                           th:attr="title=#{main.btn.new}">
+                            <svg class="bi">
+                                <use xlink:href="#new-list"/>
+                            </svg>
+                        </a>
+                        <a href="#"
+                           th:href="${entityObject.getId() != null} ? @{/planProcess/export-to-excelovr/{planId}(planId=${entityObject.id})} : null"
+                           th:classappend="${entityObject.getId() == null ? 'disabled-link' : ''}"
+                           th:attr="title=#{main.btn.excel}">
+                            <svg class="bi">
+                                <use xlink:href="#download-list"/>
+                            </svg>
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pr , rowStat: ${planProcess}">
+                    <td th:text="${rowStat.count}"></td>
+                    <td th:text="${pr.process.ltTitle}"></td>
+                    <td th:text="${pr.process.prTitle}"></td>
+                    <td style="direction: ltr" th:text="${pr.prFromDate}"></td>
+                    <td style="direction: ltr" th:text="${pr.prToDate}"></td>
+                    <td th:text="${pr.dateDiff}"></td>
+                    <td>
+                        <a th:attr="title=#{main.btn.edit}"
+                           th:href="@{/planProcess/editovr/{planId}/{id}(planId=${entityObject.id}, id=${pr.id})}">
+                            <svg class="bi">
+                                <use xlink:href="#edit-list"/>
+                            </svg>
+                        </a>
+                        <a th:href="@{/planProcess/deleteovr/{planId}/{id}(planId=${entityObject.id}, id=${pr.id})}"
+                           th:attr="title=#{main.btn.delete}"
+                           th:data-confirm-delete="|#{main.validation.delete}|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                            <svg class="bi">
+                                <use xlink:href="#delete-list"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+    <!--*************************ATTENDANCE**************************************-->
     <div class="table-responsive small">
         <!--        <form action="#" th:action="@{/attendance/search}" th:object="${searchattendance}" method="post">-->
         <!--            <input type="hidden" th:field="*{id}">-->
@@ -328,14 +417,16 @@
                 <th scope="col" th:text="#{attendance.field.status}"></th>
                 <th scope="col" th:text="#{attendance.field.grade}"></th>
                 <th scope="col">
-                    <a href="#" th:href="${entityObject.getId() != null} ? @{/attendance/newovr/{planId}(planId=${entityObject.id})} : null"
+                    <a href="#"
+                       th:href="${entityObject.getId() != null} ? @{/attendance/newovr/{planId}(planId=${entityObject.id})} : null"
                        th:classappend="${entityObject.getId() == null ? 'disabled-link' : ''}"
                        th:attr="title=#{main.btn.new}">
                         <svg class="bi">
                             <use xlink:href="#new-list"/>
                         </svg>
                     </a>
-                    <a href="#" th:href="${entityObject.getId() != null} ? @{/attendance/export-to-excelovr/{planId}(planId=${entityObject.id})} : null"
+                    <a href="#"
+                       th:href="${entityObject.getId() != null} ? @{/attendance/export-to-excelovr/{planId}(planId=${entityObject.id})} : null"
                        th:classappend="${entityObject.getId() == null ? 'disabled-link' : ''}"
                        th:attr="title=#{main.btn.excel}">
                         <svg class="bi">
@@ -343,18 +434,18 @@
                         </svg>
                     </a>
 
-<!--                    <a th:href="@{/attendance/newovr/{planId}(planId=${entityObject.id})}"-->
-<!--                       th:attr="title=#{main.btn.new}">-->
-<!--                        <svg class="bi">-->
-<!--                            <use xlink:href="#new-list"/>-->
-<!--                        </svg>-->
-<!--                    </a>-->
-<!--                    <a th:href="@{/attendance/export-to-excelovr/{planId}(planId=${entityObject.id})}"-->
-<!--                       th:attr="title=#{main.btn.excel}">-->
-<!--                        <svg class="bi">-->
-<!--                            <use xlink:href="#download-list"/>-->
-<!--                        </svg>-->
-<!--                    </a>-->
+                    <!--                    <a th:href="@{/attendance/newovr/{planId}(planId=${entityObject.id})}"-->
+                    <!--                       th:attr="title=#{main.btn.new}">-->
+                    <!--                        <svg class="bi">-->
+                    <!--                            <use xlink:href="#new-list"/>-->
+                    <!--                        </svg>-->
+                    <!--                    </a>-->
+                    <!--                    <a th:href="@{/attendance/export-to-excelovr/{planId}(planId=${entityObject.id})}"-->
+                    <!--                       th:attr="title=#{main.btn.excel}">-->
+                    <!--                        <svg class="bi">-->
+                    <!--                            <use xlink:href="#download-list"/>-->
+                    <!--                        </svg>-->
+                    <!--                    </a>-->
                 </th>
             </tr>
             </thead>
