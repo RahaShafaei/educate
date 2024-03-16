@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @NoArgsConstructor
 @Getter
@@ -119,7 +120,7 @@ public class PlansEntity extends BaseEntity {
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
-    @Column(name = "lt_from_date" , columnDefinition = "datetime")
+    @Column(name = "lt_from_date", columnDefinition = "datetime")
     private LocalDateTime ltFromDate;
 
     //    @NotNull
@@ -135,35 +136,90 @@ public class PlansEntity extends BaseEntity {
     @Override
     public List<String> getHeaderNames() {
         List<String> headers = new ArrayList<>();
-        headers.add(MessageUtil.getMessage("plan.field.project") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.holding") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.project") + "_" + MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.holding") + "_" + MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("orgUnit.field.title"));
         headers.add(MessageUtil.getMessage("location.page.title"));
-        headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
-        headers.add(MessageUtil.getMessage("course.grp.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
-        headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
-        headers.add(MessageUtil.getMessage("plan.field.status") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("course.grp.page.title") + "_" + MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("course.grp.page.title") + "_" + MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_" + MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("course.page.title") + "_" + MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.status") + "_" + MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("main.field.date"));
 //        headers.add(MessageUtil.getMessage("plan.field.from.date"));
 //        headers.add(MessageUtil.getMessage("plan.field.to.date"));
-        headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.edu") + "_" + MessageUtil.getMessage("main.field.prTitle"));
 //        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.method"));
-        headers.add(MessageUtil.getMessage("plan.field.phase") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.phase") + "_" + MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("main.field.title"));
-        headers.add(MessageUtil.getMessage("plan.field.teacher") + "_"+MessageUtil.getMessage("person.field.master.fname"));
-        headers.add(MessageUtil.getMessage("plan.field.teacher") + "_"+MessageUtil.getMessage("person.field.master.lname"));
-        headers.add(MessageUtil.getMessage("plan.field.supervisor") + "_"+MessageUtil.getMessage("person.field.master.fname"));
-        headers.add(MessageUtil.getMessage("plan.field.supervisor") + "_"+MessageUtil.getMessage("person.field.master.lname"));
+        headers.add(MessageUtil.getMessage("plan.field.teacher") + "_" + MessageUtil.getMessage("person.field.master.fname"));
+        headers.add(MessageUtil.getMessage("plan.field.teacher") + "_" + MessageUtil.getMessage("person.field.master.lname"));
+        headers.add(MessageUtil.getMessage("plan.field.supervisor") + "_" + MessageUtil.getMessage("person.field.master.fname"));
+        headers.add(MessageUtil.getMessage("plan.field.supervisor") + "_" + MessageUtil.getMessage("person.field.master.lname"));
         headers.add(MessageUtil.getMessage("plan.field.link"));
         headers.add(MessageUtil.getMessage("main.field.descr"));
+//        **PlanProcess****************************
+        headers.add(MessageUtil.getMessage("process.page.title") + "_" + MessageUtil.getMessage("main.field.ltTitle"));
+        headers.add(MessageUtil.getMessage("process.page.title") + "_" + MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("plan.field.from.date"));
+        headers.add(MessageUtil.getMessage("plan.field.to.date"));
+        headers.add(MessageUtil.getMessage("process.field.duration"));
+//        **Attendance****************************
+        headers.add(MessageUtil.getMessage("attendance.field.title") + "_" + MessageUtil.getMessage("person.field.fname"));
+        headers.add(MessageUtil.getMessage("attendance.field.title") + "_" + MessageUtil.getMessage("person.field.lname"));
+        headers.add(MessageUtil.getMessage("attendance.field.status"));
+        headers.add(MessageUtil.getMessage("attendance.field.grade"));
+
         return headers;
     }
 
     @Override
-    public List<Object> getCellValues() {
-        List<Object> objects = new ArrayList<>();
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
+
+        if ((planProcess == null || planProcess.isEmpty()) &&
+                (attendances == null || attendances.isEmpty())) {
+            List<Object> objects = new ArrayList<>();
+            prepareMainFields(objects);
+            objects.addAll(Stream.generate(() -> null).limit(9).toList());
+            objectsContainer.add(objects);
+        } else {
+            planProcess.stream().forEach(p -> {
+                List<Object> objects = new ArrayList<>();
+
+                prepareMainFields(objects);
+
+                objects.add(p.getProcess() != null ? p.getProcess().getLtTitle() : null);
+                objects.add(p.getProcess() != null ? p.getProcess().getPrTitle() : null);
+                objects.add(p.getPrFromDate() != null ? p.getPrFromDate() : null);
+                objects.add(p.getPrToDate() != null ? p.getPrToDate() : null);
+                objects.add(p.getLtFromDate() != null && p.getLtToDate() != null ? p.getDateDiff() : null);
+
+                objects.addAll(Stream.generate(() -> null).limit(4).toList());
+                objectsContainer.add(objects);
+            });
+
+            attendances.stream().forEach(a -> {
+                List<Object> objects = new ArrayList<>();
+
+                prepareMainFields(objects);
+
+                objects.addAll(Stream.generate(() -> null).limit(5).toList());
+
+                objects.add(a.getPerson() != null ? a.getPerson().getFname() : null);
+                objects.add(a.getPerson() != null ? a.getPerson().getLname() : null);
+                objects.add(a.getElement() != null ? a.getElement().getPrTitle() : null);
+                objects.add(a.getGrade() != null ? a.getGrade() : null);
+
+                objectsContainer.add(objects);
+            });
+        }
+
+        return objectsContainer;
+    }
+
+    private void prepareMainFields(List<Object> objects) {
         objects.add(elementProject != null ? elementProject.getPrTitle() : null);
         objects.add(elementHolding != null ? elementHolding.getPrTitle() : null);
         objects.add(orgUnit != null ? orgUnit.getTitle() : null);
@@ -186,11 +242,10 @@ public class PlansEntity extends BaseEntity {
         objects.add(personSupervisor != null ? personSupervisor.getLname() : null);
         objects.add(planLink != null ? planLink : null);
         objects.add(descr != null ? descr : null);
-        return objects;
     }
 
     public List<PlanProcessEntity> getPlanProcess() {
-        if (planProcess == null){
+        if (planProcess == null || planProcess.isEmpty()) {
             planProcess = new ArrayList<>();
             return planProcess;
         }
@@ -199,7 +254,7 @@ public class PlansEntity extends BaseEntity {
     }
 
     public List<AttendanceEntity> getAttendances() {
-        if (attendances == null || attendances.isEmpty()){
+        if (attendances == null || attendances.isEmpty()) {
             attendances = new ArrayList<>();
             return attendances;
         }
@@ -208,22 +263,23 @@ public class PlansEntity extends BaseEntity {
     }
 
     public OrgUnitEntity getOrgUnit() {
-        return (OrgUnitEntity)ifEntityIsDeleted(orgUnit);
+        return (OrgUnitEntity) ifEntityIsDeleted(orgUnit);
     }
+
     public LocationEntity getLocation() {
-        return (LocationEntity)ifEntityIsDeleted(location);
+        return (LocationEntity) ifEntityIsDeleted(location);
     }
 
     public PrCourseEntity getPrCourse() {
-        return (PrCourseEntity)ifEntityIsDeleted(prCourse);
+        return (PrCourseEntity) ifEntityIsDeleted(prCourse);
     }
 
     public PersonEntity getPerson() {
-        return (PersonEntity)ifEntityIsDeleted(person);
+        return (PersonEntity) ifEntityIsDeleted(person);
     }
 
     public PersonEntity getPersonSupervisor() {
-        return (PersonEntity)ifEntityIsDeleted(personSupervisor);
+        return (PersonEntity) ifEntityIsDeleted(personSupervisor);
     }
 
 //    public ElementEntity getElementType() {
@@ -231,23 +287,23 @@ public class PlansEntity extends BaseEntity {
 //    }
 
     public ElementEntity getElementStatus() {
-        return (ElementEntity)ifEntityIsDeleted(elementStatus);
+        return (ElementEntity) ifEntityIsDeleted(elementStatus);
     }
 
     public ElementEntity getElementEdu() {
-        return (ElementEntity)ifEntityIsDeleted(elementEdu);
+        return (ElementEntity) ifEntityIsDeleted(elementEdu);
     }
 
     public ElementEntity getElementProject() {
-        return (ElementEntity)ifEntityIsDeleted(elementProject);
+        return (ElementEntity) ifEntityIsDeleted(elementProject);
     }
 
     public ElementEntity getElementHolding() {
-        return (ElementEntity)ifEntityIsDeleted(elementHolding);
+        return (ElementEntity) ifEntityIsDeleted(elementHolding);
     }
 
     public ElementEntity getElementPhase() {
-        return (ElementEntity)ifEntityIsDeleted(elementPhase);
+        return (ElementEntity) ifEntityIsDeleted(elementPhase);
     }
 
     public List<MeetingEntity> getMeetings() {

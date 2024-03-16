@@ -62,11 +62,13 @@ public class OrgUnitEntity extends TitleEntity {
         headers.add(MessageUtil.getMessage("location.page.title"));
         headers.add(MessageUtil.getMessage("main.field.code"));
         headers.add(MessageUtil.getMessage("main.field.descr"));
+
         return headers;
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(elementType != null ? elementType.getPrTitle() : null);
         objects.add(parentOrgUnit != null ? parentOrgUnit.getTitle() : null);
@@ -74,7 +76,9 @@ public class OrgUnitEntity extends TitleEntity {
         objects.add(location != null ? location.getTitle() : null);
         objects.add(code != null ? code : null);
         objects.add(descr != null ? descr : null);
-        return objects;
+
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public OrgUnitEntity getParentOrgUnit() {

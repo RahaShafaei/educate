@@ -75,7 +75,8 @@ public class PlanProcessEntity extends BaseEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(plan != null ? plan.getTitle() : null);
         objects.add(process != null ? process.getLtTitle() : null);
@@ -83,7 +84,8 @@ public class PlanProcessEntity extends BaseEntity {
         objects.add(prFromDate != null ? prFromDate : null);
         objects.add(prToDate != null ? prToDate : null);
         objects.add(ltFromDate != null && ltToDate != null ? getDateDiff(): null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PlansEntity getPerson() {

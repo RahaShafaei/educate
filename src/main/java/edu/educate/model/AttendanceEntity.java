@@ -57,14 +57,16 @@ public class AttendanceEntity extends BaseEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(person != null ? person.getFname() : null);
         objects.add(person != null ? person.getLname() : null);
         objects.add(plan != null ? plan.getTitle() : null);
         objects.add(element != null ? element.getPrTitle() : null);
         objects.add(grade != null ? grade : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PersonEntity getPerson() {

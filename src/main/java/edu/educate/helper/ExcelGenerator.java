@@ -84,9 +84,24 @@ public class ExcelGenerator<T extends BaseEntity> {
         for (T record : baseEntities) {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
-            List<Object> cellValues = record.getCellValues();
-            for (Object cellValue : cellValues) {
-                createCell(row, columnCount++, cellValue, style);
+            int i = 0;
+//            List<Object> cellValues = record.getCellValues();
+//            for (Object cellValue : cellValues) {
+//                createCell(row, columnCount++, cellValue, style);
+//            }
+
+            List<List<Object>> cellValues = record.getCellValues();
+            for (List<Object> rw : cellValues) {
+                for (Object cellValue : rw) {
+                    createCell(row, columnCount++, cellValue, style);
+                }
+
+                i++;
+                if (cellValues.size() > i){
+                    row = sheet.createRow(rowCount++);
+                    columnCount = 0;
+                }
+
             }
         }
     }

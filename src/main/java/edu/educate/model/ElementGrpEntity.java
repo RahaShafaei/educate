@@ -32,11 +32,13 @@ public class ElementGrpEntity extends TitleLPEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(getLtTitle() != null ? getLtTitle() : null);
         objects.add(getPrTitle() != null ? getPrTitle() : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public List<ElementEntity> getElements() {

@@ -73,7 +73,7 @@ public class BaseEntity<T extends BaseEntity> implements Serializable {
 		return null;
 	}
 
-	public List<Object> getCellValues(){
+	public List<List<Object>> getCellValues(){
 		return null;
 	}
 

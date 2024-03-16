@@ -86,7 +86,8 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(orgUnit != null ? orgUnit.getTitle() : null);
         objects.add(orgPost != null ? orgPost.getTitle() : null);
@@ -95,7 +96,8 @@ public class OrgUnitPostPersonEntity extends BaseEntity {
         objects.add(prFromDate != null ? prFromDate : null);
         objects.add(prToDate != null ? prToDate : null);
         objects.add(location != null ? location : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PersonEntity getPerson() {

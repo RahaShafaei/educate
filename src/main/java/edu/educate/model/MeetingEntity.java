@@ -41,12 +41,14 @@ public class MeetingEntity extends TitleEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(plan != null ? plan.getTitle() : null);
         objects.add(getTitle() != null ? getTitle() : null);
         objects.add(fileType != null ? fileType : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PlansEntity getPlan() {

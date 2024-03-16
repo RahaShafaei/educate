@@ -49,14 +49,16 @@ public class ProcessEntity extends TitleLPEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(prCourse != null ? prCourse.getLtTitle() : null);
         objects.add(prCourse != null ? prCourse.getPrTitle() : null);
         objects.add(getLtTitle() != null ? getLtTitle() : null);
         objects.add(getPrTitle() != null ? getPrTitle() : null);
         objects.add(descr != null ? descr : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PrCourseEntity getPrCourse() {

@@ -47,13 +47,15 @@ public class PersonRoleEntity extends BaseEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(person != null ? person.getFname() : null);
         objects.add(person != null ? person.getLname() : null);
         objects.add(role != null ? role.getLtTitle() : null);
         objects.add(role != null ? role.getPrTitle() : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PersonEntity getPerson() {

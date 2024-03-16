@@ -86,7 +86,8 @@ public class PersonEntity extends BaseEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         OrgUnitPostPersonEntity orgUnitPostPersonEntity = getLastPost(this);
         List<Object> objects = new ArrayList<>();
         objects.add(fname != null ? fname : null);
@@ -102,7 +103,8 @@ public class PersonEntity extends BaseEntity {
         objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getPrFromDate() : null);
         objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getPrToDate() : null);
         objects.add(orgUnitPostPersonEntity != null ? orgUnitPostPersonEntity.getLocation() : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public List<AttendanceEntity> getAttendances() {

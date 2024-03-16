@@ -39,12 +39,14 @@ public class OrgPostEntity extends TitleEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(getTitle() != null ? getTitle() : null);
         objects.add(code != null ? code : null);
         objects.add(descr != null ? descr : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public List<OrgUnitPostPersonEntity> getOrgUnitPostPersons() {

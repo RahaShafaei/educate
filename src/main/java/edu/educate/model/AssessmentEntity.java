@@ -51,7 +51,8 @@ public class AssessmentEntity extends BaseEntity {
     }
 
     @Override
-    public List<Object> getCellValues() {
+    public List<List<Object>> getCellValues() {
+        List<List<Object>> objectsContainer = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         objects.add(plan != null ? plan.getTitle() : null);
         objects.add(plan != null ? plan.getPrCourse().getPrCourseGrp().getLtTitle() : null);
@@ -61,7 +62,8 @@ public class AssessmentEntity extends BaseEntity {
         objects.add(plan != null ? plan.getPerson().getLname() : null);
         objects.add(question != null ? question : null);
         objects.add(score != null ? score : null);
-        return objects;
+        objectsContainer.add(objects);
+        return objectsContainer;
     }
 
     public PlansEntity getPlan() {
