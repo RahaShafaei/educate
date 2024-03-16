@@ -36,6 +36,7 @@ public class AssessmentController extends BaseController<AssessmentEntity, Asses
                 assessmentService,
                 "assessment",
                 "assessmentDir/assessment",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

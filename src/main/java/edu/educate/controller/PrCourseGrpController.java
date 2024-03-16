@@ -26,6 +26,7 @@ public class PrCourseGrpController extends BaseController<PrCourseGrpEntity, PrC
                 prCourseGrpService,
                 "coursegrp",
                 "courseDir/courseGrp",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
     }

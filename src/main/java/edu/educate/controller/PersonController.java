@@ -49,6 +49,7 @@ public class PersonController extends BaseController<PersonEntity,PersonDto> {
                 personService,
                 "person",
                 "personDir/person",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

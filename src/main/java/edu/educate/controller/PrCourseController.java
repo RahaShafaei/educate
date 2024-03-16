@@ -36,6 +36,7 @@ public class PrCourseController extends BaseController<PrCourseEntity, PrCourseD
                 prCourseService,
                 "course",
                 "courseDir/course",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

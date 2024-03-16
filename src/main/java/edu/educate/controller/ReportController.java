@@ -2,36 +2,42 @@ package edu.educate.controller;
 
 import edu.educate.controller.baseContrlller.BaseController;
 import edu.educate.dto.PlansDto;
+import edu.educate.dto.PlansMapper;
+import edu.educate.dto.baseDto.BaseDto;
+import edu.educate.helper.ExcelGenerator;
 import edu.educate.model.*;
-import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.*;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/plans")
-public class PlansController extends BaseController<PlansEntity, PlansDto> {
+@RequestMapping("/report")
+public class ReportController extends BaseController<PlansEntity, PlansDto> {
     private static final ExampleMatcher SEARCH_CONDITIONS_MATCH_ALL = ExampleMatcher
             .matching()
             .withMatcher("orgUnit.title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("location.title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("prCourse.prCourseGrp.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("prCourse.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("person.fname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("person.lname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("personSupervisor.fname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("personSupervisor.lname", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementPhase.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementStatus.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementEdu.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementProject.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("elementHolding.prTitle", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher("method", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("ltFromDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 //            .withMatcher("ltToDate", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
             .withMatcher("deleted", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
@@ -39,7 +45,7 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
             .withIgnoreNullValues()
             .withIgnorePaths("id", "deletedAt", "insertedAt", "prFromDate", "prToDate");
 
-    private final PlanProcessService planProcessService;
+    private final ProcessService processService;
     private final LocationService locationService;
     private final OrgUnitService orgUnitService;
     private final PrCourseGrpService prCourseGrpService;
@@ -47,61 +53,71 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
     private final PersonService personService;
     private final ElementService elementService;
 
-    public PlansController(PlansService plansService,
-                           OrgUnitService orgUnitService,
-                           LocationService LocationService,
-                           PlanProcessService planProcessService,
-                           PrCourseGrpService prCourseGrpService,
-                           PrCourseService prCourseService,
-                           PersonService personService,
-                           ElementService elementService
-    ) {
+    private final PlansMapper plansMapper;
+
+    public ReportController(PlansService plansService,
+                            ProcessService processService, OrgUnitService orgUnitService,
+                            LocationService LocationService,
+                            PrCourseGrpService prCourseGrpService,
+                            PrCourseService prCourseService,
+                            PersonService personService,
+                            ElementService elementService,
+                            PlansMapper plansMapper) {
         super(PlansEntity.class,
                 PlansDto.class,
                 plansService,
-                "plans",
-                "plansDir/plans",
-                null,
+                "report",
+                "reportDir/report",
+                "report/newd",
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
-
+        this.processService = processService;
         this.locationService = LocationService;
-        this.planProcessService = planProcessService;
         this.orgUnitService = orgUnitService;
         this.prCourseGrpService = prCourseGrpService;
         this.prCourseService = prCourseService;
         this.personService = personService;
         this.elementService = elementService;
-    }
-
-    @PostMapping("/saveovr")
-    public String savePerson(@Valid @ModelAttribute("entityObject") PlansEntity plan,
-                             BindingResult result,
-                             @RequestParam("file") MultipartFile[] files,
-                             Model model) {
-
-        if (result.hasErrors()) {
-            modelSetting(model, plan);
-            return "plansDir/plansForm";
-        }
-
-        ((PlansService) service).createEntityByRelatedFiles(plan, files);
-        return "redirect:/plans";
+        this.plansMapper = plansMapper;
     }
 
     @Override
-    public void modelSetting(Model model, BaseEntity baseEntity) {
-        model.addAttribute("entityObject", baseEntity);
+    public void getSearchExcelResults(PlansDto searchEntity, Model model, HttpServletResponse response) {
+        PlansEntity plansEntity = plansMapper.toEntity(searchEntity);
 
-        if (((PlansEntity) baseEntity).getId() != null )
-            model.addAttribute("planProcess", planProcessService.findByPlanId(((PlansEntity) baseEntity).getId()));
+        Example<PlansEntity> example = Example.of(plansEntity, exampleMatcher);
 
-        model.addAttribute("attendances", ((PlansEntity) baseEntity).getAttendances());
-        model.addAttribute("meetings", ((PlansEntity) baseEntity).getMeetings());
+        List<PlansEntity> plans = service.findEntities(example);
+        if (plans != null && !plans.isEmpty()) {
+            ExcelGenerator generator = new ExcelGenerator(service.findEntities(example));
+            try {
+                generator.generateExcelFile(excelSettings(response));
+            } catch (IOException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void modelSettingDto(Model model, BaseDto baseDto) {
+        model.addAttribute("entityObject", baseDto);
+
+        // Process**************************************
+        model.addAttribute("process", processService.getAllEntities());
+
+        // Attendance**************************************
+        model.addAttribute("attendancePersons", personService.getAllEntities());
+
+        ElementEntity elementType = new ElementEntity();
+        ElementGrpEntity elementGrpType = new ElementGrpEntity();
+        elementGrpType.setId(1);
+        elementType.setElementGrp(elementGrpType);
+        model.addAttribute("attendanceElements", elementService.findEntitiesBySpecificFields(elementType));
+
+        // Plans**************************************
         model.addAttribute("locations", locationService.getAllEntities());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         model.addAttribute("parentOrgUnits", orgUnitService.findByElementTypeId());
-//        model.addAttribute("parentOrgUnits", orgUnitService.findByParentOrgUnitIsNull());
         model.addAttribute("courseGrps", prCourseGrpService.getAllEntities());
         model.addAttribute("courses", prCourseService.getAllEntities());
 
@@ -127,11 +143,12 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         model.addAttribute("elementPhase", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(8)));
     }
 
-    private ElementEntity elementEntityConfiguration(int i){
+    private ElementEntity elementEntityConfiguration(int i) {
         ElementEntity elementProject = new ElementEntity();
         ElementGrpEntity elementGrpProject = new ElementGrpEntity();
         elementGrpProject.setId(i);
         elementProject.setElementGrp(elementGrpProject);
         return elementProject;
     }
+
 }

@@ -1,11 +1,11 @@
 package edu.educate.service;
 
 import edu.educate.dto.PlansDto;
-import edu.educate.model.ElementEntity;
-import edu.educate.model.MeetingEntity;
-import edu.educate.model.PlansEntity;
+import edu.educate.dto.PlansMapper;
+import edu.educate.model.*;
 import edu.educate.repository.PlansRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -63,9 +63,9 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
         return ((PlansRepository) repository).findAll(dateSpec);
     }
 
-    private String titleSetting(PlansEntity plansEntity){
-        return plansEntity.getOrgUnit().getTitle() + " _ "+
-                plansEntity.getPrCourse().getPrTitle() + " _ "+
+    private String titleSetting(PlansEntity plansEntity) {
+        return plansEntity.getOrgUnit().getTitle() + " _ " +
+                plansEntity.getPrCourse().getPrTitle() + " _ " +
                 plansEntity.getPrFromDate().substring(0, Math.min(10, plansEntity.getPrFromDate().length()));
     }
 
@@ -108,43 +108,55 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
         }
     }
 
-    private  Specification<PlansEntity> getCriterias(Example<PlansEntity> example){
+    private Specification<PlansEntity> getCriterias(Example<PlansEntity> example) {
         Specification<PlansEntity> dateSpec = (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if (example.getProbe().getOrgUnit().getTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("orgUnit").get("title"), "%" +example.getProbe().getOrgUnit().getTitle()+ "%"));
+            if (example.getProbe().getLocation() != null && example.getProbe().getLocation().getTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("location").get("title"), "%" + example.getProbe().getLocation().getTitle() + "%"));
             }
-            if (example.getProbe().getPrCourse().getPrCourseGrp().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("prCourse").get("prCourseGrp").get("prTitle"), "%" +example.getProbe().getPrCourse().getPrTitle()+ "%"));
+            if (example.getProbe().getOrgUnit() != null && example.getProbe().getOrgUnit().getTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("orgUnit").get("title"), "%" + example.getProbe().getOrgUnit().getTitle() + "%"));
             }
-            if (example.getProbe().getPrCourse().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("prCourse").get("prTitle"), "%" +example.getProbe().getPrCourse().getPrTitle()+ "%"));
+//            if (example.getProbe().getPrCourse() != null && example.getProbe().getPrCourse().getPrCourseGrp().getPrTitle() != null) {
+//                predicates.add(criteriaBuilder.like(root.get("prCourse").get("prCourseGrp").get("prTitle"), "%" +example.getProbe().getPrCourse().getPrTitle()+ "%"));
+//            }
+            if (example.getProbe().getPrCourse() != null && example.getProbe().getPrCourse().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("prCourse").get("prTitle"), "%" + example.getProbe().getPrCourse().getPrTitle() + "%"));
             }
-            if (example.getProbe().getPerson().getFname() != null) {
-                predicates.add(criteriaBuilder.like(root.get("person").get("fname"), "%" +example.getProbe().getPerson().getFname()+ "%"));
+            if (example.getProbe().getPerson() != null && example.getProbe().getPerson().getFname() != null) {
+                predicates.add(criteriaBuilder.like(root.get("person").get("fname"), "%" + example.getProbe().getPerson().getFname() + "%"));
             }
-            if (example.getProbe().getPerson().getLname() != null) {
-                predicates.add(criteriaBuilder.like(root.get("person").get("lname"), "%" +example.getProbe().getPerson().getLname()+ "%"));
+            if (example.getProbe().getPerson() != null && example.getProbe().getPerson().getLname() != null) {
+                predicates.add(criteriaBuilder.like(root.get("person").get("lname"), "%" + example.getProbe().getPerson().getLname() + "%"));
             }
-            if (example.getProbe().getElementPhase().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("elementPhase").get("prTitle"), "%" +example.getProbe().getElementPhase().getPrTitle()+ "%"));
+            if (example.getProbe().getPersonSupervisor() != null && example.getProbe().getPersonSupervisor().getFname() != null) {
+                predicates.add(criteriaBuilder.like(root.get("personSupervisor").get("fname"), "%" + example.getProbe().getPersonSupervisor().getFname() + "%"));
             }
-            if (example.getProbe().getElementStatus().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("elementStatus").get("prTitle"), "%" +example.getProbe().getElementStatus().getPrTitle()+ "%"));
+            if (example.getProbe().getPersonSupervisor() != null && example.getProbe().getPersonSupervisor().getLname() != null) {
+                predicates.add(criteriaBuilder.like(root.get("personSupervisor").get("lname"), "%" + example.getProbe().getPersonSupervisor().getLname() + "%"));
             }
-            if (example.getProbe().getElementEdu().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("elementEdu").get("prTitle"), "%" +example.getProbe().getElementEdu().getPrTitle()+ "%"));
+            if (example.getProbe().getElementPhase() != null && example.getProbe().getElementPhase().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementPhase").get("prTitle"), "%" + example.getProbe().getElementPhase().getPrTitle() + "%"));
             }
-            if (example.getProbe().getElementProject().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("elementProject").get("prTitle"), "%" +example.getProbe().getElementProject().getPrTitle()+ "%"));
+            if (example.getProbe().getElementStatus() != null && example.getProbe().getElementStatus().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementStatus").get("prTitle"), "%" + example.getProbe().getElementStatus().getPrTitle() + "%"));
             }
-            if (example.getProbe().getElementHolding().getPrTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("elementHolding").get("prTitle"), "%" +example.getProbe().getElementHolding().getPrTitle()+ "%"));
+            if (example.getProbe().getElementEdu() != null && example.getProbe().getElementEdu().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementEdu").get("prTitle"), "%" + example.getProbe().getElementEdu().getPrTitle() + "%"));
+            }
+            if (example.getProbe().getElementProject() != null && example.getProbe().getElementProject().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementProject").get("prTitle"), "%" + example.getProbe().getElementProject().getPrTitle() + "%"));
+            }
+            if (example.getProbe().getElementHolding() != null && example.getProbe().getElementHolding().getPrTitle() != null) {
+                predicates.add(criteriaBuilder.like(root.get("elementHolding").get("prTitle"), "%" + example.getProbe().getElementHolding().getPrTitle() + "%"));
             }
             if (example.getProbe().getTitle() != null) {
-                predicates.add(criteriaBuilder.like(root.get("title"), "%" +example.getProbe().getTitle()+ "%"));
+                predicates.add(criteriaBuilder.like(root.get("title"), "%" + example.getProbe().getTitle() + "%"));
+            }
+            if (example.getProbe().getMethod() != null) {
+                predicates.add(criteriaBuilder.like(root.get("method"), "%" + example.getProbe().getMethod() + "%"));
             }
             if (example.getProbe().getLtFromDate() != null)
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("ltFromDate"), example.getProbe().getLtFromDate()));
@@ -152,6 +164,55 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
 //                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("ltToDate"), example.getProbe().getLtToDate()));
             if (example.getProbe().getPlanLink() != null)
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("planLink"), example.getProbe().getPlanLink()));
+
+//            ****PlanProcess******************************************
+            if (example.getProbe().getPlanProcess() != null && !example.getProbe().getPlanProcess().isEmpty()) {
+
+                Join<PlansEntity, PlanProcessEntity> planProcessJoin = root.join("planProcess");
+
+//                System.out.println(":::::::::::::::::::::::::");
+//                System.out.println(example.getProbe().getPlanProcess().get(0).getProcess().getId());
+//                System.out.println(":::::::::::::::::::::::::");
+
+                if (example.getProbe().getPlanProcess().get(0).getProcess() != null){
+                    int processId = example.getProbe().getPlanProcess().get(0).getProcess().getId();
+                    predicates.add(criteriaBuilder.equal(planProcessJoin.get("process").get("id"), processId));
+                }
+
+                if (example.getProbe().getPlanProcess().get(0).getLtFromDate() != null)
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(planProcessJoin.get("ltFromDate"),
+                            example.getProbe().getPlanProcess().get(0).getLtFromDate()));
+
+                if (example.getProbe().getPlanProcess().get(0).getLtToDate() != null)
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(planProcessJoin.get("ltToDate"),
+                            example.getProbe().getPlanProcess().get(0).getLtToDate()));
+            }
+
+//            ****Attendance******************************************
+            if (example.getProbe().getAttendances() != null && !example.getProbe().getAttendances().isEmpty()) {
+
+                Join<PlansEntity, AttendanceEntity> planAttendanceJoin = root.join("attendances");
+
+                if (example.getProbe().getAttendances().get(0).getPerson() != null) {
+                    String attendanceFname = example.getProbe().getAttendances().get(0).getPerson().getFname();
+                    predicates.add(criteriaBuilder.like(planAttendanceJoin.get("person").get("fname"), "%" + attendanceFname + "%"));
+
+                    String attendanceLname = example.getProbe().getAttendances().get(0).getPerson().getLname();
+                    predicates.add(criteriaBuilder.like(planAttendanceJoin.get("person").get("lname"), "%" + attendanceLname + "%"));
+                }
+
+                if (example.getProbe().getAttendances().get(0).getElement() != null) {
+                    Join<AttendanceEntity, ElementEntity> elementJoin = planAttendanceJoin.join("element");
+                    int elementId = example.getProbe().getAttendances().get(0).getElement().getId();
+                    predicates.add(criteriaBuilder.equal(elementJoin.get("id"), elementId));
+                }
+
+                if (example.getProbe().getAttendances().get(0).getGrade() != null) {
+                    float grade = example.getProbe().getAttendances().get(0).getGrade();
+                    predicates.add(criteriaBuilder.equal(planAttendanceJoin.get("grade"), grade));
+                }
+            }
+//            **********************************************
 
             predicates.add(criteriaBuilder.equal(root.get("deleted"), example.getProbe().isDeleted()));
 

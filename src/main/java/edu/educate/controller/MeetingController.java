@@ -26,6 +26,7 @@ public class MeetingController extends BaseController<MeetingEntity, MeetingDto>
                 meetingService,
                 "meeting",
                 "meetingDir/meeting",
+                null,
                 30,
                 null);
     }

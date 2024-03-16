@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 public abstract class BaseController<T, R> {
@@ -35,6 +36,8 @@ public abstract class BaseController<T, R> {
 
     protected final String viewPrefix;
 
+    protected final String mainPage;
+
     protected final int pageSize;
 
     protected final ExampleMatcher exampleMatcher;
@@ -46,6 +49,9 @@ public abstract class BaseController<T, R> {
 
     @GetMapping
     public String list(@RequestParam(defaultValue = "0") int page, Model model) {
+        if (mainPage != null)
+            return "redirect:/" + mainPage;
+
         Page<T> entityPage = service.getAllEntities(PageRequest.of(page, pageSize));
         model.addAttribute(modelAttribute + "s", entityPage.getContent());
         model.addAttribute("currentPage", page);
@@ -109,21 +115,44 @@ public abstract class BaseController<T, R> {
         } else {
             getSearchExcelResults(searchEntity, model, 0, response);
         }
+
+        if (mainPage != null)
+            return "redirect:/" + mainPage;
+
+        return viewPrefix + "List";
+    }
+
+    @PostMapping("/searchd")
+    public String searchPostDto(@ModelAttribute R searchEntity,
+                                HttpServletResponse response,
+                                Model model) {
+        getSearchExcelResults(searchEntity, model, response);
+
+        if (mainPage != null)
+            return "redirect:/" + mainPage;
+
         return viewPrefix + "List";
     }
 
     @GetMapping("/export-to-excel")
     public String exportIntoExcelFile(HttpServletResponse response) {
-        ExcelGenerator generator = new ExcelGenerator(service.getAllEntities());
-        try {
-            generator.generateExcelFile(excelSettings(response));
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+        List<T> baseEntities = service.getAllEntities();
+        if (baseEntities != null && !baseEntities.isEmpty()){
+            ExcelGenerator generator = new ExcelGenerator(service.getAllEntities());
+            try {
+                generator.generateExcelFile(excelSettings(response));
+            } catch (IOException exception) {
+                System.out.println(exception.getMessage());
+            }
         }
+
+        if (mainPage != null)
+            return "redirect:/" + mainPage;
+
         return viewPrefix + "List";
     }
 
-    private void getSearchResults(T searchEntity, Model model, int page) {
+    public void getSearchResults(T searchEntity, Model model, int page) {
         ((BaseEntity) searchEntity).setDeleted(false);
         Example<T> example = Example.of(searchEntity, exampleMatcher);
 
@@ -137,16 +166,22 @@ public abstract class BaseController<T, R> {
         model.addAttribute("searchFlag", 1);
     }
 
-    private void getSearchExcelResults(T searchEntity, Model model, int page, HttpServletResponse response) {
-        getSearchResults(searchEntity,model, page);
+    public void getSearchExcelResults(T searchEntity, Model model, int page, HttpServletResponse response) {
+        getSearchResults(searchEntity, model, page);
 
         Example<T> example = Example.of(searchEntity, exampleMatcher);
-        ExcelGenerator generator = new ExcelGenerator(service.findEntities(example));
-        try {
-            generator.generateExcelFile(excelSettings(response));
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+        List<T> baseEntities = service.findEntities(example);
+        if (baseEntities != null && !baseEntities.isEmpty()){
+            ExcelGenerator generator = new ExcelGenerator(service.findEntities(example));
+            try {
+                generator.generateExcelFile(excelSettings(response));
+            } catch (IOException exception) {
+                System.out.println(exception.getMessage());
+            }
         }
+    }
+
+    public void getSearchExcelResults(R searchEntity, Model model, HttpServletResponse response) {
     }
 
     public HttpServletResponse excelSettings(HttpServletResponse response) {

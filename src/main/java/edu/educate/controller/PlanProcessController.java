@@ -41,6 +41,7 @@ public class PlanProcessController extends BaseController<PlanProcessEntity, Pla
                 planProcessService,
                 "planProcess",
                 "planProcessDir/planProcess",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

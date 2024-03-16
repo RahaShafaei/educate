@@ -37,6 +37,7 @@ public class ProcessController extends BaseController<ProcessEntity, ProcessDto>
                 processService,
                 "process",
                 "processDir/process",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

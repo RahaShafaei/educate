@@ -51,6 +51,7 @@ public class AttendanceController extends BaseController<AttendanceEntity, Atten
                 attendanceService,
                 "attendance",
                 "attendanceDir/attendance",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

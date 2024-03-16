@@ -35,6 +35,7 @@ public class LocationController extends BaseController<LocationEntity, LocationD
                 LocationService,
                 "location",
                 "locationDir/location",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
 

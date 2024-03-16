@@ -1,7 +1,10 @@
 package edu.educate.dto;
 
 import edu.educate.dto.baseDto.TitleDto;
+import edu.educate.model.*;
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,15 +19,28 @@ import java.util.Map;
 @Setter
 @ToString
 public class PlansDto extends TitleDto {
-    private OrgUnitDto orgUnit;
 
-    private PrCourseDto prCourse;
+    private String method;
 
-    private PersonDto person;
+    private LocationEntity location;
 
-    private ElementDto elementType;
+    private OrgUnitEntity orgUnit;
 
-    private ElementDto elementStatus;
+    private PrCourseEntity prCourse;
+
+    private PersonEntity person;
+
+    private PersonEntity personSupervisor;
+
+    private ElementEntity elementStatus;
+
+    private ElementEntity elementEdu;
+
+    private ElementEntity elementProject;
+
+    private ElementEntity elementHolding;
+
+    private ElementEntity elementPhase;
 
     private Map<Integer, AttendanceDto> attendances;
 
@@ -37,4 +53,12 @@ public class PlansDto extends TitleDto {
     private String prFromDate;
 
     private String prToDate;
+
+    private String planLink;
+    /*
+     * Fields for controller wrapper
+     * */
+    private AttendanceEntity attendanceWrapper;
+
+    private PlanProcessEntity planProcessWrapper;
 }

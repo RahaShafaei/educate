@@ -27,6 +27,7 @@ public class OrgPostController extends BaseController<OrgPostEntity, OrgPostDto>
                 orgPostService,
                 "orgpost",
                 "orgPostDir/orgPost",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
     }

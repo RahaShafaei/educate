@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="rtl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/fragments/core_layout.html">
+<head>
+    <title th:text="#{report.page.title}"></title>
+
+    <script th:inline="javascript">
+        var $ = jQuery;
+
+        function updateSubcategories() {
+            var selectedCategory = $('#courseGrp').val();
+            var subcategorySelect = $('#prCourse');
+
+            $.ajax({
+                type: 'GET',
+                url: '/getSubcategories',
+                data: {category: selectedCategory},
+                success: function (data) {
+                    subcategorySelect.empty();
+                    $.each(data, function (index, subcategory) {
+                        subcategorySelect.append($('<option>', {
+                            value: subcategory.id,
+                            text: subcategory.prTitle
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error fetching subcategories.');
+                }
+            });
+        }
+
+        function updateOrgUnitSubcategories() {
+            var selectedCategory = $('#parentOrgUnits').val();
+            var subcategorySelect = $('#orgUnit');
+            orgUnitSubFunction('/orgUnitGetSubcategories', selectedCategory, subcategorySelect);
+
+            subcategorySelect = $('#location');
+            orgUnitSubFunction('/orgUnitGetLocations', selectedCategory, subcategorySelect);
+        }
+
+        function orgUnitSubFunction(url, selectedCategory, subcategorySelect) {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {category: selectedCategory},
+                success: function (data) {
+                    subcategorySelect.empty();
+                    // alert(data.length);
+                    // alert(data[0].title);
+                    $.each(data, function (index, subcategory) {
+                        subcategorySelect.append($('<option>', {
+                            value: subcategory.id,
+                            text: subcategory.title
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error fetching subcategories.');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // updateSubcategories();
+            // updateOrgUnitSubcategories();
+
+            $("select").select2();
+
+            // Handle change event on the category select
+            // $('#courseGrp').change(function () {
+            //     // Update subcategories when the category changes
+            //     updateSubcategories();
+            // });
+        });
+    </script>
+
+</head>
+<body>
+
+<main layout:fragment="mainContent" class="px-md-4">
+    <div>
+        <h5 th:text="#{report.page.title}"></h5>
+
+        <hr class="my-4">
+        <h6 th:text="#{plan.page.title}" style="color: blue;"></h6>
+
+        <form th:action="@{/report/searchd}" th:object="${entityObject}" method="post" >
+            <input type="hidden" th:field="*{id}">
+            <div class="row g-3">
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="parentOrgUnits" th:text="#{orgUnit.field.parent.title}"></label>
+                    <select class="form-select" id="parentOrgUnits" onchange="updateOrgUnitSubcategories()">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="ou : ${parentOrgUnits}" th:value="${ou.id}" th:text="${ou.title}"
+                                th:selected="${entityObject.getOrgUnit() != null && entityObject.getOrgUnit().getParentOrgUnit() == ou}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="orgUnit" th:text="#{orgUnit.page.title}"></label>
+                    <select class="form-select" id="orgUnit" th:field="*{orgUnit}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="ou : ${orgUnits}" th:value="${ou.id}" th:text="${ou.title}"
+                                th:selected="${entityObject.getOrgUnit() != null && entityObject.getOrgUnit() == ou}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="location" th:text="#{location.page.title}"></label>
+                    <select class="form-select" id="location" th:field="*{location}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="lo : ${locations}" th:value="${lo.id}" th:text="${lo.title}"
+                                th:selected="${entityObject.getLocation() != null && entityObject.getLocation() == lo}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="courseGrp" th:text="#{course.grp.page.title}"></label>
+                    <select class="form-select" id="courseGrp" onchange="updateSubcategories()">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="cg : ${courseGrps}" th:value="${cg.id}" th:text="${cg.prTitle}"
+                                th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse().getPrCourseGrp() == cg}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="prCourse" th:text="#{course.page.title}"></label>
+                    <select class="form-select" id="prCourse" th:field="*{prCourse}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="co : ${courses}" th:value="${co.id}" th:text="${co.prTitle}"
+                                th:selected="${entityObject.getPrCourse() != null && entityObject.getPrCourse() == co}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementStatus" th:text="#{plan.field.status}"></label>
+                    <select class="form-select" id="elementStatus" th:field="*{elementStatus}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementStatus}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementStatus() != null && entityObject.getElementStatus() == et}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementEdu" th:text="#{plan.field.edu}"></label>
+                    <select class="form-select" id="elementEdu" th:field="*{elementEdu}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementEdu}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementEdu() != null && entityObject.getElementEdu() == et}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementProject" th:text="#{plan.field.project}"></label>
+                    <select class="form-select" id="elementProject" th:field="*{elementProject}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementProject}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementProject() != null && entityObject.getElementProject() == et}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementHolding" th:text="#{plan.field.holding}"></label>
+                    <select class="form-select" id="elementHolding" th:field="*{elementHolding}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementHolding}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementHolding() != null && entityObject.getElementHolding() == et}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="elementPhase" th:text="#{plan.field.phase}"></label>
+                    <select class="form-select" id="elementPhase" th:field="*{elementPhase}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${elementPhase}" th:value="${et.id}" th:text="${et.prTitle}"
+                                th:selected="${entityObject.getElementPhase() != null && entityObject.getElementPhase() == et}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="title" class="form-label" th:text="#{plan.field.title}"></label>
+                    <input type="text" class="form-control" id="title" placeholder="" value=""
+                           th:field="*{title}">
+                    <small class="text-danger " th:if="${#fields.hasErrors('title')}"
+                           th:text="#{main.validation.title}"></small>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="method" class="form-label" th:text="#{plan.field.method}"></label>
+                    <input type="text" class="form-control" id="method" placeholder="" value=""
+                           th:field="*{method}">
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="person" th:text="#{plan.field.teacher}"></label>
+                    <select class="form-select" id="person" th:field="*{person}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${persons}" th:value="${pe.id}"
+                                th:text="${pe.fname} + ' _ ' + ${pe.lname}"
+                                th:selected="${entityObject.getPerson() != null && entityObject.getPerson() == pe}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="personSupervisor" th:text="#{plan.field.supervisor}"></label>
+                    <select class="form-select" id="personSupervisor" th:field="*{personSupervisor}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${personSupervisors}" th:value="${pe.id}"
+                                th:text="${pe.fname} + ' _ ' + ${pe.lname}"
+                                th:selected="${entityObject.getPersonSupervisor() != null && entityObject.getPersonSupervisor() == pe}"></option>
+                    </select>
+                </div>
+
+                <!--*************************PROCESS**************************************-->
+                <hr class="my-4">
+                <h6 th:text="#{process.page.title}" style="color: blue;"></h6>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="process" th:text="#{process.page.title}"></label>
+                    <select class="form-select" id="process" th:field="*{planProcessWrapper.process}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="cg : ${process}" th:value="${cg.id}" th:text="${cg.prTitle}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
+                    <label for="fromDate" class="form-label" th:text="#{orgUnitPostPerson.field.from.date}"></label>
+                    <div class="input-group mb-3 date-pick-inp">
+                        <span class="input-group-text cursor-pointer" id="fromDate">📅</span>
+                        <input type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prFromDate"
+                               th:field="*{planProcessWrapper.prFromDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltFromDate"
+                               th:field="*{planProcessWrapper.ltFromDate}">
+                        <input type="hidden" id="ltFromDateJS" th:field="*{planProcessWrapper.ltFromDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltFromDate')}"
+                           th:text="#{orgUnitPostPerson.validate.from.date}"></small>
+                </div>
+
+                <div class="col-sm-4" :hidden="inLine == '1' && modalMode == '0'">
+                    <label for="toDate" class="form-label" th:text="#{orgUnitPostPerson.field.to.date}"></label>
+                    <div class="input-group mb-3 date-pick-inp" :hidden="toDateFromDate == '0'">
+                        <span class="input-group-text cursor-pointer" id="toDate">📅</span>
+                        <input type="text" class="form-control"
+                               placeholder="" value=""
+                               id="prToDate"
+                               th:field="*{planProcessWrapper.prToDate}">
+                        <input type="hidden" class="form-control"
+                               placeholder="" value=""
+                               id="ltToDate"
+                               th:field="*{planProcessWrapper.ltToDate}">
+                        <input type="hidden" id="ltToDateJS" th:field="*{planProcessWrapper.ltToDate}">
+                    </div>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ltToDate')}"
+                           th:text="#{plan.validate.toDate}"></small>
+                    <small class="text-danger"
+                           th:if="${#fields.hasErrors('planProcessWrapper.validDateRange')}"
+                           th:text="#{orgUnitPostPerson.validate.to.date}"></small>
+                </div>
+
+                <!--*************************ATTENDANCE**************************************-->
+                <hr class="my-4">
+                <h6 th:text="#{attendance.page.table.title}" style="color: blue;"></h6>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="attendancePerson" th:text="#{attendance.field.title}"></label>
+                    <select class="form-select" id="attendancePerson" th:field="*{attendanceWrapper.person}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="pe : ${attendancePersons}" th:value="${pe.id}" th:text="${pe.fname} + ' _ ' + ${pe.lname}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="form-label" for="attendanceElement" th:text="#{attendance.field.status}"></label>
+                    <select class="form-select" id="attendanceElement" th:field="*{attendanceWrapper.element}">
+                        <option value="" th:text="#{main.btn.select}"></option>
+                        <option th:each="et : ${attendanceElements}" th:value="${et.id}" th:text="${et.prTitle}"></option>
+                    </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="grade" class="form-label" th:text="#{attendance.field.grade}"></label>
+                    <input type="text" class="form-control" id="grade" placeholder="" value=""
+                           th:field="*{attendanceWrapper.grade}">
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <button class="btn btn-primary" type="submit" th:text="#{main.btn.excel}"></button>
+            <a class="btn btn-primary" th:href="@{/report}"
+               th:attr="title=#{main.btn.clear}"
+               th:text="#{main.btn.clear}">
+                <svg class="bi">
+                    <use xlink:href="#clear-list"/>
+                </svg>
+            </a>
+            <a class="btn btn-secondary" th:href="@{/}" th:text="#{main.btn.cancel}"></a>
+            <hr class="my-4">
+        </form>
+    </div>
+</main>
+</body>
+</html>

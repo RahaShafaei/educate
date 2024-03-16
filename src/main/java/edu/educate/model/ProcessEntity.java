@@ -23,8 +23,11 @@ import java.util.List;
 )
 public class ProcessEntity extends TitleLPEntity {
 
-    @ManyToMany(mappedBy = "planProcess")
-    private List<PlansEntity> planProcess;
+//    @ManyToMany(mappedBy = "planProcess")
+//    private List<PlansEntity> planProcess;
+
+    @OneToMany(mappedBy = "process")
+    private List<PlanProcessEntity> planProcess;
 
     @ManyToOne
     @NotNull
@@ -59,7 +62,8 @@ public class ProcessEntity extends TitleLPEntity {
     public PrCourseEntity getPrCourse() {
         return (PrCourseEntity)ifEntityIsDeleted(prCourse);
     }
-    public List<PlansEntity> getPersonRoles() {
+
+    public List<PlanProcessEntity> getPlanProcess() {
         return ifEntityListHasDeletedElement(planProcess);
     }
 

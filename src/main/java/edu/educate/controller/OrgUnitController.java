@@ -37,6 +37,7 @@ public class OrgUnitController extends BaseController<OrgUnitEntity, OrgUnitDto>
                 orgPostService,
                 "orgunit",
                 "orgUnitDir/orgUnit",
+                null,
                 30,
                 SEARCH_CONDITIONS_MATCH_ALL);
         this.elementService = elementService;

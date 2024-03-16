@@ -45,12 +45,18 @@ public class PlansEntity extends BaseEntity {
     @Column(name = "method")
     private String method;
 
-    @ManyToMany
-    @JoinTable(
-            name = "plan_process",
-            joinColumns = @JoinColumn(name = "plan_id"),
-            inverseJoinColumns = @JoinColumn(name = "process_id"))
-    private List<ProcessEntity> planProcess;
+    @OneToMany(mappedBy = "plan")
+    private List<AttendanceEntity> attendances;
+
+    @OneToMany(mappedBy = "plan")
+    private List<PlanProcessEntity> planProcess;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "plan_process",
+//            joinColumns = @JoinColumn(name = "plan_id"),
+//            inverseJoinColumns = @JoinColumn(name = "process_id"))
+//    private List<ProcessEntity> planProcess;
 
     @ManyToOne
     @NotNull
@@ -108,9 +114,6 @@ public class PlansEntity extends BaseEntity {
     private ElementEntity elementPhase;
 
     @OneToMany(mappedBy = "plan")
-    private List<AttendanceEntity> attendances;
-
-    @OneToMany(mappedBy = "plan")
     private List<MeetingEntity> meetings;
 
     //    @JsonDeserialize(using = CustomDateDeserializer.class)
@@ -141,8 +144,9 @@ public class PlansEntity extends BaseEntity {
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.ltTitle"));
         headers.add(MessageUtil.getMessage("course.page.title") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.status") + "_"+MessageUtil.getMessage("main.field.prTitle"));
+        headers.add(MessageUtil.getMessage("main.field.date"));
 //        headers.add(MessageUtil.getMessage("plan.field.from.date"));
-        headers.add(MessageUtil.getMessage("plan.field.to.date"));
+//        headers.add(MessageUtil.getMessage("plan.field.to.date"));
         headers.add(MessageUtil.getMessage("plan.field.edu") + "_"+MessageUtil.getMessage("main.field.prTitle"));
 //        headers.add(MessageUtil.getMessage("plan.field.type") + "_"+MessageUtil.getMessage("main.field.prTitle"));
         headers.add(MessageUtil.getMessage("plan.field.method"));
@@ -185,8 +189,22 @@ public class PlansEntity extends BaseEntity {
         return objects;
     }
 
-    public List<ProcessEntity> getPersonRoles() {
+    public List<PlanProcessEntity> getPlanProcess() {
+        if (planProcess == null){
+            planProcess = new ArrayList<>();
+            return planProcess;
+        }
+
         return ifEntityListHasDeletedElement(planProcess);
+    }
+
+    public List<AttendanceEntity> getAttendances() {
+        if (attendances == null || attendances.isEmpty()){
+            attendances = new ArrayList<>();
+            return attendances;
+        }
+
+        return ifEntityListHasDeletedElement(attendances);
     }
 
     public OrgUnitEntity getOrgUnit() {
@@ -230,10 +248,6 @@ public class PlansEntity extends BaseEntity {
 
     public ElementEntity getElementPhase() {
         return (ElementEntity)ifEntityIsDeleted(elementPhase);
-    }
-
-    public List<AttendanceEntity> getAttendances() {
-        return ifEntityListHasDeletedElement(attendances);
     }
 
     public List<MeetingEntity> getMeetings() {
