@@ -170,13 +170,11 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
 
                 Join<PlansEntity, PlanProcessEntity> planProcessJoin = root.join("planProcess");
 
-//                System.out.println(":::::::::::::::::::::::::");
-//                System.out.println(example.getProbe().getPlanProcess().get(0).getProcess().getId());
-//                System.out.println(":::::::::::::::::::::::::");
-
                 if (example.getProbe().getPlanProcess().get(0).getProcess() != null){
+                    Join<PlanProcessEntity, ProcessEntity> processJoin = planProcessJoin.join("process");
+
                     int processId = example.getProbe().getPlanProcess().get(0).getProcess().getId();
-                    predicates.add(criteriaBuilder.equal(planProcessJoin.get("process").get("id"), processId));
+                    predicates.add(criteriaBuilder.equal(processJoin.get("id"), processId));
                 }
 
                 if (example.getProbe().getPlanProcess().get(0).getLtFromDate() != null)
@@ -184,7 +182,7 @@ public class PlansServiceImp extends GenericServiceImpl<PlansEntity, PlansDto> i
                             example.getProbe().getPlanProcess().get(0).getLtFromDate()));
 
                 if (example.getProbe().getPlanProcess().get(0).getLtToDate() != null)
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(planProcessJoin.get("ltToDate"),
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(planProcessJoin.get("ltToDate"),
                             example.getProbe().getPlanProcess().get(0).getLtToDate()));
             }
 
