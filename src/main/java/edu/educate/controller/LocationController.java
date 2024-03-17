@@ -3,13 +3,10 @@ package edu.educate.controller;
 import edu.educate.controller.baseContrlller.BaseController;
 import edu.educate.dto.LocationDto;
 import edu.educate.model.LocationEntity;
-import edu.educate.model.PlansEntity;
-import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.LocationService;
 import edu.educate.service.OrgUnitService;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller

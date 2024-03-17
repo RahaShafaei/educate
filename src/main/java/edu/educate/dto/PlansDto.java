@@ -2,16 +2,10 @@ package edu.educate.dto;
 
 import edu.educate.dto.baseDto.TitleDto;
 import edu.educate.model.*;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Map;
 

@@ -1,22 +1,9 @@
 package edu.educate.dto;
 
 import edu.educate.dto.baseDto.DtoMapperUtils;
-import edu.educate.helper.ConvertListToMap;
-import edu.educate.model.*;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import edu.educate.model.PlansEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 @AllArgsConstructor
 @Component
 public class PlansMapper {

@@ -1,14 +1,13 @@
 package edu.educate.service.baseService;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.model.baseModel.BaseEntity;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface GenericService<T , R> extends MainService{
     public List<T> getAllEntities();

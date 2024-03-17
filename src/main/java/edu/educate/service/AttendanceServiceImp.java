@@ -4,7 +4,6 @@ import edu.educate.dto.AttendanceDto;
 import edu.educate.model.AttendanceEntity;
 import edu.educate.model.PlansEntity;
 import edu.educate.repository.AttendanceRepository;
-import edu.educate.repository.OrgUnitRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

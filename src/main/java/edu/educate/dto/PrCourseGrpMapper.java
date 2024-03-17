@@ -2,10 +2,8 @@ package edu.educate.dto;
 
 import edu.educate.dto.baseDto.DtoMapperUtils;
 import edu.educate.helper.ConvertListToMap;
-import edu.educate.model.AttendanceEntity;
 import edu.educate.model.PrCourseEntity;
 import edu.educate.model.PrCourseGrpEntity;
-import edu.educate.model.PlansEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

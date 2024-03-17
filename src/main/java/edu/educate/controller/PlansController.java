@@ -101,37 +101,14 @@ public class PlansController extends BaseController<PlansEntity, PlansDto> {
         model.addAttribute("locations", locationService.getAllEntities());
         model.addAttribute("orgUnits", orgUnitService.getAllEntities());
         model.addAttribute("parentOrgUnits", orgUnitService.findByElementTypeId());
-//        model.addAttribute("parentOrgUnits", orgUnitService.findByParentOrgUnitIsNull());
         model.addAttribute("courseGrps", prCourseGrpService.getAllEntities());
         model.addAttribute("courses", prCourseService.getAllEntities());
-
-        PersonEntity personEntity = new PersonEntity();
-        RolesEntity rolesEntity = new RolesEntity();
-        rolesEntity.setId(3);
-        personEntity.setPersonRoles(new ArrayList<>());
-        personEntity.getPersonRoles().add(rolesEntity);
-        model.addAttribute("persons", personService.findEntitiesBySpecificFields(personEntity));
-
-        PersonEntity personSupervisor = new PersonEntity();
-        RolesEntity personSupervisorRoles = new RolesEntity();
-        personSupervisorRoles.setId(9);
-        personSupervisor.setPersonRoles(new ArrayList<>());
-        personSupervisor.getPersonRoles().add(personSupervisorRoles);
-        model.addAttribute("personSupervisors", personService.findEntitiesBySpecificFields(personSupervisor));
-
-        model.addAttribute("elementTypes", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(3)));
-        model.addAttribute("elementStatus", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(2)));
-        model.addAttribute("elementEdu", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(4)));
-        model.addAttribute("elementProject", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(5)));
-        model.addAttribute("elementHolding", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(6)));
-        model.addAttribute("elementPhase", elementService.findEntitiesBySpecificFields(elementEntityConfiguration(8)));
-    }
-
-    private ElementEntity elementEntityConfiguration(int i){
-        ElementEntity elementProject = new ElementEntity();
-        ElementGrpEntity elementGrpProject = new ElementGrpEntity();
-        elementGrpProject.setId(i);
-        elementProject.setElementGrp(elementGrpProject);
-        return elementProject;
+        model.addAttribute("persons", personService.findByPersonRolesLtTitle("teacher"));
+        model.addAttribute("personSupervisors", personService.findByPersonRolesLtTitle("supervisor"));
+        model.addAttribute("elementStatus", elementService.findByElementGrpLtTitle("plan_status"));
+        model.addAttribute("elementEdu", elementService.findByElementGrpLtTitle("edu_type"));
+        model.addAttribute("elementProject", elementService.findByElementGrpLtTitle("project_type"));
+        model.addAttribute("elementHolding", elementService.findByElementGrpLtTitle("holding_type"));
+        model.addAttribute("elementPhase", elementService.findByElementGrpLtTitle("edu_phase"));
     }
 }

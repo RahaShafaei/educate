@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface ElementService extends GenericService<ElementEntity, ElementDto> {
     List<ElementEntity> findByLtTitleNot();
+    List<ElementEntity> findByElementGrpLtTitle(String title);
 
 }

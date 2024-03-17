@@ -2,15 +2,11 @@ package edu.educate.service;
 
 import edu.educate.dto.ElementDto;
 import edu.educate.model.ElementEntity;
-import edu.educate.model.baseModel.BaseEntity;
-import edu.educate.repository.AttendanceRepository;
 import edu.educate.repository.ElementRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +38,10 @@ public class ElementServiceImp extends GenericServiceImpl<ElementEntity, Element
     @Override
     public List<ElementEntity> findByLtTitleNot() {
         return ((ElementRepository) repository).findByLtTitleNotAndElementGrpId("root",7);
+    }
+
+    @Override
+    public List<ElementEntity> findByElementGrpLtTitle(String title) {
+        return ((ElementRepository) repository).findByElementGrpLtTitle(title);
     }
 }

@@ -1,6 +1,5 @@
 package edu.educate.dto;
 
-import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.dto.baseDto.TitleLPDto;
 import lombok.Getter;
 import lombok.Setter;

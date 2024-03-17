@@ -3,7 +3,6 @@ package edu.educate.service;
 import edu.educate.dto.LocationDto;
 import edu.educate.model.LocationEntity;
 import edu.educate.repository.LocationRepository;
-import edu.educate.repository.OrgUnitRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

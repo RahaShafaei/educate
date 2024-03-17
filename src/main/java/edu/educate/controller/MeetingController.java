@@ -4,7 +4,6 @@ import edu.educate.controller.baseContrlller.BaseController;
 import edu.educate.dto.MeetingDto;
 import edu.educate.model.MeetingEntity;
 import edu.educate.service.MeetingService;
-import jakarta.annotation.Resource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

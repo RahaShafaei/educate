@@ -2,8 +2,6 @@ package edu.educate.service;
 
 import edu.educate.dto.PlanProcessDto;
 import edu.educate.model.PlanProcessEntity;
-import edu.educate.model.PlanProcessEntity;
-import edu.educate.model.PlanProcessEntity;
 import edu.educate.service.baseService.GenericService;
 
 import java.util.List;

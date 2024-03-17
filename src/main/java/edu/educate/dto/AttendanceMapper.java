@@ -1,7 +1,7 @@
 package edu.educate.dto;
 
 import edu.educate.dto.baseDto.DtoMapperUtils;
-import edu.educate.model.*;
+import edu.educate.model.AttendanceEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 @AllArgsConstructor

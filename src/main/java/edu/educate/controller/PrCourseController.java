@@ -6,12 +6,10 @@ import edu.educate.model.PrCourseEntity;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.PrCourseGrpService;
 import edu.educate.service.PrCourseService;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/course")

@@ -2,12 +2,12 @@ package edu.educate.service;
 
 import edu.educate.dto.PersonDto;
 import edu.educate.dto.baseDto.BaseDto;
-import edu.educate.exception.ParametersNotValidException;
-import edu.educate.model.*;
-import edu.educate.repository.AttendanceRepository;
+import edu.educate.model.OrgUnitPostPersonEntity;
+import edu.educate.model.PersonEntity;
+import edu.educate.model.PlansEntity;
+import edu.educate.model.RolesEntity;
 import edu.educate.repository.PersonRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -90,6 +90,11 @@ public class PersonServiceImp extends GenericServiceImpl<PersonEntity,PersonDto>
         Example<PersonEntity> example = Example.of(personEntity, SEARCH_CONDITIONS_MATCH_ALL);
 
         return findEntities(example);
+    }
+
+    @Override
+    public List<PersonEntity> findByPersonRolesLtTitle(String title) {
+        return ((PersonRepository) repository).findByPersonRolesLtTitle(title);
     }
 
     private OrgUnitPostPersonEntity getLastPost(PersonEntity personEntity) {

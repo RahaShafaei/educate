@@ -1,13 +1,9 @@
 package edu.educate.repository;
 
 import edu.educate.model.OrgUnitEntity;
-import edu.educate.model.PrCourseEntity;
-import org.springframework.data.domain.Example;
+import edu.educate.repository.baseRepository.GenericRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import edu.educate.repository.baseRepository.GenericRepository;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

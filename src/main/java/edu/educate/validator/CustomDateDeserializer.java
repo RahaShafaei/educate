@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import edu.educate.exception.ParametersNotValidException;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

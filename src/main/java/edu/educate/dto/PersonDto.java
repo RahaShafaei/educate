@@ -3,7 +3,6 @@ package edu.educate.dto;
 import edu.educate.dto.baseDto.BaseDto;
 import edu.educate.model.OrgUnitPostPersonEntity;
 import edu.educate.model.PersonEntity;
-import edu.educate.model.RolesEntity;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;

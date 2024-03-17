@@ -4,7 +4,6 @@ import edu.educate.helper.MessageUtil;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.validator.FloatLength;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

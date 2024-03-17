@@ -2,8 +2,6 @@ package edu.educate.controller;
 
 import edu.educate.controller.baseContrlller.BaseController;
 import edu.educate.dto.OrgUnitDto;
-import edu.educate.model.ElementEntity;
-import edu.educate.model.ElementGrpEntity;
 import edu.educate.model.OrgUnitEntity;
 import edu.educate.model.baseModel.BaseEntity;
 import edu.educate.service.ElementService;

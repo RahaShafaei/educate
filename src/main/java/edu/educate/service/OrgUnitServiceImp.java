@@ -2,11 +2,7 @@ package edu.educate.service;
 
 import edu.educate.dto.OrgUnitDto;
 import edu.educate.model.OrgUnitEntity;
-import edu.educate.model.PlansEntity;
-import edu.educate.model.PrCourseEntity;
 import edu.educate.repository.OrgUnitRepository;
-import edu.educate.repository.PlansRepository;
-import edu.educate.repository.PrCourseRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;

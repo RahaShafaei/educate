@@ -13,4 +13,6 @@ public interface PersonRepository extends GenericRepository<PersonEntity> {
 
     @Query("SELECT p FROM PersonEntity p JOIN p.orgUnitPostPersons oupp WHERE oupp.orgUnit.id = :orgUnitId AND oupp.ltToDate IS NULL")
     List<PersonEntity> findByOrgUnitIdAndLtToDateIsNull(@Param("orgUnitId") Integer orgUnitId);
+
+    List<PersonEntity> findByPersonRolesLtTitle(String title);
 }

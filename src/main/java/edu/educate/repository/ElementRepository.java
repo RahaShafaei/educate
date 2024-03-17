@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ElementRepository extends GenericRepository<ElementEntity> {
     List<ElementEntity> findByLtTitleNotAndElementGrpId(String title, Integer grpId);
+    List<ElementEntity> findByElementGrpLtTitle(String title);
 }

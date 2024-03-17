@@ -109,20 +109,8 @@ public class AttendanceController extends BaseController<AttendanceEntity, Atten
     public void modelSetting(Model model, BaseEntity baseEntity) {
         model.addAttribute("planId", this.planId);
         model.addAttribute("entityObject", baseEntity);
-//        model.addAttribute("persons", personService.getAllEntities());
         model.addAttribute("persons", personService.findAllByOrgUnitId(this.planId));
-
-        PlansEntity plansEntity = new PlansEntity();
-        ElementEntity elementEntity = new ElementEntity();
-        elementEntity.setId(3);
-        plansEntity.setElementStatus(elementEntity);
-        model.addAttribute("plans", plansService.findEntitiesBySpecificFields(plansEntity));
-
-        ElementEntity elementType = new ElementEntity();
-        ElementGrpEntity elementGrpType = new ElementGrpEntity();
-        elementGrpType.setId(1);
-        elementType.setElementGrp(elementGrpType);
-        model.addAttribute("elements", elementService.findEntitiesBySpecificFields(elementType));
+        model.addAttribute("elements", elementService.findByElementGrpLtTitle("attendance_status"));
     }
 
 }

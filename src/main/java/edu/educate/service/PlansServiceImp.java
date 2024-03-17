@@ -1,7 +1,6 @@
 package edu.educate.service;
 
 import edu.educate.dto.PlansDto;
-import edu.educate.dto.PlansMapper;
 import edu.educate.model.*;
 import edu.educate.repository.PlansRepository;
 import edu.educate.service.baseService.GenericServiceImpl;

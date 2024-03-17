@@ -3,7 +3,6 @@ package edu.educate.service;
 import edu.educate.dto.PlanProcessDto;
 import edu.educate.model.PlanProcessEntity;
 import edu.educate.model.PlansEntity;
-import edu.educate.repository.AttendanceRepository;
 import edu.educate.repository.PlanProcessRepository;
 import edu.educate.service.baseService.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
