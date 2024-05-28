@@ -7,6 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+/*
+* Since we could not have this field in the Entity classes,
+* because the Entity classes could not have any field other
+* than the table fields, we had to define this class to be
+* able to access the messages through a static method.
+* */
 @Component
 public class MessageUtil {
 
